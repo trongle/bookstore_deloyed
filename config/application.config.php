@@ -1,7 +1,9 @@
 <?php 
 return array(
 	"modules" => array(
-		"Admin",'RtHeadtitle',
+		"ZendDeveloperTools",
+		"Admin",
+		'RtHeadtitle',
 	),
 	"module_listener_options" => array(
 		"module_paths" => array(
