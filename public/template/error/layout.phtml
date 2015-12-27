@@ -1,0 +1,28 @@
+<?php echo  $this->doctype() ?>
+<html>
+
+<head>
+
+	<?php 
+		//title
+		echo $this->headTitle()->append("Bookstore ") ;
+		//meta
+		echo $this->headMeta()->appendName("viewport","width=device-width, initial-scale=1")
+		                      ->appendName("description","Trongle no1")
+		                      ->setCharset("utf-8");
+		//css
+		echo $this->headLink()->appendStylesheet(PUBLIC_URL."css/bootstrap.min.css");
+		//js
+		echo $this->headScript()->appendFile(PUBLIC_URL."js/jquery.min.js");	
+		echo $this->headScript()->appendFile(PUBLIC_URL."js/bootstrap.min.js");			
+	?>
+	
+	
+</head>
+<body>
+	
+	<div class="container">
+		<?php echo $this->content ?>
+	</div>
+</body>
+</html>
