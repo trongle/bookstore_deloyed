@@ -16,9 +16,9 @@ return array(
 		"template_path_stack" => array(__DIR__."/../view"),
 		"template_map" => array(
 			"layout/layout" => __DIR__."/../view/layout/layout.phtml",
-			"layout/error"  => TEMPLATE_PATH."error/layout.phtml",
-			"error/404"     => TEMPLATE_PATH."error/404.phtml",
-			"error/index"   => TEMPLATE_PATH."error/index.phtml",
+			"layout/error"  => PATH_TEMPLATE."error/layout.phtml",
+			"error/404"     => PATH_TEMPLATE."error/404.phtml",
+			"error/index"   => PATH_TEMPLATE."error/index.phtml",
 		),
 		"default_template_suffix" => "phtml",
 		"layout"  => "layout/layout"
