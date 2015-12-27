@@ -1,7 +1,7 @@
 <?php 
 return array(
 	"modules" => array(
-		"Admin"
+		"Admin",'RtHeadtitle',
 	),
 	"module_listener_options" => array(
 		"module_paths" => array(
