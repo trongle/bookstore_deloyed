@@ -5,16 +5,16 @@
 
 	<?php 
 		//title
-		echo $this->headTitle()->append("Bookstore ") ;
+		echo $this->headTitle()->append("error ") ;
 		//meta
 		echo $this->headMeta()->appendName("viewport","width=device-width, initial-scale=1")
 		                      ->appendName("description","Trongle no1")
 		                      ->setCharset("utf-8");
 		//css
-		echo $this->headLink()->appendStylesheet(URL_PATH."css/bootstrap.min.css");
+		echo $this->headLink()->appendStylesheet(URL_PUBLIC."css/bootstrap.min.css");
 		//js
-		echo $this->headScript()->appendFile(URL_PATH."js/jquery.min.js");	
-		echo $this->headScript()->appendFile(URL_PATH."js/bootstrap.min.js");			
+		echo $this->headScript()->appendFile(URL_PUBLIC."js/jquery.min.js");	
+		echo $this->headScript()->appendFile(URL_PUBLIC."js/bootstrap.min.js");			
 	?>
 	
 	

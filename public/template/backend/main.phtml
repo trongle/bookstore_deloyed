@@ -1,0 +1,59 @@
+<?php echo  $this->doctype() ?>
+<html>
+  <head>
+    <?php 
+    //title
+    echo $this->headTitle()->append("Bookstore ") ;
+    //meta
+    echo $this->headMeta()->appendName("viewport","width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
+                          ->appendName("description","Trongle no1")
+                          ->setCharset("utf-8");
+    //css
+    echo $this->headLink()->appendStylesheet(array(
+                            "rel" => "shortcut icon", 
+                            "type" => "image/x-icon",
+                            "href" => URL_IMG_LAYOUT."Book_blue.ico"),"append")
+                          ->appendStylesheet(URL_CSS_LAYOUT."bootstrap.min.css")
+                          ->appendStylesheet(URL_CSS_LAYOUT."font-awesome.min.css")
+                          ->appendStylesheet(URL_CSS_LAYOUT."ionicons.min.css")
+                          ->appendStylesheet(URL_CSS_LAYOUT."AdminLTE.css")
+                          ->appendStylesheet(URL_CSS_LAYOUT."skins/_all-skins.min.css")
+                          ->appendStylesheet(URL_CSS_LAYOUT."datepicker/datepicker3.css");
+   
+  ?>
+  </head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+        <header class="main-header">
+         
+             <?php require_once "html/nav-left.php" ?>
+         
+             <?php require_once "html/nav-right.php" ?>
+
+        </header>
+          <aside class="main-sidebar">      
+            <?php require_once "html/sidebar.php" ?>
+          </aside>    
+  
+    <div class="content-wrapper" style="min-height: 916px;">
+        <!-- BREADCRUMB -->
+        <?php require_once "html/breadcrumb.php" ?>
+        <!-- END-BREADCRUMB  -->
+        <!-- Main content -->
+        <section class="content">
+        <?php 
+          echo $this->content;
+        ?>
+        </section><!-- /.content -->
+      </div>
+</div>
+<?php require_once "html/control-sidebar.php" ?>
+<?php 
+  echo $this->headScript()->appendFile(URL_JS_LAYOUT."jQuery-2.1.4.min.js")
+                          ->appendFile(URL_JS_LAYOUT."bootstrap.min.js")   
+                          ->appendFile(URL_JS_LAYOUT."jquery-ui.min.js") 
+                          ->appendFile(URL_JS_LAYOUT."app.min.js")    
+                          ->appendFile(URL_JS_LAYOUT."bootstrap-datepicker.js")  
+                          ->appendFile(URL_JS_LAYOUT."demo.js"); 
+?>
+</body>

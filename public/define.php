@@ -11,4 +11,7 @@
 	define("URL_APPLICATION","/");
 	define("URL_PUBLIC",URL_APPLICATION."public/");
 	define("URL_TEMPLATE",URL_PUBLIC."template/");
+	define("URL_CSS_LAYOUT",URL_PUBLIC."template/backend/css/");
+	define("URL_JS_LAYOUT",URL_PUBLIC."template/backend/js/");
+	define("URL_IMG_LAYOUT",URL_PUBLIC."template/backend/img/");
 ?>

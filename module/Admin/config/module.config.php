@@ -15,13 +15,14 @@ return array(
 
 		"template_path_stack" => array(__DIR__."/../view"),
 		"template_map" => array(
-			"layout/layout" => __DIR__."/../view/layout/layout.phtml",
-			"layout/error"  => PATH_TEMPLATE."error/layout.phtml",
-			"error/404"     => PATH_TEMPLATE."error/404.phtml",
-			"error/index"   => PATH_TEMPLATE."error/index.phtml",
+			"layout/backend"  => PATH_TEMPLATE."backend/main.phtml",
+			"layout/frontend" => PATH_TEMPLATE."frontend/layout.phtml",
+			"layout/error"    => PATH_TEMPLATE."error/layout.phtml",
+			"error/404"       => PATH_TEMPLATE."error/404.phtml",
+			"error/index"     => PATH_TEMPLATE."error/index.phtml",
 		),
 		"default_template_suffix" => "phtml",
-		"layout"  => "layout/layout"
+		"layout"  => "layout/frontend"
 	),
 );
 ?>

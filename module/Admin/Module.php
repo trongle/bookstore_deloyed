@@ -9,8 +9,22 @@ class Module {
 	   $eventManager = $e->getApplication()->getEventManager();
 	   $moduleRouteListener = new ModuleRouteListener();
 	   $moduleRouteListener->attach($eventManager);
+
+	   $eventManager->attach("dispatch",array($this,"layoutForModule"));
 	}
 
+	public function layoutForModule(MvcEvent $e){
+		$routerMatch = $e->getRouteMatch();
+		$arrayController = explode("\\",$routerMatch->getParam("controller"));
+		$module = strtolower($arrayController[0]);
+		//đọc layout.config.php
+		$config = $e->getApplication()->getServiceManager()->get("config");
+		$config["module_for_layouts"][$module];
+	
+		$controller = $e->getTarget();
+		$controller->layout("layout/backend");
+
+	}
 	public function getConfig(){
 		return array_merge(
 			include __DIR__."/config/module.config.php",
