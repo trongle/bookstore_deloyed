@@ -11,6 +11,7 @@ class Module {
 	   $moduleRouteListener->attach($eventManager);
 
 	   $eventManager->attach("dispatch",array($this,"layoutForModule"));
+	   $eventManager->attach("dispatch",array($this,"setHeader"));
 	}
 
 	public function layoutForModule(MvcEvent $e){
@@ -23,9 +24,22 @@ class Module {
 	
 		$controller = $e->getTarget();
 		$controller->layout("layout/backend");
+	}
 
+	public function setHeader(MvcEvent $e){
+		$routerMatch = $e->getRouteMatch();
+		$arrayController = explode("\\",$routerMatch->getParam("controller"));
+
+		$viewModel = $e->getViewModel();
+		//truyền ra cho layout
+		$viewModel->params = array(
+			"modulde" => strtolower($arrayController[0])
+			,"controller" => strtolower($arrayController[2])
+			,"action" => strtolower($routerMatch->getParam("action"))
+		);
 	}
 	public function getConfig(){
+		
 		return array_merge(
 			include __DIR__."/config/module.config.php",
 			include __DIR__."/config/router.config.php"

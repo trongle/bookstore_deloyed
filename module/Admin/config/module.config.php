@@ -2,7 +2,8 @@
 return array(
 	"controllers"  => array(
 		"invokables" => array(
-			"Admin\Controller\Index" => "Admin\Controller\IndexController"
+			"Admin\Controller\Index" => "Admin\Controller\IndexController",
+			"Admin\Controller\Group" => "Admin\Controller\GroupController"
 		)
 	),
 	"view_manager" => array(
