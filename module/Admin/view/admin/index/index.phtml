@@ -1,58 +1,37 @@
- <!-- Small boxes (Stat box) -->
-          <div class="row">
-            <div class="col-lg-3 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-aqua">
-                <div class="inner">
-                  <h3>150</h3>
-                  <p>New Orders</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-bag"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-              </div>
-            </div><!-- ./col -->
+<?php 
+  $contentBoxes =[
+    ["class" =>"bg-aqua","text-1"=>"150","text-2"=>"New Orders","icon"=>"ion-bag","link"=>"#"],
+    ["class" =>"bg-green","text-1"=>"53<sup style='font-size: 20px'>%</sup>","text-2"=>"Bounce Rate","icon"=>"ion-stats-bars","link"=>"#"],
+    ["class" =>"bg-yellow","text-1"=>"44","text-2"=>"User Registrations","icon"=>"ion-person-add","link"=>"#"],
+    ["class" =>"bg-red","text-1"=>"65","text-2"=>"Unique Visitors","icon"=>"ion-pie-graph","link"=>"#"]
+  ];
+
+  $xhtmlBoxes = "<div class='row'>";
+  foreach($contentBoxes as $content){
+    $xhtmlBoxes .= sprintf('<div class="col-lg-3 col-xs-6"> 
+                                <div class="small-box %s">
+                                  <div class="inner">
+                                    <h3>%s</h3>
+                                    <p>%s</p>
+                                  </div>
+                                  <div class="icon">
+                                    <i class="ion %s"></i>
+                                  </div>
+                                  <a href="%s" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                                </div>
+                              </div>',
+                            $content['class'],
+                            $content['text-1'],
+                            $content['text-2'],
+                            $content['icon'],
+                            $content['link']);
+  }
+  $xhtmlBoxes .= "</div>";
+?>
+<?php 
+    echo $xhtmlBoxes;
+?>
+    
+
             
-            <div class="col-lg-3 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-green">
-                <div class="inner">
-                  <h3>53<sup style="font-size: 20px">%</sup></h3>
-                  <p>Bounce Rate</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-stats-bars"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-              </div>
-            </div><!-- ./col -->
-           
-           <div class="col-lg-3 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-yellow">
-                <div class="inner">
-                  <h3>44</h3>
-                  <p>User Registrations</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-person-add"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-              </div>
-            </div><!-- ./col -->
             
-            <div class="col-lg-3 col-xs-6">
-              <!-- small box -->
-              <div class="small-box bg-red">
-                <div class="inner">
-                  <h3>65</h3>
-                  <p>Unique Visitors</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-              </div>
-            </div><!-- ./col -->
-          </div>
