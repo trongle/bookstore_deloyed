@@ -3,20 +3,17 @@
 	// admin/group/index  =>   <h1>Group<small>list</small></h1>
 	// admin/group/add    =>   <h1>Group<small>add</small></h1>
 	$listControllerTitle = [
-		"index" => "Dashboard",
-		"group" => "Manage Group",
-		"user"  => "Manage User"
+		"index"    => "Dashboard",
+		"group"    => "Manage Group",
+		"user"     => "Manage User",
+		"book"     => "Manage Book",
+		"category" => "Manage Category",
+		"cart"     => "Manage Cart",
+		"config"   => "Config",
+		"order"    => "Order",
 	];
-
-	$listActionTitle = [
-		"index"  => "List",
-		"add"    => "Add",
-		"edit"   => "Edit",
-		"delete" => "Delete",
-	];
-
 	$prettyNameParent = $listControllerTitle[$this->params["controller"]];
-	$prettyNameChild  = $listActionTitle[$this->params["action"]];
+	$prettyNameChild  = ($this->params["action"]=="index")? "List" : ucfirst($this->params['action']);
 
 	$xhtmlHeader = sprintf("<h1>%s<small>%s</small></h1>",$prettyNameParent,$prettyNameChild);
 

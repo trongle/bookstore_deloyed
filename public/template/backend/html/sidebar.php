@@ -1,62 +1,75 @@
+ <?php 
+ //<small class="pull-right  badge bg-red" >3</small>
+  $xhtmlSidebar   = "";
+  $contentSidebarParent = array(
+    array("class" => "index",   "link" => $this->basePath("admin/index/index"),    "icon" => "dashboard","text" => "Control Panel" , "child" => false),
+    array("class" => "group",   "link" => $this->basePath("admin/group/index"),    "icon" => "users",    "text" => "Group",          "child" => false ),
+    array("class" => "user",    "link" => $this->basePath("admin/user/index"),     "icon" => "user",     "text" => "User" ,          "child" => false),
+    array("class" => "category","link" => $this->basePath("admin/category/index"), "icon" => "suitcase", "text" => "Category" ,      "child" => false),
+    array("class" => "book",    "link" => $this->basePath("admin/book/index"),     "icon" => "book",     "text" => "Book" ,          "child" => false),
+    array("class" => "order",   "link" => $this->basePath("admin/order/index"),    "icon" => "cart-plus","text" => "Order" ,         "child" => false),
+    array("class" => "config",  "link" => $this->basePath("#"),                    "icon" => "cog",      "text" => "Config" ,        "child" => true),
+  );
+  $contentSidebarChild = array(
+    "config" => array(
+      array("class" => "config-email" ,"link" => $this->basePath("admin/config/email"),"icon" => "circle-o","text" => "Email"),
+      array("class" => "config-image" ,"link" => $this->basePath("admin/config/image"),"icon" => "circle-o","text" => "Image"),
+  ));
+
+  foreach($contentSidebarParent as $content){
+      if($content["child"] == true){
+        $xhtmlSidebar .= sprintf('<li class="treeview admin-%s">
+                                    <a href="%s">
+                                     <i class="fa fa-%s"></i>
+                                      <span>%s</span>
+                                      <i class="fa fa-angle-down pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">',$content['class'],$content['link'],$content['icon'],$content['text']);
+        foreach($contentSidebarChild[$content['class']] as $contentChild){
+             $xhtmlSidebar .= sprintf('
+                                      <li class="%s"><a href="%s"><i class="fa fa-%s"></i>%s</a></li>',
+                                      $contentChild['class'],$contentChild['link'],$contentChild['icon'],$contentChild['text']);
+        } 
+        $xhtmlSidebar .= "</ul></li>";
+      }else{
+        $xhtmlSidebar .= sprintf('<li class="admin-%s"> 
+                                  <a href="%s"><i class="fa fa-%s"></i><span>%s</span></a>
+                                </li>',$content['class'],$content['link'],$content['icon'],$content['text']);
+      }
+     
+  }
+ ?>
+
+
  <section class="sidebar" style="height: auto;">         
-                <div class="user-panel">
-                  <div class="pull-left image">
-                    <img src="<?php echo URL_IMG_LAYOUT ?>user2-160x160.jpg" class="img-circle" alt="User Image">
-                  </div>
-                  <div class="pull-left info">
-                    <p>Alexander Pierce</p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-                  </div>
-                </div>
-                <ul class="sidebar-menu">
+  <div class="user-panel">
+    <div class="pull-left image">
+      <img src="<?php echo URL_IMG_LAYOUT ?>user2-160x160.jpg" class="img-circle" alt="User Image">
+    </div>
+    <div class="pull-left info">
+      <p>Alexander Pierce</p>
+      <a href="#"><i class="fa fa-circle text-success"></i>Online</a>
+    </div>
+  </div>
+  <ul class="sidebar-menu">
 
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-dashboard"></i> <span>Control Panel</span> 
-                    </a>
-                  </li>
+   <?php echo $xhtmlSidebar ?>
 
-                  <li class="treeview">
-                    <a href="#">
-                     <i class="fa fa-cog"></i>
-                      <span>Config</span>
-                      <i class="fa fa-angle-down pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                      <li><a href="#"><i class="fa fa-circle-o"></i>Email</a></li>
-                      <li><a href="#"><i class="fa fa-circle-o"></i> Image</a></li>   
-                    </ul>
-                  </li>
+    
 
-                  <li>
-                    <a href="pages/widgets.html">
-                      <i class="fa fa-users"></i> <span>Group</span>
-                    </a>
-                  </li>
+    
 
-                  <li>
-                    <a href="pages/widgets.html">
-                      <i class="fa fa-user"></i><span>User</span> <small class="pull-right  badge bg-red" >3</small>
-                    </a>
-                  </li>
+  </ul>
+</section>
+<script type="text/javascript">
+  $(document).ready(function(){
+      var classParent = "<?php echo $this->params['module'].'-'.$this->params['controller'] ?>";
+      $("ul.sidebar-menu > li."+classParent).addClass("active");
 
-                   <li>
-                    <a href="pages/widgets.html">
-                      <i class="fa fa-suitcase"></i><span>Category</span>
-                    </a>
-                  </li>
+      if($("ul.sidebar-menu > li."+classParent).children("ul")) {
+        var classChild = "<?php echo $this->params['controller'].'-'.$this->params['action'] ?>"
+        $("ul.treeview-menu > li."+classChild).addClass("active");
+      }
+  })
 
-                   <li>
-                    <a href="pages/widgets.html">
-                      <i class="fa fa-book"></i><span>Book</span>
-                    </a>
-                  </li>
-
-                   <li>
-                    <a href="pages/widgets.html">
-                     <i class="fa fa-cart-plus"></i><span>Orders</span> <small class="pull-right  badge bg-yellow" >3</small>
-                    </a>
-                  </li>
-
-                </ul>
-              </section>
+</script>

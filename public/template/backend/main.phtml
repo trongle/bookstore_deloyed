@@ -19,6 +19,7 @@
                           ->appendStylesheet(URL_CSS_LAYOUT."AdminLTE.css")
                           ->appendStylesheet(URL_CSS_LAYOUT."skins/_all-skins.min.css")
                           ->appendStylesheet(URL_CSS_LAYOUT."datepicker/datepicker3.css");
+    echo $this->headScript()->appendFile(URL_JS_LAYOUT."jQuery-2.1.4.min.js");
    
   ?>
   </head>
@@ -49,8 +50,7 @@
 </div>
 <?php require_once "html/control-sidebar.php" ?>
 <?php 
-  echo $this->headScript()->appendFile(URL_JS_LAYOUT."jQuery-2.1.4.min.js")
-                          ->appendFile(URL_JS_LAYOUT."bootstrap.min.js")   
+  echo $this->headScript()->appendFile(URL_JS_LAYOUT."bootstrap.min.js")   
                           ->appendFile(URL_JS_LAYOUT."jquery-ui.min.js") 
                           ->appendFile(URL_JS_LAYOUT."app.min.js")    
                           ->appendFile(URL_JS_LAYOUT."bootstrap-datepicker.js")  

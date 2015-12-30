@@ -1,13 +1,10 @@
 <?php 
 namespace Admin\Controller;
 
+use ZendVN\Validator\StringLength;
 use Zend\Mvc\Controller\AbstractActionController;
 
-class GroupController extends AbstractActionController{
-	public function addAction(){
-		return false;
-	}
-
+class CategoriesController extends AbstractActionController{
 	public function indexAction(){
 		return false;
 	}

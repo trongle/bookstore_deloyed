@@ -3,7 +3,7 @@ namespace Admin\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 
-class GroupController extends AbstractActionController{
+class UserController extends AbstractActionController{
 	public function addAction(){
 		return false;
 	}
@@ -12,4 +12,5 @@ class GroupController extends AbstractActionController{
 		return false;
 	}
 }
+
 ?>

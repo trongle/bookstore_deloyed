@@ -2,8 +2,15 @@
 return array(
 	"controllers"  => array(
 		"invokables" => array(
-			"Admin\Controller\Index" => "Admin\Controller\IndexController",
-			"Admin\Controller\Group" => "Admin\Controller\GroupController"
+			"Admin\Controller\Index"    => "Admin\Controller\IndexController",
+			"Admin\Controller\Group"    => "Admin\Controller\GroupController",
+			"Admin\Controller\User"     => "Admin\Controller\UserController",
+			"Admin\Controller\Book"     => "Admin\Controller\BookController",
+			"Admin\Controller\Cart"     => "Admin\Controller\CartController",
+			"Admin\Controller\Config"   => "Admin\Controller\ConfigController",
+			"Admin\Controller\Order"    => "Admin\Controller\OrderController",
+			"Admin\Controller\Category" => "Admin\Controller\CategoryController",
+
 		)
 	),
 	"view_manager" => array(
