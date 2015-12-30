@@ -1,0 +1,83 @@
+<?php 
+  $xhtmlTable = 'Không có dữ liệu ';
+  if(isset($this->items) && !empty($this->items)){
+    $xhtmlTable = "";
+    foreach($items as $item){
+        $class = $this->cycle(array("odd","even"))->next();
+        $name  = $item->name;
+        $created = date("H:i:s d-m-Y",strtotime($item->created));
+        $created_by = $item->created_by;
+        $order = $item->ordering;
+        $status = ($item->status == 1)? "success" : "default";
+        $id = $item->id;
+        $xhtmlTable .= sprintf('<tr class="%s">
+                              <td class="sorting_1"><input type="checkbox" /></td>
+                              <td>%s</td><td>%s</td><td>%s</td><td><input class="input-order" size="4" type="text" value="%s"/></td> 
+                              <td><a href="#" class="label label-%s"><i class="fa fa-check"></i></a></td>
+                              <td>%s</td>
+                        </tr>',$class,$name,$created,$created_by,$order,$status,$id);
+    }
+  }
+?>
+
+<div class="row">
+          <!-- BUTTON -->
+            <div class="text-center"> 
+              <a class="btn btn-app"><i class="fa fa-repeat"></i> Reload</a>
+              <a class="btn btn-app"><i class="fa fa-plus-square-o"></i> Add</a>    
+              <a class="btn btn-app"> <i class="fa fa-check-circle-o"></i> Publish</a>   
+              <a class="btn btn-app"><i class="fa fa-circle-o"></i> Unpublish</a> 
+              <a class="btn btn-app"><i class="fa fa-minus-circle"></i> Delete</a>  </div><!-- /.box-body -->
+<!-- ALERT -->
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4>  <i class="icon fa fa-check"></i> Alert!</h4>
+                Success alert preview. This alert is dismissable.</div>
+<!-- END_ALERT -->
+
+<!-- TABLE -->
+            <div class="box box-info">
+                <div class="box-body">
+                  <div class="row"><div class="col-sm-12">
+                      <table id="example2" class="table table-bordered table-hover dataTable text-center" role="grid" aria-describedby="example1_info">
+                          <thead>
+                            <tr role="row">
+                              <th class="text-center sorting_asc">
+                                 <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+                              </th>
+                              <th class="text-center sorting" >Name</th>
+                              <th class="text-center sorting" >Created</th>
+                              <th class="text-center sorting" >Created_by</th>
+                              <th class="text-center sorting" >Ordering</th>
+                              <th class="text-center sorting" >Status</th>
+                              <th class="text-center sorting" >ID</th>
+                            </tr>
+                          </thead>
+                          <tbody>  
+                           <?php echo $xhtmlTable ?>
+                          </tbody>         
+                      </table> </div></div>
+                  <div class="row">
+                    <div class="col-sm-5">
+                      <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
+                    </div>
+                    <div class="col-sm-7">
+                      <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                        <ul class="pagination">
+                        <li><a href="#">start</a></li>
+                          <li class="paginate_button previous disabled" id="example2_previous">
+                            <a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">&laquo</a>
+                          </li>
+                          <li class="paginate_button active">
+                            <a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a>
+                          </li>
+                          <li class="paginate_button ">
+                            <a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a>
+                          </li>
+                          <li class="paginate_button next" id="example2_next">
+                            <a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">&raquo</a>
+                          </li>
+                          <li><a href="#">end</a></li> </ul>
+                      </div></div></div>
+                </div></div>
+        </div>

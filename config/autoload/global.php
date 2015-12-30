@@ -3,7 +3,7 @@ return array(
 	"db" => array(
 		"driver"   => "Pdo_Mysql",
 		"database" => "bookstore",
-		"charset"  => "utf-8"
+		"charset"  => "utf8"
 	),
 	"service_manager" => array(
 		"factories" => array(

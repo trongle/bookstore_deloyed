@@ -17,33 +17,10 @@ class GroupTable extends AbstractTableGateway{
 	}
 
 	public function listItem($arrParam = null,$options = null){
-		if($options == null){
-			$result =  $this->_tableGateway->select();
-			$result->buffer();
-
-		}
-
 		if($options['task'] == "list-item"){
-			$result =   $this->_tableGateway->select(function(Select $select) use ($arrParam){
-				$select->columns(array("id","name","email"))
-				       ->join(array("p"=>"products"),"user.id = p.created_by",array("product"=>"name"),$select::JOIN_LEFT)
-					   ->where->equalTo("user.id",$arrParam['id']);
-			});
-		}
-
-		if($options['task'] == "get-user-by-email"){
-			$result =   $this->_tableGateway->select(function(Select $select) use($arrParam){
-				$select->columns(array("id","name"))
-				       ->where->equalTo("email",$arrParam['my-email']);
-			});
-		}
-
-		if($options['task'] == "list-item-for-paginator"){
-			$result =   $this->_tableGateway->select(function(Select $select) use($arrParam){
-				$select->columns(array("id","name","email","avatar","fullname","created"))
-				       ->order(array("id DESC"))
-					   ->limit($arrParam['ItemCountPerPage'])
-					   ->offset(($arrParam['currentPage'] - 1) * $arrParam['ItemCountPerPage']);
+			$result =   $this->_tableGateway->select(function(Select $select){
+				$select->columns(array("id","name","ordering","created","created_by","status"))
+				       ->order(array("id DESC"));
 			});
 		}
 		return $result;

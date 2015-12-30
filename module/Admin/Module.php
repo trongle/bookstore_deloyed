@@ -72,7 +72,7 @@ class Module {
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new \Admin\Model\Entity\Group());
 
-                    return $tableGateway = new TableGateway("group",$adapter,null,$resultSetPrototype);
+                    return $tableGateway = new TableGateway("groups",$adapter,null,$resultSetPrototype);
                 },
                 "Admin\Model\Group" => function($sm){
                     $tableGateway = $sm->get("TableGateway");

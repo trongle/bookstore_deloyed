@@ -18,7 +18,10 @@
                           ->appendStylesheet(URL_CSS_LAYOUT."ionicons.min.css")
                           ->appendStylesheet(URL_CSS_LAYOUT."AdminLTE.css")
                           ->appendStylesheet(URL_CSS_LAYOUT."skins/_all-skins.min.css")
-                          ->appendStylesheet(URL_CSS_LAYOUT."datepicker/datepicker3.css");
+                          ->appendStylesheet(URL_CSS_LAYOUT."datepicker/datepicker3.css")
+                          ->appendStylesheet(URL_CSS_LAYOUT."datatables/dataTables.bootstrap.css")
+                          ->appendStylesheet(URL_CSS_LAYOUT."blue.css")
+                          ->appendStylesheet(URL_CSS_LAYOUT."me.css");
     echo $this->headScript()->appendFile(URL_JS_LAYOUT."jQuery-2.1.4.min.js");
    
   ?>
@@ -54,6 +57,33 @@
                           ->appendFile(URL_JS_LAYOUT."jquery-ui.min.js") 
                           ->appendFile(URL_JS_LAYOUT."app.min.js")    
                           ->appendFile(URL_JS_LAYOUT."bootstrap-datepicker.js")  
-                          ->appendFile(URL_JS_LAYOUT."demo.js"); 
+                          ->appendFile(URL_JS_LAYOUT."demo.js")
+                          ->appendFile(URL_CSS_LAYOUT."datatables/jquery.dataTables.min.js")
+                          ->appendFile(URL_CSS_LAYOUT."datatables/dataTables.bootstrap.min.js")
+                          ->appendFile(URL_JS_LAYOUT."iCheck/icheck.min.js"); 
 ?>
+<script type="text/javascript">
+     //Enable iCheck plugin for checkboxes
+      //iCheck for checkbox and radio inputs
+      $('.mailbox-messages input[type="checkbox"]').iCheck({
+        checkboxClass: 'icheckbox_flat-blue',
+        radioClass: 'iradio_flat-blue'
+      });
+
+      //Enable check and uncheck all functionality
+      $(".checkbox-toggle").click(function () {
+        var clicks = $(this).data('clicks');
+        if (clicks) {
+          //Uncheck all checkboxes
+          $("input[type='checkbox']").iCheck("uncheck");
+          $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+        } else {
+          //Check all checkboxes
+          $("input[type='checkbox']").iCheck("check");
+          $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+        }
+        $(this).data("clicks", !clicks);
+      });
+  </script>
+
 </body>
