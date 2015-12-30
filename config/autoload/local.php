@@ -1,3 +1,8 @@
 <?php 
-	return array()
+	return array(
+		"db" => array(
+			"username" => "root",
+			"password" => ""
+		)
+	)
 ?>

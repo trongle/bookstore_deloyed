@@ -1,6 +1,8 @@
 <?php 
 namespace Admin;
 
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
@@ -60,5 +62,27 @@ class Module {
 			)
 		);
 	}
+
+	public function getServiceConfig(){
+        return array(
+            "factories" => array(
+                "TableGateway" => function($sm){
+                    $adapter = $sm->get("dbConfig");
+
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new \Admin\Model\Entity\Group());
+
+                    return $tableGateway = new TableGateway("group",$adapter,null,$resultSetPrototype);
+                },
+                "Admin\Model\Group" => function($sm){
+                    $tableGateway = $sm->get("TableGateway");
+                    return  new \Admin\Model\GroupTable($tableGateway);
+                }
+            ),
+            "aliases" => array(
+                "GroupTable" => "Admin\Model\Group"
+            )
+        );
+    }
 }
 ?>
