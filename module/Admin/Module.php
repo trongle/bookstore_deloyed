@@ -33,7 +33,7 @@ class Module {
 		$viewModel = $e->getViewModel();
 		//truyền ra cho layout
 		$viewModel->params = array(
-			"modulde" => strtolower($arrayController[0])
+			"module" => strtolower($arrayController[0])
 			,"controller" => strtolower($arrayController[2])
 			,"action" => strtolower($routerMatch->getParam("action"))
 		);

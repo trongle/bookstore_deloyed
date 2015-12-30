@@ -4,7 +4,8 @@
 	// admin/group/add    =>   <h1>Group<small>add</small></h1>
 	$listControllerTitle = [
 		"index" => "Dashboard",
-		"group" => "Group"
+		"group" => "Manage Group",
+		"user"  => "Manage User"
 	];
 
 	$listActionTitle = [
@@ -14,9 +15,30 @@
 		"delete" => "Delete",
 	];
 
-	$xhtmlHeader = sprintf("<h1>%s<small>%s</small></h1>",
-							$listControllerTitle[$this->params["controller"]],
-							$listActionTitle[$this->params["action"]]);
+	$prettyNameParent = $listControllerTitle[$this->params["controller"]];
+	$prettyNameChild  = $listActionTitle[$this->params["action"]];
+
+	$xhtmlHeader = sprintf("<h1>%s<small>%s</small></h1>",$prettyNameParent,$prettyNameChild);
+
+	//breadcrumd
+	//admin/index/index home
+	//admin/group/index home > group > list
+	//admin/group/add   home > group > add
+	$xhtmlBreadcrumb = "";
+	if($this->params["controller"] != "index"){
+		if($this->params['action']  == "index"){
+		$xhtmlBreadcrumb = sprintf('<li class="active">%s</li>
+			    					<li class="active">%s</li>',$prettyNameParent,$prettyNameChild);
+		}else{
+		$xhtmlBreadcrumb = sprintf('<li class="active"><a href="%s">%s</a></li>
+			    					<li class="active">%s</li>',
+			    					$this->url("adminRoute/default",array("controller"=>$this->params['controller'],"action"=>"index")),
+			    					$prettyNameParent,
+			    					$prettyNameChild
+			    					);
+	}
+	}
+	
 ?>
 <!-- HEADER -->
 <section class="content-header">
@@ -25,7 +47,7 @@
 
 <!-- BREADCRUM -->
 	  <ol class="breadcrumb">
-	    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-	    <li class="active">Dashboard</li>
+	  	<li><a href="<?php echo $this->url('adminRoute') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+	    <?php echo $xhtmlBreadcrumb ?>
 	  </ol>
 </section>
