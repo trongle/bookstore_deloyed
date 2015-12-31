@@ -20,9 +20,9 @@ class GroupTable extends AbstractTableGateway{
 		if($options['task'] == "list-item"){
 			$result =   $this->_tableGateway->select(function(Select $select) use($arrParam){
 				$select->columns(array("id","name","ordering","created","created_by","status"))
-				       ->order(array("id DESC"))
-				       ->offset(($arrParam['curentPage']-1) * $arrParam['itemPerPage'])
-				       ->limit((int)$arrParam['itemPerPage']);
+				       ->order(array(sprintf("%s %s",$arrParam['order']['order_by'] , $arrParam['order']['order'])))
+				       ->offset(($arrParam['paginator']['curentPage']-1) * $arrParam['paginator']['itemPerPage'])
+				       ->limit($arrParam['paginator']['itemPerPage']);
 			});
 		}
 		return $result;

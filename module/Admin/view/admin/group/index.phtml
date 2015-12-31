@@ -1,4 +1,4 @@
-<?php 
+<?php  
   $xhtmlTable = 'Không có dữ liệu ';
   if(isset($this->items) && !empty($this->items)){
     $xhtmlTable = "";
@@ -18,6 +18,8 @@
                         </tr>',$class,$name,$created,$created_by,$order,$status,$id);
     }
   }
+
+  $linkForm = $this->basePath("admin/group/filter");
 ?>
 
 <div class="row">
@@ -36,71 +38,74 @@
 <!-- END_ALERT -->
 
 <!-- TABLE -->
-            <div class="box box-info">
-                <div class="box-body">
-                  <div class="box-header" style="padding-top: 10px;">
-                        <!-- SEARCH BOX -->
-                        <div class="col-xs-4">
-                          <div class="dataTables_filter" id="example1_filter" style="float: left;">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-btn">
-                                    <button type="button" data-toggle="dropdown" class="btn btn-sm btn-default dropdown-toggle">Search by Name</button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Search by Name</a></li>
-                                        <li><a href="#">Search by Email</a></li>
-                                        <li><a href="#">Search by All</a></li>
-                                    </ul>
-                                </div>
-                                <input type="text" class="form-control input-sm col-xs-2">
-                                <span class="input-group-btn">
-                                  <button class="btn btn-default btn-flat" type="button">Clear</button>
-                                    <button class="btn btn-primary btn-flat" type="button">Go!</button>
-                                </span>
-                            </div>
+<form name="adminForm" id="adminForm" action="<?php echo $linkForm ?>" method="post">
+      <div class="box box-info">
+          <div class="box-body">
+            <div class="box-header" style="padding-top: 10px;">
+                  <!-- SEARCH BOX -->
+                  <div class="col-xs-4">
+                    <div class="dataTables_filter" id="example1_filter" style="float: left;">
+                      <div class="input-group input-group-sm">
+                          <div class="input-group-btn">
+                              <button type="button" data-toggle="dropdown" class="btn btn-sm btn-default dropdown-toggle">Search by Name</button>
+                              <ul class="dropdown-menu">
+                                  <li><a href="#">Search by Name</a></li>
+                                  <li><a href="#">Search by Email</a></li>
+                                  <li><a href="#">Search by All</a></li>
+                              </ul>
                           </div>
-                        </div>
-                        <!-- SELECT BOX -->
-                        <div class="col-xs-8 ">
-                          <div class="dataTables_filter pull-right">
-                            <select size="1" name="example1_length" class="input-sm">
-                              <option value="10" selected="selected">Select a status</option>
-                              <option value="25">25</option>
-                            </select> 
-                            <select size="1" name="example1_length" class="input-sm">
-                              <option value="10" selected="selected">Select a group</option>
-                              <option value="25">25</option>
-                            </select> 
-                          </div>
-                        </div>
+                          <input type="text" class="form-control input-sm col-xs-2">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default btn-flat" type="button">Clear</button>
+                              <button class="btn btn-primary btn-flat" type="button">Go!</button>
+                          </span>
+                      </div>
                     </div>
-
-                  <div class="row"><div class="col-sm-12">
-                      <table id="example2" class="table table-bordered table-hover dataTable text-center" role="grid" aria-describedby="example1_info">
-                          <thead>
-                            <tr role="row">
-                              <th class="text-center sorting_asc">
-                                 <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
-                              </th>
-                              <th class="text-center sorting" >Name</th>
-                              <th class="text-center sorting" >Created</th>
-                              <th class="text-center sorting" >Created_by</th>
-                              <th class="text-center sorting" >Ordering</th>
-                              <th class="text-center sorting" >Status</th>
-                              <th class="text-center sorting" >ID</th>
-                            </tr>
-                          </thead>
-                          <tbody>  
-                           <?php echo $xhtmlTable ?>
-                          </tbody>         
-                      </table> </div></div>
-                  <div class="row">
-                  <?php 
-                    $realURL = $this->url("adminRoute/paginator",array("controller"=>"group"));
-                    echo $this->paginationControl($this->paginator,null,"paginator.phtml",array("realURL"=>$realURL));
-                  ?>
-                    
                   </div>
-                </div>
+                  <!-- SELECT BOX -->
+                  <div class="col-xs-8 ">
+                    <div class="dataTables_filter pull-right">
+                      <select size="1" name="example1_length" class="input-sm">
+                        <option value="10" selected="selected">Select a status</option>
+                        <option value="25">25</option>
+                      </select> 
+                      <select size="1" name="example1_length" class="input-sm">
+                        <option value="10" selected="selected">Select a group</option>
+                        <option value="25">25</option>
+                      </select> 
+                    </div>
+                  </div>
+            </div>
 
-              </div>
-        </div>
+            <div class="row"><div class="col-sm-12">
+                <table id="example2" class="table table-bordered table-hover dataTable text-center" role="grid" aria-describedby="example1_info">
+                    <thead>
+                      <tr role="row">
+                        <th class="text-center">
+                           <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+                        </th>
+                        <?php echo $this->changeSortLink($this->ssOrder,"name","Name"); ?> 
+                        <?php echo $this->changeSortLink($this->ssOrder,"created","Created"); ?> 
+                        <?php echo $this->changeSortLink($this->ssOrder,"created_by","Created_by"); ?> 
+                        <?php echo $this->changeSortLink($this->ssOrder,"ordering","Ordering"); ?> 
+                        <?php echo $this->changeSortLink($this->ssOrder,"status","Status"); ?> 
+                        <?php echo $this->changeSortLink($this->ssOrder,"id","ID"); ?>                        
+                        <input type="hidden" name="order" value="ASC">
+                        <input type="hidden" name="order_by" value="id">
+                      </tr>
+                    </thead>
+                    <tbody>  
+                     <?php echo $xhtmlTable ?>
+                    </tbody>         
+                </table> 
+            </div></div>
+            <div class="row">
+            <?php 
+              $realURL = $this->url("adminRoute/paginator",array("controller"=>"group"));
+              echo $this->paginationControl($this->paginator,null,"paginator.phtml",array("realURL"=>$realURL));
+            ?>  
+            </div>
+          </div>
+      </div>
+</form>
+</div>

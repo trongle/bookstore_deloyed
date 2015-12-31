@@ -84,5 +84,13 @@ class Module {
             )
         );
     }
+
+    public function getViewHelperConfig(){
+    	return array(
+    		"invokables" => array(
+    			"changeSortLink" => "ZendVN\View\Helper\ChangeSortLink",
+    		)
+    	);
+    }
 }
 ?>

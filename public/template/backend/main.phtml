@@ -63,7 +63,7 @@
                           ->appendFile(URL_JS_LAYOUT."iCheck/icheck.min.js"); 
 ?>
 <script type="text/javascript">
-     //Enable iCheck plugin for checkboxes
+      //Enable iCheck plugin for checkboxes
       //iCheck for checkbox and radio inputs
       $('.mailbox-messages input[type="checkbox"]').iCheck({
         checkboxClass: 'icheckbox_flat-blue',
@@ -84,6 +84,12 @@
         }
         $(this).data("clicks", !clicks);
       });
+
+      function sortList(orderBy,order){ 
+        $("input[name=order]").val(order);       
+        $("input[name=order_by]").val(orderBy);       
+        $("#adminForm").submit();
+      }
   </script>
 
 </body>
