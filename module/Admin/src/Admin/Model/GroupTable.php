@@ -18,9 +18,11 @@ class GroupTable extends AbstractTableGateway{
 
 	public function listItem($arrParam = null,$options = null){
 		if($options['task'] == "list-item"){
-			$result =   $this->_tableGateway->select(function(Select $select){
+			$result =   $this->_tableGateway->select(function(Select $select) use($arrParam){
 				$select->columns(array("id","name","ordering","created","created_by","status"))
-				       ->order(array("id DESC"));
+				       ->order(array("id DESC"))
+				       ->offset(($arrParam['curentPage']-1) * $arrParam['itemPerPage'])
+				       ->limit((int)$arrParam['itemPerPage']);
 			});
 		}
 		return $result;

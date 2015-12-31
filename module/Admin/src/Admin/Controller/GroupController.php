@@ -1,4 +1,5 @@
 <?php 
+
 namespace Admin\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
@@ -6,6 +7,10 @@ use Zend\View\Model\ViewModel;
 
 class GroupController extends AbstractActionController{
 	protected $_table ;
+	protected $_configPaginator = [
+		"pageRange"   => 3,
+		"itemPerPage" => 3
+	];
 	public function getTable(){
 		if($this->_table == ""){
 			$this->_table = $this->getServiceLocator()->get("GroupTable");
@@ -13,10 +18,14 @@ class GroupController extends AbstractActionController{
 		return $this->_table;		
 	}
 	public function indexAction(){
-		$groupTable = $this->getTable();
-		$items = $groupTable->listItem(null,array("task"=>"list-item"));
+		$this->_configPaginator['curentPage'] = $this->params()->fromRoute("page",1);
+		$totalItem = $this->getTable()->countItem();
+		
+
+		$items = $this->getTable()->listItem($this->_configPaginator,array("task"=>"list-item"));
 		return new ViewModel(array(
-			"items" => $items
+			"items" => $items,
+			"paginator" => \ZendVN\Paginator\Paginator::createPagination($totalItem,$this->_configPaginator)
 		));
 	}
 

@@ -38,6 +38,42 @@
 <!-- TABLE -->
             <div class="box box-info">
                 <div class="box-body">
+                  <div class="box-header" style="padding-top: 10px;">
+                        <!-- SEARCH BOX -->
+                        <div class="col-xs-4">
+                          <div class="dataTables_filter" id="example1_filter" style="float: left;">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-btn">
+                                    <button type="button" data-toggle="dropdown" class="btn btn-sm btn-default dropdown-toggle">Search by Name</button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Search by Name</a></li>
+                                        <li><a href="#">Search by Email</a></li>
+                                        <li><a href="#">Search by All</a></li>
+                                    </ul>
+                                </div>
+                                <input type="text" class="form-control input-sm col-xs-2">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default btn-flat" type="button">Clear</button>
+                                    <button class="btn btn-primary btn-flat" type="button">Go!</button>
+                                </span>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- SELECT BOX -->
+                        <div class="col-xs-8 ">
+                          <div class="dataTables_filter pull-right">
+                            <select size="1" name="example1_length" class="input-sm">
+                              <option value="10" selected="selected">Select a status</option>
+                              <option value="25">25</option>
+                            </select> 
+                            <select size="1" name="example1_length" class="input-sm">
+                              <option value="10" selected="selected">Select a group</option>
+                              <option value="25">25</option>
+                            </select> 
+                          </div>
+                        </div>
+                    </div>
+
                   <div class="row"><div class="col-sm-12">
                       <table id="example2" class="table table-bordered table-hover dataTable text-center" role="grid" aria-describedby="example1_info">
                           <thead>
@@ -58,26 +94,13 @@
                           </tbody>         
                       </table> </div></div>
                   <div class="row">
-                    <div class="col-sm-5">
-                      <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
-                    </div>
-                    <div class="col-sm-7">
-                      <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-                        <ul class="pagination">
-                        <li><a href="#">start</a></li>
-                          <li class="paginate_button previous disabled" id="example2_previous">
-                            <a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">&laquo</a>
-                          </li>
-                          <li class="paginate_button active">
-                            <a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a>
-                          </li>
-                          <li class="paginate_button ">
-                            <a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0">2</a>
-                          </li>
-                          <li class="paginate_button next" id="example2_next">
-                            <a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0">&raquo</a>
-                          </li>
-                          <li><a href="#">end</a></li> </ul>
-                      </div></div></div>
-                </div></div>
+                  <?php 
+                    $realURL = $this->url("adminRoute/paginator",array("controller"=>"group"));
+                    echo $this->paginationControl($this->paginator,null,"paginator.phtml",array("realURL"=>$realURL));
+                  ?>
+                    
+                  </div>
+                </div>
+
+              </div>
         </div>

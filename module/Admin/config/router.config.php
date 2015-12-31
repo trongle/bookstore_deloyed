@@ -40,6 +40,18 @@ $adminRoute = array(
                 ),
             ),
         ),
+        'paginator' => array(
+            'type'    => 'Segment',
+            'options' => array(
+                'route'    => '/[:controller]/index/page[/:page]',
+                'constraints' => array(
+					'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+					'page'       => '[0-9]*',
+                ),
+                'defaults' => array(
+                ),
+            ),
+        ),
 	)
 );
 return array(
