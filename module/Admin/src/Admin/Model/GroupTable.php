@@ -12,8 +12,14 @@ class GroupTable extends AbstractTableGateway{
 		return $this;
 	}
 
-	public function countItem(){
-		return $this->_tableGateway->select()->count();
+	public function countItem($arrParam = null,$options = null){
+		$result = $this->_tableGateway->select(function(Select $select) use($arrParam){
+			if(!empty($arrParam['filter_status'])){
+					$status = ($arrParam['filter_status']=="active")? 1:0;
+					$select->where->equalTo("status",$status);
+			}
+		});
+		return $result->count();
 	}
 
 	public function listItem($arrParam = null,$options = null){
@@ -23,6 +29,11 @@ class GroupTable extends AbstractTableGateway{
 				       ->order(array(sprintf("%s %s",$arrParam['order']['order_by'] , $arrParam['order']['order'])))
 				       ->offset(($arrParam['paginator']['curentPage']-1) * $arrParam['paginator']['itemPerPage'])
 				       ->limit($arrParam['paginator']['itemPerPage']);
+
+				if(!empty($arrParam['filter_status'])){
+					$status = ($arrParam['filter_status']=="active")? 1:0;
+					$select->where->equalTo("status",$status);
+				} 
 			});
 		}
 		return $result;

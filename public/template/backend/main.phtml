@@ -90,6 +90,10 @@
         $("input[name=order_by]").val(orderBy);       
         $("#adminForm").submit();
       }
+
+      $("select[name=filter_status]").on("change",function(){
+        $("#adminForm").submit();
+      })
   </script>
 
 </body>

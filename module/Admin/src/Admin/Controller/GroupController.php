@@ -32,17 +32,24 @@ class GroupController extends AbstractActionController{
 			$this->_orderList['order_by'] = $ssOrder->offsetGet("order_by");
 		}
 
+		if($ssOrder->offsetExists('filter_status')){
+			$filter_status = $ssOrder->offsetGet("filter_status");
+		}
+		
+
 		$paramSetting = [
-			"paginator" => $this->_configPaginator,
-			"order"     => $this->_orderList,
+			"paginator"     => $this->_configPaginator,
+			"order"         => $this->_orderList,
+			"filter_status" => $filter_status
 		];
 
 		$items = $this->getTable()->listItem($paramSetting,array("task"=>"list-item"));
-		$totalItem = $this->getTable()->countItem();
+		$totalItem = $this->getTable()->countItem($paramSetting);
 		return new ViewModel(array(
 				"items"     => $items,
 				"paginator" => \ZendVN\Paginator\Paginator::createPagination($totalItem,$this->_configPaginator),
-				"ssOrder"   => $this->_orderList
+				"ssOrder"   => $this->_orderList,
+				"filter_status" => $filter_status
 			
 		));
 	}
@@ -52,8 +59,10 @@ class GroupController extends AbstractActionController{
 			$ssOrder  = new Container(__NAMESPACE__);
 			$order    = $this->params()->fromPost("order");
 			$order_by = $this->params()->fromPost("order_by");
+			$filter   = $this->params()->fromPost("filter_status");
 			$ssOrder->offsetSet("order",$order); 		 
 			$ssOrder->offsetSet("order_by",$order_by);		
+			$ssOrder->offsetSet("filter_status",$filter);		
 		}
 		return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
 	}
