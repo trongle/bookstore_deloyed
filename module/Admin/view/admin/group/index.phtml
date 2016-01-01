@@ -1,6 +1,4 @@
 <?php
-
-
 //DATA LIST-ITEM
   $xhtmlTable = 'Không có dữ liệu ';
   if(isset($this->items) && !empty($this->items)){
@@ -24,13 +22,7 @@
 // LINK FORM
   $linkForm = $this->basePath("admin/group/filter");
 // SELECT-BOX
-/*
-<select size="1" name="example1_length" class="input-sm">
-                        <option value="10" selected="selected">Select a status</option>
-                        <option value="25">25</option>
-                      </select>
- */
- 
+
 ?>
 
 <div class="row">
@@ -58,17 +50,20 @@
                     <div class="dataTables_filter" id="example1_filter" style="float: left;">
                       <div class="input-group input-group-sm">
                           <div class="input-group-btn">
-                              <button type="button" data-toggle="dropdown" class="btn btn-sm btn-default dropdown-toggle">Search by Name</button>
-                              <ul class="dropdown-menu">
-                                  <li><a href="#">Search by Name</a></li>
-                                  <li><a href="#">Search by Email</a></li>
-                                  <li><a href="#">Search by All</a></li>
-                              </ul>
+                              <?php
+                                $value = array(
+                                    "name" => "Search by Name",
+                                    "id"   => "Search by ID",
+                                    "all"  => "Search All"
+                                );
+                                $search = $this->paramSetting['search'];
+                                echo $this->cmsSelectBox("search_key",null,$value,$search['search_key']);
+                              ?>
                           </div>
-                          <input type="text" class="form-control input-sm col-xs-2">
+                          <input type="text" class="form-control input-sm col-xs-2" name="search_value" value="<?php echo $search['search_value'] ?>">
                           <span class="input-group-btn">
-                            <button class="btn btn-default btn-flat" type="button">Clear</button>
-                              <button class="btn btn-primary btn-flat" type="button">Go!</button>
+                            <button class="btn btn-default btn-flat" type="submit" name="btn_clear" value="clear">Clear</button>
+                            <button class="btn btn-primary btn-flat" type="submit">Go!</button>
                           </span>
                       </div>
                     </div>
@@ -77,25 +72,30 @@
                   <div class="col-xs-8 ">
                     <div class="dataTables_filter pull-right">
                       <?php
-                        echo $this->cmsSelectBox("filter_status","-- Select a status--",array("active"=>"Active","inactive"=>"InActive"),$this->filter_status);
+                        $filter_status = $this->paramSetting['filter_status'];
+                        echo $this->cmsSelectBox("filter_status","-- Select a status--",array("active"=>"Active","inactive"=>"InActive"),$filter_status);
                       ?>
                     </div>
                   </div>
             </div>
 
             <div class="row"><div class="col-sm-12">
-                <table id="example2" class="table table-bordered table-hover dataTable text-center" role="grid" aria-describedby="example1_info">
+                <!-- ORDER -->
+                <table id="example2" class="table table-bordered table-hover dataTable text-center" >
                     <thead>
                       <tr role="row">
                         <th class="text-center">
                            <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
                         </th>
-                        <?php echo $this->changeSortLink($this->ssOrder,"name","Name"); ?>
-                        <?php echo $this->changeSortLink($this->ssOrder,"created","Created"); ?>
-                        <?php echo $this->changeSortLink($this->ssOrder,"created_by","Created_by"); ?>
-                        <?php echo $this->changeSortLink($this->ssOrder,"ordering","Ordering"); ?>
-                        <?php echo $this->changeSortLink($this->ssOrder,"status","Status"); ?>
-                        <?php echo $this->changeSortLink($this->ssOrder,"id","ID"); ?>
+                        <?php 
+                            $order = $this->paramSetting['order'];
+                            echo $this->changeSortLink($order,"name","Name"); 
+                            echo $this->changeSortLink($order,"created","Created"); 
+                            echo $this->changeSortLink($order,"created_by","Created_by"); 
+                            echo $this->changeSortLink($order,"ordering","Ordering"); 
+                            echo $this->changeSortLink($order,"status","Status"); 
+                            echo $this->changeSortLink($order,"id","ID"); 
+                         ?>
                         <input type="hidden" name="order" value="ASC">
                         <input type="hidden" name="order_by" value="id">
                       </tr>

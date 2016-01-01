@@ -16,7 +16,19 @@ class GroupTable extends AbstractTableGateway{
 		$result = $this->_tableGateway->select(function(Select $select) use($arrParam){
 			if(!empty($arrParam['filter_status'])){
 					$status = ($arrParam['filter_status']=="active")? 1:0;
-					$select->where->equalTo("status",$status);
+					$select->where->equalTo("status",(int)$status);
+			}
+
+			if(!empty($arrParam['search']['search_value']) && !empty($arrParam['search']['search_key'])){
+					if($arrParam['search']['search_key'] != "all"){
+						$select->where->like($arrParam['search']['search_key'],
+											 "%".$arrParam['search']['search_value']."%");
+					}else{
+						$select->where->NEST
+						              ->like("name","%".$arrParam['search']['search_value']."%")
+									  ->or->equalTo("id",$arrParam['search']['search_value'])
+									  ->UNNEST;
+					}		
 			}
 		});
 		return $result->count();
@@ -34,6 +46,19 @@ class GroupTable extends AbstractTableGateway{
 					$status = ($arrParam['filter_status']=="active")? 1:0;
 					$select->where->equalTo("status",$status);
 				} 
+
+				if(!empty($arrParam['search']['search_value']) && !empty($arrParam['search']['search_key'])){
+					if($arrParam['search']['search_key'] != "all"){
+						$select->where->like($arrParam['search']['search_key'],
+											 "%".$arrParam['search']['search_value']."%");
+					}else{
+						$select->where->NEST
+						              ->like("name","%".$arrParam['search']['search_value']."%")
+									  ->or->equalTo("id",$arrParam['search']['search_value'])
+									  ->UNNEST;
+					}	
+					
+				}
 			});
 		}
 		return $result;

@@ -84,7 +84,8 @@
         }
         $(this).data("clicks", !clicks);
       });
-
+//----------------------------------------------------//
+//----------------------------------------------------//
       function sortList(orderBy,order){ 
         $("input[name=order]").val(order);       
         $("input[name=order_by]").val(orderBy);       
@@ -93,6 +94,14 @@
 
       $("select[name=filter_status]").on("change",function(){
         $("#adminForm").submit();
+      })
+
+      //nhấn enter submit luôn
+      $("input[name=search_value]").keypress(function(e){
+        if(e.keyCode == 13){
+          e.preventDefault();
+          $("#adminForm").submit();
+        }
       })
   </script>
 

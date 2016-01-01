@@ -17,6 +17,11 @@ class GroupController extends AbstractActionController{
 		"order_by" => "id"
 	];
 
+	protected $_search = [
+		"search_key"   => null,
+		"search_value" => null
+	];
+
 	public function getTable(){
 		if($this->_table == ""){
 			$this->_table = $this->getServiceLocator()->get("GroupTable");
@@ -35,12 +40,18 @@ class GroupController extends AbstractActionController{
 		if($ssOrder->offsetExists('filter_status')){
 			$filter_status = $ssOrder->offsetGet("filter_status");
 		}
+
+		if($ssOrder->offsetExists('search_key') && $ssOrder->offsetExists('search_value') ){
+			$this->_search['search_key']   = $ssOrder->offsetGet("search_key");
+			$this->_search['search_value'] = $ssOrder->offsetGet("search_value");
+		}
 		
 
 		$paramSetting = [
 			"paginator"     => $this->_configPaginator,
 			"order"         => $this->_orderList,
-			"filter_status" => $filter_status
+			"filter_status" => $filter_status,
+			"search"        => $this->_search
 		];
 
 		$items = $this->getTable()->listItem($paramSetting,array("task"=>"list-item"));
@@ -48,21 +59,34 @@ class GroupController extends AbstractActionController{
 		return new ViewModel(array(
 				"items"     => $items,
 				"paginator" => \ZendVN\Paginator\Paginator::createPagination($totalItem,$this->_configPaginator),
-				"ssOrder"   => $this->_orderList,
-				"filter_status" => $filter_status
+				"paramSetting" => $paramSetting
+
 			
 		));
 	}
 
 	public function filterAction(){
 		if($this->request->isPost()){
-			$ssOrder  = new Container(__NAMESPACE__);
-			$order    = $this->params()->fromPost("order");
-			$order_by = $this->params()->fromPost("order_by");
-			$filter   = $this->params()->fromPost("filter_status");
+			echo "<pre>";
+			print_r($this->params()->fromPost());
+			echo "<pre>";
+			$ssOrder      = new Container(__NAMESPACE__);
+			$order        = $this->params()->fromPost("order");
+			$order_by     = $this->params()->fromPost("order_by");
+			$filter       = $this->params()->fromPost("filter_status");
+			$search_key   = $this->params()->fromPost("search_key");
+			$search_value = $this->params()->fromPost("search_value");
 			$ssOrder->offsetSet("order",$order); 		 
 			$ssOrder->offsetSet("order_by",$order_by);		
 			$ssOrder->offsetSet("filter_status",$filter);		
+			$ssOrder->offsetSet("search_value",$search_value);		
+			$ssOrder->offsetSet("search_key",$search_key);	
+
+			$btnClear = $this->params()->fromPost("btn_clear");
+			if($btnClear == "clear"){
+				$ssOrder->offsetUnset("search_value");
+				$ssOrder->offsetUnset("search_key");
+			}	
 		}
 		return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
 	}

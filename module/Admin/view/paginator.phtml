@@ -1,6 +1,6 @@
 
 <?php 
-if($this->pageCount == 1) return "";
+if($this->pageCount < 1) return "";
 
 $linkStart    = $this->realURL."/".$this->first;
 $linkPrevious = $this->realURL."/".$this->previous;
