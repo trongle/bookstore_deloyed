@@ -1,4 +1,7 @@
-<?php  
+<?php
+
+
+//DATA LIST-ITEM
   $xhtmlTable = 'Không có dữ liệu ';
   if(isset($this->items) && !empty($this->items)){
     $xhtmlTable = "";
@@ -12,23 +15,31 @@
         $id = $item->id;
         $xhtmlTable .= sprintf('<tr class="%s">
                               <td class="sorting_1"><input type="checkbox" /></td>
-                              <td>%s</td><td>%s</td><td>%s</td><td><input class="input-order" size="4" type="text" value="%s"/></td> 
+                              <td>%s</td><td>%s</td><td>%s</td><td><input class="input-order" size="4" type="text" value="%s"/></td>
                               <td><a href="#" class="label label-%s"><i class="fa fa-check"></i></a></td>
                               <td>%s</td>
                         </tr>',$class,$name,$created,$created_by,$order,$status,$id);
     }
   }
-
+// LINK FORM
   $linkForm = $this->basePath("admin/group/filter");
+// SELECT-BOX
+/*
+<select size="1" name="example1_length" class="input-sm">
+                        <option value="10" selected="selected">Select a status</option>
+                        <option value="25">25</option>
+                      </select>
+ */
+ 
 ?>
 
 <div class="row">
           <!-- BUTTON -->
-            <div class="text-center"> 
+            <div class="text-center">
               <a class="btn btn-app"><i class="fa fa-repeat"></i> Reload</a>
-              <a class="btn btn-app"><i class="fa fa-plus-square-o"></i> Add</a>    
-              <a class="btn btn-app"> <i class="fa fa-check-circle-o"></i> Publish</a>   
-              <a class="btn btn-app"><i class="fa fa-circle-o"></i> Unpublish</a> 
+              <a class="btn btn-app"><i class="fa fa-plus-square-o"></i> Add</a>
+              <a class="btn btn-app"> <i class="fa fa-check-circle-o"></i> Publish</a>
+              <a class="btn btn-app"><i class="fa fa-circle-o"></i> Unpublish</a>
               <a class="btn btn-app"><i class="fa fa-minus-circle"></i> Delete</a>  </div><!-- /.box-body -->
 <!-- ALERT -->
             <div class="alert alert-success alert-dismissable">
@@ -65,14 +76,9 @@
                   <!-- SELECT BOX -->
                   <div class="col-xs-8 ">
                     <div class="dataTables_filter pull-right">
-                      <select size="1" name="example1_length" class="input-sm">
-                        <option value="10" selected="selected">Select a status</option>
-                        <option value="25">25</option>
-                      </select> 
-                      <select size="1" name="example1_length" class="input-sm">
-                        <option value="10" selected="selected">Select a group</option>
-                        <option value="25">25</option>
-                      </select> 
+                      <?php
+                        echo $this->cmsSelectBox("filter_status","-- Select a status--",array("active"=>"Active","inactive"=>"InActive"),null);
+                      ?>
                     </div>
                   </div>
             </div>
@@ -84,26 +90,26 @@
                         <th class="text-center">
                            <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
                         </th>
-                        <?php echo $this->changeSortLink($this->ssOrder,"name","Name"); ?> 
-                        <?php echo $this->changeSortLink($this->ssOrder,"created","Created"); ?> 
-                        <?php echo $this->changeSortLink($this->ssOrder,"created_by","Created_by"); ?> 
-                        <?php echo $this->changeSortLink($this->ssOrder,"ordering","Ordering"); ?> 
-                        <?php echo $this->changeSortLink($this->ssOrder,"status","Status"); ?> 
-                        <?php echo $this->changeSortLink($this->ssOrder,"id","ID"); ?>                        
+                        <?php echo $this->changeSortLink($this->ssOrder,"name","Name"); ?>
+                        <?php echo $this->changeSortLink($this->ssOrder,"created","Created"); ?>
+                        <?php echo $this->changeSortLink($this->ssOrder,"created_by","Created_by"); ?>
+                        <?php echo $this->changeSortLink($this->ssOrder,"ordering","Ordering"); ?>
+                        <?php echo $this->changeSortLink($this->ssOrder,"status","Status"); ?>
+                        <?php echo $this->changeSortLink($this->ssOrder,"id","ID"); ?>
                         <input type="hidden" name="order" value="ASC">
                         <input type="hidden" name="order_by" value="id">
                       </tr>
                     </thead>
-                    <tbody>  
+                    <tbody>
                      <?php echo $xhtmlTable ?>
-                    </tbody>         
-                </table> 
+                    </tbody>
+                </table>
             </div></div>
             <div class="row">
-            <?php 
+            <?php
               $realURL = $this->url("adminRoute/paginator",array("controller"=>"group"));
               echo $this->paginationControl($this->paginator,null,"paginator.phtml",array("realURL"=>$realURL));
-            ?>  
+            ?>
             </div>
           </div>
       </div>

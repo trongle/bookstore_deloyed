@@ -17,15 +17,15 @@ class Module {
 	}
 
 	public function layoutForModule(MvcEvent $e){
-		$routerMatch = $e->getRouteMatch();
+		$routerMatch     = $e->getRouteMatch();
 		$arrayController = explode("\\",$routerMatch->getParam("controller"));
-		$module = strtolower($arrayController[0]);
+		$module          = strtolower($arrayController[0]);
 		//đọc layout.config.php
 		$config = $e->getApplication()->getServiceManager()->get("config");
-		$config["module_for_layouts"][$module];
+		$layout = $config["module_for_layouts"][$module];
 	
 		$controller = $e->getTarget();
-		$controller->layout("layout/backend");
+		$controller->layout($layout);
 	}
 
 	public function setHeader(MvcEvent $e){
@@ -89,6 +89,7 @@ class Module {
     	return array(
     		"invokables" => array(
     			"changeSortLink" => "ZendVN\View\Helper\ChangeSortLink",
+    			"cmsSelectBox"   => "ZendVN\View\Helper\CmsSelectBox"
     		)
     	);
     }
