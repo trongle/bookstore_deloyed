@@ -92,6 +92,7 @@ class GroupController extends AbstractActionController{
 
 	public function statusAction(){
 		$task = "";
+		$message = "Vui lòng chọn phần tử muốn thay đổi trạng thái";
 		if($this->request->isPost()){
 			if(!empty($this->params()->fromPost("id"))){
 				if(is_array($this->params()->fromPost("id"))){
@@ -99,16 +100,17 @@ class GroupController extends AbstractActionController{
 				}else{
 					$task = "change-status";
 				}
-			}
-			$status = array(
-				"status" => $this->params()->fromPost("status"),
-				"id"    =>  $this->params()->fromPost("id")
-			);
 			
-			$this->getTable()->changeStatus($status,array("task"=>$task));
-			$this->flashMessenger()->addMessage("Trạng thái đã được cập nhật");
+				$status = array(
+					"status" => $this->params()->fromPost("status"),
+					"id"    =>  $this->params()->fromPost("id")
+				);
+				
+				$this->getTable()->changeStatus($status,array("task"=>$task));
+				$message = "Trạng thái đã được cập nhật";			
+			}
 		}
-		
+		$this->flashMessenger()->addMessage($message);
 		return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
 	}
 
