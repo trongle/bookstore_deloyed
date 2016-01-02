@@ -1,12 +1,15 @@
-<?php
-namespace ZendVN\View\Helper;
+<?php 
+namespace ZendVN\Form\View\Helper;
 
 use Zend\Form\Element\Select;
 use Zend\Form\View\Helper\FormSelect;
 
-class CmsSelectBox extends FormSelect{
+
+class FormSelectBox extends FormSelect
+{
 	function __invoke($name,$emptyOption,$value,$selected,array $options = null){
 		$options = $this->setDefaultOptions($options); 
+		
 	    $elementSelect = new Select($name);
 		$elementSelect->setAttributes($options)
 		              ->setEmptyOption($emptyOption)

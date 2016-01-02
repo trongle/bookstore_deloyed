@@ -1,7 +1,7 @@
 <?php 
 
 namespace Admin\Controller;
-
+session_start();
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
@@ -29,6 +29,7 @@ class GroupController extends AbstractActionController{
 		return $this->_table;		
 	}
 	public function indexAction(){
+		
 		$this->_configPaginator['curentPage'] = $this->params()->fromRoute("page",1);
 
 		$ssOrder = new Container(__NAMESPACE__);
@@ -37,6 +38,7 @@ class GroupController extends AbstractActionController{
 			$this->_orderList['order_by'] = $ssOrder->offsetGet("order_by");
 		}
 
+		$filter_status = "";
 		if($ssOrder->offsetExists('filter_status')){
 			$filter_status = $ssOrder->offsetGet("filter_status");
 		}
@@ -45,7 +47,6 @@ class GroupController extends AbstractActionController{
 			$this->_search['search_key']   = $ssOrder->offsetGet("search_key");
 			$this->_search['search_value'] = $ssOrder->offsetGet("search_value");
 		}
-		
 
 		$paramSetting = [
 			"paginator"     => $this->_configPaginator,
@@ -67,9 +68,6 @@ class GroupController extends AbstractActionController{
 
 	public function filterAction(){
 		if($this->request->isPost()){
-			echo "<pre>";
-			print_r($this->params()->fromPost());
-			echo "<pre>";
 			$ssOrder      = new Container(__NAMESPACE__);
 			$order        = $this->params()->fromPost("order");
 			$order_by     = $this->params()->fromPost("order_by");
@@ -88,6 +86,7 @@ class GroupController extends AbstractActionController{
 				$ssOrder->offsetUnset("search_key");
 			}	
 		}
+
 		return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
 	}
 

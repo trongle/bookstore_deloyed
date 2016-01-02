@@ -1,4 +1,6 @@
 <?php
+
+use Zend\Form\Element\Text;
 //DATA LIST-ITEM
   $xhtmlTable = 'Không có dữ liệu ';
   if(isset($this->items) && !empty($this->items)){
@@ -21,7 +23,6 @@
   }
 // LINK FORM
   $linkForm = $this->basePath("admin/group/filter");
-// SELECT-BOX
 
 ?>
 
@@ -57,13 +58,15 @@
                                     "all"  => "Search All"
                                 );
                                 $search = $this->paramSetting['search'];
-                                echo $this->cmsSelectBox("search_key",null,$value,$search['search_key']);
+                                echo $this->zvnFormSelectBox("search_key",null,$value,$search['search_key']);
                               ?>
                           </div>
-                          <input type="text" class="form-control input-sm col-xs-2" name="search_value" value="<?php echo $search['search_value'] ?>">
+                              <?php echo $this->zvnFormText("search_value",$search['search_value']); ?>
                           <span class="input-group-btn">
-                            <button class="btn btn-default btn-flat" type="submit" name="btn_clear" value="clear">Clear</button>
-                            <button class="btn btn-primary btn-flat" type="submit">Go!</button>
+                              <?php
+                                echo $this->zvnFormButton("btn_clear","clear","Clear",array("type"=>"submit"));
+                                echo $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-primary","type"=>"submit"));
+                              ?>
                           </span>
                       </div>
                     </div>
@@ -73,7 +76,7 @@
                     <div class="dataTables_filter pull-right">
                       <?php
                         $filter_status = $this->paramSetting['filter_status'];
-                        echo $this->cmsSelectBox("filter_status","-- Select a status--",array("active"=>"Active","inactive"=>"InActive"),$filter_status);
+                        echo $this->zvnFormSelectBox("filter_status","-- Select a status--",array("active"=>"Active","inactive"=>"InActive"),$filter_status);
                       ?>
                     </div>
                   </div>
@@ -88,17 +91,22 @@
                            <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
                         </th>
                         <?php 
+                            //-----order---
                             $order = $this->paramSetting['order'];
-                            echo $this->changeSortLink($order,"name","Name"); 
-                            echo $this->changeSortLink($order,"created","Created"); 
-                            echo $this->changeSortLink($order,"created_by","Created_by"); 
-                            echo $this->changeSortLink($order,"ordering","Ordering"); 
-                            echo $this->changeSortLink($order,"status","Status"); 
-                            echo $this->changeSortLink($order,"id","ID"); 
+                            echo $this->changeSortLink($order,"name","Name").
+                                 $this->changeSortLink($order,"created","Created").
+                                 $this->changeSortLink($order,"created_by","Created_by").
+                                 $this->changeSortLink($order,"ordering","Ordering").
+                                 $this->changeSortLink($order,"status","Status").
+                                 $this->changeSortLink($order,"id","ID");   
+
                          ?>
-                        <input type="hidden" name="order" value="ASC">
-                        <input type="hidden" name="order_by" value="id">
                       </tr>
+                      <?php
+                      //----hidden---
+                            echo $this->zvnFormHidden("order","ASC").
+                                 $this->zvnFormHidden("order_by","id");
+                      ?>
                     </thead>
                     <tbody>
                      <?php echo $xhtmlTable ?>

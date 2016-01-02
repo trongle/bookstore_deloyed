@@ -88,8 +88,11 @@ class Module {
     public function getViewHelperConfig(){
     	return array(
     		"invokables" => array(
-    			"changeSortLink" => "ZendVN\View\Helper\ChangeSortLink",
-    			"cmsSelectBox"   => "ZendVN\View\Helper\CmsSelectBox"
+				"changeSortLink"   => "ZendVN\View\Helper\ChangeSortLink",
+				"zvnFormSelectBox" => "ZendVN\Form\View\Helper\FormSelectBox",
+				"zvnFormHidden"    => "ZendVN\Form\View\Helper\FormHidden",
+				"zvnFormText"      => "ZendVN\Form\View\Helper\FormText",
+				"zvnFormButton"    => "ZendVN\Form\View\Helper\FormButton",
     		)
     	);
     }

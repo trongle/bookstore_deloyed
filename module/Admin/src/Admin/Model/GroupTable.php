@@ -59,6 +59,7 @@ class GroupTable extends AbstractTableGateway{
 					}	
 					
 				}
+			// echo $select->getSqlString();exit();
 			});
 		}
 		return $result;
