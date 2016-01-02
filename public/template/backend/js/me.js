@@ -11,7 +11,16 @@ function sortList(orderBy,order){
   submitForm();
 }
 
+function changeStatus(id,status){
+  $("input[name=id]").val(id);       
+  $("input[name=status]").val(status);  
+  submitForm("/admin/group/status");
+}
+
 $(document).ready(function(){
+  //fadeOut alert
+  $(".alert-dismissable").fadeOut(3000);
+
 
   $("select[name=filter_status]").on("change",function(){
     submitForm();

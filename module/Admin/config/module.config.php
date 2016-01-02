@@ -31,5 +31,14 @@ return array(
 		"default_template_suffix" => "phtml",
 		"layout"  => "layout/frontend"
 	),
+	'view_helper_config' => array(
+        "flashmessenger" => array(
+            "message_open_format" => '<div class="alert alert-success alert-dismissable">
+            							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+               						 <h4><i class="icon fa fa-check"></i> Alert!</h4>',
+            "message_separator_string" => "",
+            "message_close_string" => "</div>"
+        ),
+    ),
 );
 ?>

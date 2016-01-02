@@ -11,12 +11,12 @@ use Zend\Form\Element\Text;
         $created = date("H:i:s d-m-Y",strtotime($item->created));
         $created_by = $item->created_by;
         $order = $item->ordering;
-        $status = ($item->status == 1)? "success" : "default";
         $id = $item->id;
+        $status = $this->changeStatusLink($id,$item->status);
         $xhtmlTable .= sprintf('<tr class="%s">
                               <td class="sorting_1"><input type="checkbox" /></td>
                               <td>%s</td><td>%s</td><td>%s</td><td><input class="input-order" size="4" type="text" value="%s"/></td>
-                              <td><a href="#" class="label label-%s"><i class="fa fa-check"></i></a></td>
+                              %s 
                               <td>%s</td>
                         </tr>',$class,$name,$created,$created_by,$order,$status,$id);
     }
@@ -46,10 +46,7 @@ use Zend\Form\Element\Text;
               <a class="btn btn-app"><i class="fa fa-circle-o"></i> Unpublish</a>
               <a class="btn btn-app"><i class="fa fa-minus-circle"></i> Delete</a>  </div><!-- /.box-body -->
 <!-- ALERT -->
-            <div class="alert alert-success alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4>  <i class="icon fa fa-check"></i> Alert!</h4>
-                Success alert preview. This alert is dismissable.</div>
+            <?php  echo $this->flashMessenger()->render(); ?>
 <!-- END_ALERT -->
 
 <!-- TABLE -->
@@ -99,7 +96,9 @@ use Zend\Form\Element\Text;
                       <?php
                       //----hidden---
                             echo $this->zvnFormHidden("order","ASC").
-                                 $this->zvnFormHidden("order_by","id");
+                                 $this->zvnFormHidden("order_by","id").
+                                 $this->zvnFormHidden("status","").
+                                 $this->zvnFormHidden("id","");
                       ?>
                     </thead>
                     <tbody>

@@ -90,8 +90,19 @@ class GroupController extends AbstractActionController{
 		return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
 	}
 
-	public function addAction(){
-		return false;
+	public function statusAction(){
+		if($this->request->isPost()){
+			if($this->params()->fromPost("id")){
+				$status = array(
+					"status" => $this->params()->fromPost("status"),
+					"id"     => $this->params()->fromPost("id")
+				);
+				$this->getTable()->changeStatus($status,array("task"=>"change-status"));
+				$this->flashMessenger()->addMessage("Trạng thái đã được cập nhật");
+			}
+		}
+
+		return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
 	}
 
 	

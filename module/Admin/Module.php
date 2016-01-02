@@ -93,6 +93,7 @@ class Module {
 				"zvnFormHidden"    => "ZendVN\Form\View\Helper\FormHidden",
 				"zvnFormText"      => "ZendVN\Form\View\Helper\FormText",
 				"zvnFormButton"    => "ZendVN\Form\View\Helper\FormButton",
+				"changeStatusLink" => "ZendVN\View\Helper\ChangeStatusLink",
     		)
     	);
     }

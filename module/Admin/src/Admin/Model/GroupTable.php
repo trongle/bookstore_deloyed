@@ -65,47 +65,14 @@ class GroupTable extends AbstractTableGateway{
 		return $result;
 	}
 
-	public function getItem($arrParam = null,$options = null){
-		if($options['task'] = "get-item"){
-			if(!empty($arrParam)){
-				$row =  $this->_tableGateway->select(array("id"=>$arrParam['id']))->current();
-				if(empty($row)) return false;
-			}
+	public function changeStatus($arrParam = null,$options = null){
+		if($options['task'] == "change-status"){
+			$data = array(
+				"status" => ($arrParam['status'] == 1)? (int)0 : 1
+			);
+			$where = array("id" => $arrParam['id']);
+			$this->_tableGateway->update($data,$where);
 		}
-
-		if($options == null){
-			if(!empty($arrParam)){
-				$row =  $this->_tableGateway->select(function(Select $select) use($arrParam){
-					$select->columns(array("id","name","avatar","fullname","email"))
-					       ->where->equalTo("id",$arrParam['id']);
-				})->current();
-				if(empty($row)) return false;
-			}
-		}
-		return $row;	
-	}
-
-	public function deleteItem($arrParam = null,$options = null){
-		if($options['task'] = "delete-item"){
-			if(!empty($arrParam)){
-				$this->_tableGateway->delete(array("id"=>$arrParam['id']));
-			}	
-		}	
-	}
-
-	public function saveItem($arrParam = null,$options = null){
-	
-			if(!empty($arrParam)){
-				if($this->getItem($arrParam,array("task"=>"get-item")) == false 
-				   || empty($arrParam['id'])){
-
-					$this->_tableGateway->insert($arrParam);
-				}else{
-					$this->_tableGateway->update($arrParam,array("id"=>$arrParam['id']));
-				}
-			}	
-		
-		
 	}
 }
 ?>
