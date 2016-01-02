@@ -15,7 +15,7 @@ use Zend\Form\Element\Url;
         $id = $item->id;
         $status = $this->changeStatusLink($id,$item->status);
         $xhtmlTable .= sprintf('<tr class="%s">
-                              <td class="sorting_1"><input type="checkbox"  name="id[]" value="%s" /></td>
+                              <td class="sorting_1"><input type="checkbox" class="check-box" name="id[]" value="%s" /></td>
                               <td>%s</td><td>%s</td><td>%s</td><td><input class="input-order" size="4" type="text" value="%s"/></td>
                               %s 
                               <td>%s</td>
@@ -43,7 +43,7 @@ use Zend\Form\Element\Url;
             <div class="text-center">
               <a class="btn btn-app"><i class="fa fa-repeat"></i> Reload</a>
               <a class="btn btn-app"><i class="fa fa-plus-square-o"></i> Add</a>
-              <a class="btn btn-app" href="#" onclick="changeMultiStatus(1)"><i class="fa fa-check-circle-o"></i> Active</a>
+              <a class="btn btn-app" id="btn-status" href="#" onclick="changeMultiStatus(1)"><i class="fa fa-check-circle-o"></i> Active</a>
               <a class="btn btn-app" href="#" onclick="changeMultiStatus(0)"><i class="fa fa-circle-o"></i> InActive</a>
               <a class="btn btn-app"><i class="fa fa-minus-circle"></i> Delete</a>  </div><!-- /.box-body -->
 <!-- ALERT -->

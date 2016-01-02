@@ -21,6 +21,13 @@ function changeMultiStatus(type){
   submitForm("/admin/group/status");
 }
 
+function addBadgeForStatus(item){
+    $("#btn-status").prepend("<span class='badge bg-aqua'>"+item+"</span>")
+    if(item == null){
+        $("#btn-status > span").remove();
+    }
+}
+
 $(document).ready(function(){
   //fadeOut alert
   $(".alert-dismissable").fadeOut(3000);
@@ -40,25 +47,33 @@ $(document).ready(function(){
 
 
 //CHECK ALL
-//iCheck for checkbox and radio inputs
-    $('.mailbox-messages input[type="checkbox"]').iCheck({
-      checkboxClass: 'icheckbox_flat-blue',
-      radioClass: 'iradio_flat-blue'
-    });
 
     //Enable check and uncheck all functionality
     $(".checkbox-toggle").click(function () {
       var clicks = $(this).data('clicks');
       if (clicks) {
-        //Uncheck all checkboxes
-        $("input[type='checkbox']").iCheck("uncheck");
-        $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
-      } else {
-        //Check all checkboxes
-        $("input[type='checkbox']").iCheck("check");
-        $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+          $("input[type='checkbox']").iCheck("uncheck");
+          $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+
+          //remove badge
+          addBadgeForStatus(null);
+      }else {
+          $("input[type='checkbox']").iCheck("check");
+          $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+          //add bage
+          var item = $("input.check-box:checked").length;
+          addBadgeForStatus(item);
       }
       $(this).data("clicks", !clicks);
     });
+
+    var count = 0;
+    $(".check-box").click(function(){
+        addBadgeForStatus(null);
+        count = $(".check-box:checked").length;
+        if(count == 0) count = null;
+        addBadgeForStatus(count);
+
+    })
 })
 
