@@ -16,6 +16,10 @@ function changeStatus(id,status){
   $("input[name=status]").val(status);  
   submitForm("/admin/group/status");
 }
+function changeMultiStatus(type){
+  $("input[name=status]").val(type); 
+  submitForm("/admin/group/status");
+}
 
 $(document).ready(function(){
   //fadeOut alert

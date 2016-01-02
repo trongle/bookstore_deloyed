@@ -1,6 +1,7 @@
 <?php
 
 use Zend\Form\Element\Text;
+use Zend\Form\Element\Url;
 //DATA LIST-ITEM
   $xhtmlTable = 'Không có dữ liệu ';
   if(isset($this->items) && !empty($this->items)){
@@ -14,11 +15,11 @@ use Zend\Form\Element\Text;
         $id = $item->id;
         $status = $this->changeStatusLink($id,$item->status);
         $xhtmlTable .= sprintf('<tr class="%s">
-                              <td class="sorting_1"><input type="checkbox" /></td>
+                              <td class="sorting_1"><input type="checkbox"  name="id[]" value="%s" /></td>
                               <td>%s</td><td>%s</td><td>%s</td><td><input class="input-order" size="4" type="text" value="%s"/></td>
                               %s 
                               <td>%s</td>
-                        </tr>',$class,$name,$created,$created_by,$order,$status,$id);
+                        </tr>',$class,$id,$name,$created,$created_by,$order,$status,$id);
     }
   }
 // LINK FORM
@@ -33,7 +34,7 @@ use Zend\Form\Element\Text;
   $keyword_type = $this->zvnFormSelectBox("search_key",null,$value,$search['search_key']);
   $keyword_text = $this->zvnFormText("search_value",$search['search_value']);
   $btn_claer    = $this->zvnFormButton("btn_clear","clear","Clear",array("type"=>"submit"));
-  $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-primary","type"=>"submit"));
+  $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-primary","type"=>"button"));
 
 ?>
 
@@ -42,8 +43,8 @@ use Zend\Form\Element\Text;
             <div class="text-center">
               <a class="btn btn-app"><i class="fa fa-repeat"></i> Reload</a>
               <a class="btn btn-app"><i class="fa fa-plus-square-o"></i> Add</a>
-              <a class="btn btn-app"> <i class="fa fa-check-circle-o"></i> Publish</a>
-              <a class="btn btn-app"><i class="fa fa-circle-o"></i> Unpublish</a>
+              <a class="btn btn-app" href="#" onclick="changeMultiStatus(1)"><i class="fa fa-check-circle-o"></i> Active</a>
+              <a class="btn btn-app" href="#" onclick="changeMultiStatus(0)"><i class="fa fa-circle-o"></i> InActive</a>
               <a class="btn btn-app"><i class="fa fa-minus-circle"></i> Delete</a>  </div><!-- /.box-body -->
 <!-- ALERT -->
             <?php  echo $this->flashMessenger()->render(); ?>
@@ -79,7 +80,7 @@ use Zend\Form\Element\Text;
                     <thead>
                       <tr role="row">
                         <th class="text-center">
-                           <button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+                           <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
                         </th>
                         <?php 
                             //-----order---

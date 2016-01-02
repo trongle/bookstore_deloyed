@@ -73,6 +73,16 @@ class GroupTable extends AbstractTableGateway{
 			$where = array("id" => $arrParam['id']);
 			$this->_tableGateway->update($data,$where);
 		}
+		if($options['task'] == "change-multi-status"){
+			echo "<pre>";
+			print_r($arrParam);
+			echo "</pre>";
+			$data = array(
+				"status" => $arrParam['status']
+			);
+			 $where = "id IN (".implode(",",$arrParam['id']).")";
+			$this->_tableGateway->update($data,$where);
+		}
 	}
 }
 ?>

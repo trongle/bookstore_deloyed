@@ -86,22 +86,29 @@ class GroupController extends AbstractActionController{
 				$ssOrder->offsetUnset("search_key");
 			}	
 		}
-
-		return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
+		return false;
+		//return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
 	}
 
 	public function statusAction(){
+		$task = "";
 		if($this->request->isPost()){
-			if($this->params()->fromPost("id")){
-				$status = array(
-					"status" => $this->params()->fromPost("status"),
-					"id"     => $this->params()->fromPost("id")
-				);
-				$this->getTable()->changeStatus($status,array("task"=>"change-status"));
-				$this->flashMessenger()->addMessage("Trạng thái đã được cập nhật");
+			if(!empty($this->params()->fromPost("id"))){
+				if(is_array($this->params()->fromPost("id"))){
+					$task = "change-multi-status";
+				}else{
+					$task = "change-status";
+				}
 			}
+			$status = array(
+				"status" => $this->params()->fromPost("status"),
+				"id"    =>  $this->params()->fromPost("id")
+			);
+			
+			$this->getTable()->changeStatus($status,array("task"=>$task));
+			$this->flashMessenger()->addMessage("Trạng thái đã được cập nhật");
 		}
-
+		
 		return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
 	}
 
