@@ -52,13 +52,9 @@
     </div>
   </div>
   <ul class="sidebar-menu">
-
-   <?php echo $xhtmlSidebar ?>
-
-    
-
-    
-
+   <?php 
+      echo $xhtmlSidebar 
+   ?>
   </ul>
 </section>
 <script type="text/javascript">

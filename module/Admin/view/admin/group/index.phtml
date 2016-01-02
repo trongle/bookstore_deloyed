@@ -23,6 +23,17 @@ use Zend\Form\Element\Text;
   }
 // LINK FORM
   $linkForm = $this->basePath("admin/group/filter");
+// SEARCH FUNC [SELECT-BOX]
+  $value = array(
+              "name" => "Search by Name",
+              "id"   => "Search by ID",
+              "all"  => "Search All"
+          );
+  $search = $this->paramSetting['search'];
+  $keyword_type = $this->zvnFormSelectBox("search_key",null,$value,$search['search_key']);
+  $keyword_text = $this->zvnFormText("search_value",$search['search_value']);
+  $btn_claer    = $this->zvnFormButton("btn_clear","clear","Clear",array("type"=>"submit"));
+  $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-primary","type"=>"submit"));
 
 ?>
 
@@ -47,30 +58,13 @@ use Zend\Form\Element\Text;
           <div class="box-body">
             <div class="box-header" style="padding-top: 10px;">
                   <!-- SEARCH BOX -->
-                  <div class="col-xs-4">
-                    <div class="dataTables_filter" id="example1_filter" style="float: left;">
-                      <div class="input-group input-group-sm">
-                          <div class="input-group-btn">
-                              <?php
-                                $value = array(
-                                    "name" => "Search by Name",
-                                    "id"   => "Search by ID",
-                                    "all"  => "Search All"
-                                );
-                                $search = $this->paramSetting['search'];
-                                echo $this->zvnFormSelectBox("search_key",null,$value,$search['search_key']);
-                              ?>
-                          </div>
-                              <?php echo $this->zvnFormText("search_value",$search['search_value']); ?>
-                          <span class="input-group-btn">
-                              <?php
-                                echo $this->zvnFormButton("btn_clear","clear","Clear",array("type"=>"submit"));
-                                echo $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-primary","type"=>"submit"));
-                              ?>
-                          </span>
-                      </div>
-                    </div>
-                  </div>
+                    <?php 
+                      echo $this->partial("partial_search.phtml",array(
+                          "keyword_type" => $keyword_type,
+                          "keyword_text" => $keyword_text,
+                          "button"       => $btn_claer.$btn_go
+                      ))
+                    ?>
                   <!-- SELECT BOX -->
                   <div class="col-xs-8 ">
                     <div class="dataTables_filter pull-right">
