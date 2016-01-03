@@ -43,9 +43,9 @@ use Zend\Form\Element\Url;
             <div class="text-center">
               <a class="btn btn-app"><i class="fa fa-repeat"></i> Reload</a>
               <a class="btn btn-app"><i class="fa fa-plus-square-o"></i> Add</a>
-              <a class="btn btn-app" id="btn-status" href="#" onclick="changeMultiStatus(1)"><i class="fa fa-check-circle-o"></i> Active</a>
-              <a class="btn btn-app" href="#" onclick="changeMultiStatus(0)"><i class="fa fa-circle-o"></i> InActive</a>
-              <a class="btn btn-app"><i class="fa fa-minus-circle"></i> Delete</a>  </div><!-- /.box-body -->
+              <a class="btn btn-app btn-status"  onclick="changeMultiStatus(1)"><i class="fa fa-check-circle-o"></i> Active</a>
+              <a class="btn btn-app btn-status"  onclick="changeMultiStatus(0)"><i class="fa fa-circle-o"></i> InActive</a>
+              <a class="btn btn-app btn-status"  onclick="deleteMulti()"><i class="fa fa-minus-circle"></i> Delete</a>  </div><!-- /.box-body -->
 <!-- ALERT -->
             <?php  echo $this->flashMessenger()->render(); ?>
 <!-- END_ALERT -->

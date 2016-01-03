@@ -22,10 +22,17 @@ function changeMultiStatus(type){
 }
 
 function addBadgeForStatus(item){
-    $("#btn-status").prepend("<span class='badge bg-aqua'>"+item+"</span>")
+    $(".btn-status").prepend("<span class='badge bg-aqua'>"+item+"</span>")
     if(item == null){
-        $("#btn-status > span").remove();
+        $(".btn-status > span").remove();
     }
+}
+
+function deleteMulti(){
+    if(!window.confirm("Bạn có chắc muốn xóa ?")){
+      return false;
+    }
+    submitForm("/admin/group/delete");
 }
 
 $(document).ready(function(){

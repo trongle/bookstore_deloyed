@@ -84,5 +84,13 @@ class GroupTable extends AbstractTableGateway{
 			$this->_tableGateway->update($data,$where);
 		}
 	}
+
+	public function deleteItem($arrParam,$options = null){
+		if($options['task'] == "delete-multi"){
+			foreach ($arrParam as  $value) {
+				$this->_tableGateway->delete(array("id"=>$value));
+			}			
+		}
+	}
 }
 ?>

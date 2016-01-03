@@ -114,6 +114,18 @@ class GroupController extends AbstractActionController{
 		return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
 	}
 
+	public function deleteAction(){
+		$message = "Vui lòng chọn phần tử muốn xóa";
+		if($this->request->isPost()){
+			if(!empty($this->request->getPost("id"))){
+				$this->getTable()->deleteItem($this->request->getPost("id"),array("task"=>"delete-multi"));
+				$message = "Các phần tử đã được xóa";
+			}
+		}
+		$this->flashMessenger()->addMessage($message);
+		return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
+	}
+
 	
 }
 ?>
