@@ -14,9 +14,13 @@ use Zend\Form\Element\Url;
         $id         = $item->id;
         $ordering   = $this->zvnFormText("ordering[{$id}]",$item->ordering,array("class"=>"input-order","size"=>"4"));
         $status     = $this->changeStatusLink($id,$item->status);
+        $linkEdit   = $this->url("adminRoute/default",array("controller"=>"group",
+                                                            "action"    =>"edit",
+                                                            "id"        =>$id         
+                                                      ));
         $xhtmlTable .= '<tr class="'.$class.'">
                               <td class="sorting_1"><input type="checkbox" class="check-box" name="id[]" value="'.$id.'" /></td>
-                              <td>'.$name.'</td>
+                              <td><a href="'.$linkEdit.'">'.$name.'</a></td>
                               <td>'.$created.'</td>
                               <td>'.$created_by.'</td>
                               <td>'.$ordering.'</td>

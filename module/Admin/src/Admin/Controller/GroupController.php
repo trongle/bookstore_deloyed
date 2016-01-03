@@ -156,6 +156,25 @@ class GroupController extends AbstractActionController{
 		));
 	}
 
+	public function editAction(){
+		$form = $this->serviceLocator->get("FormElementManager")->get("formAdminGroup");
+		$id   = $this->params("id");
+		$info = $this->getTable()->getItem(array("id"=>$id));
+		$form->bind($info);
+		if($this->request->isPost()){
+			$form->setData($this->request->getPost());
+			if($form->isValid()){				
+				$data = $form->getData(\Zend\Form\FormInterface::VALUES_AS_ARRAY);
+				$this->getTable()->saveItem($data,array("task"=>"edit-item"));
+				$this->flashMessenger()->addMessage("Một Group đã được chỉnh sữa thành công");
+				return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
+			}
+		}
+		return new ViewModel(array(
+			"myForm" => $form
+		));
+	}
+
 	
 }
 ?>

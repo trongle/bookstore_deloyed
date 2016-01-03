@@ -25,7 +25,10 @@ class Group
 	}
 
 	public function getArrayCopy(){
-		return get_object_vars($this);
+		
+		$arr = get_object_vars($this);
+		$arr['status'] = ($arr['status']==1)? "active":"inactive";
+		return $arr;
 	}
 
 }

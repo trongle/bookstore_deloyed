@@ -112,10 +112,17 @@ class GroupTable extends AbstractTableGateway{
 			$this->_tableGateway->insert($arrParam);
 		}
 		if($options['task'] == "edit-item"){
-			echo "<pre>";
-			print_r($arrParam);
-			echo "</pre>";
+			$arrParam['status'] = ($arrParam['status'] == "active") ? 1:(int)0;
+			$arrParam['modified'] = date("Y-m-d H:i:s");
+			$this->_tableGateway->update($arrParam,array("id"=>$arrParam['id'])); 
 		}
+	}
+
+	public function getItem($arrParam,$options = null){
+		return 	$this->_tableGateway->select(function(select $select) use($arrParam){
+				$select->columns(array("id","name","ordering","status"))
+					   ->where(array("id"=>$arrParam["id"]));
+			})->current();
 	}
 }
 ?>

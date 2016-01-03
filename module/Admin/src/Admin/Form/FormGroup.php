@@ -76,6 +76,10 @@ class FormGroup extends Form{
 				)
 			)	
 		));
+		$this->add(array(
+			"name" => "id",
+			"type" => "hidden"
+		));
 	}
 
 	public function showError(){
