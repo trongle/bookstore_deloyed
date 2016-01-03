@@ -4,6 +4,7 @@ namespace Admin\Controller;
 session_start();
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
+use Zend\Stdlib\ArrayObject;
 use Zend\View\Model\ViewModel;
 
 class GroupController extends AbstractActionController{
@@ -140,10 +141,18 @@ class GroupController extends AbstractActionController{
 	}
 
 	public function addAction(){
-		$form = $this->getServiceLocator()->get("FormElementManager")->get("formAdminGroup");
-		if($this->)
+		$form = $this->serviceLocator->get("FormElementManager")->get("formAdminGroup");
+		if($this->request->isPost()){
+			$data = $this->request->getPost();
+			$form->setData($data);
+			if($form->isValid()){
+				$this->getTable()->saveItem($form->getData(),array("task"=>"add-item"));
+				$this->flashMessenger()->addMessage("Một Group đã được thêm thành công");
+				return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
+			}
+		}
 		return new ViewModel(array(
-			"form"=>$form
+			"myForm" => $form
 		));
 	}
 

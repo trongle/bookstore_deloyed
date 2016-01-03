@@ -4,17 +4,18 @@
 </div>
 
 <?php 
-	$form = $this->form;
-	$form->prepare();	
+	$myForm = $this->myForm;
+	$myForm->prepare();	
 ?>
 <div class="box box-info">
+	<?php echo $myForm->showError() ?>
     <div class="box-body">
     	<?php 
-    		echo $this->form()->openTag($form);
+    		echo $this->form()->openTag($myForm);
 	    		echo $this->partialLoop("partial_formAdminGroup.phtml",array(
-	    				array("elm" =>$form->get("name")),
-	    				array("elm" =>$form->get("ordering")),
-	    				array("elm" =>$form->get("status")),
+	    				array("elm" =>$myForm->get("name")),
+	    				array("elm" =>$myForm->get("ordering")),
+	    				array("elm" =>$myForm->get("status")),
 	    			));
     		echo $this->form()->closeTag();
     	?>

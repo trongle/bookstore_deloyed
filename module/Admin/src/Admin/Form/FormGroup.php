@@ -6,7 +6,8 @@ use Zend\Form\Form;
 class FormGroup extends Form{
 	public function __construct(){
 		parent::__construct();
-		$this->setAttributes(array(
+		$this->setAttributes(
+			array(
 				"action" => "#",
 				"method" => "POST",
 				"class"  => "form-horizontal",
@@ -20,6 +21,7 @@ class FormGroup extends Form{
 		$this->add(array(
 			"type" => "text",
 			"name" => "name",
+			"required" => false,
 			"attributes" => array(
 				"class"       => "form-control",
 				"id"          => "name",
@@ -38,6 +40,7 @@ class FormGroup extends Form{
 		$this->add(array(
 			"type" => "text",
 			"name" => "ordering",
+			"required" => false,
 			"attributes" => array(
 				"class"       => "form-control",
 				"id"          => "ordering",
@@ -56,11 +59,12 @@ class FormGroup extends Form{
 		$this->add(array(
 			"type" => "select",
 			"name" => "status",
+			"required" => false,
 			"attributes" => array(
 				"class" => "form-control"
 			),
 			"options" => array(
-				"empty_option"  => "-- Select status",
+				"empty_option"  => "-- Select status --",
 				"value_options" => array(
 					"active"   => "Active",
 					"inactive" => "InActive",
@@ -72,7 +76,17 @@ class FormGroup extends Form{
 				)
 			)	
 		));
+	}
 
+	public function showError(){
+		if(empty($this->getMessages())) return false;
+
+		$error = '<div class="callout callout-danger">';
+		foreach($this->getMessages() as $key=>$val){
+			$error .= sprintf('<p><b>%s : </b>%s</p>',ucfirst($key),current($val));
+		}
+		$error .= '</div>';
+		return $error;
 	}
 }
 ?>

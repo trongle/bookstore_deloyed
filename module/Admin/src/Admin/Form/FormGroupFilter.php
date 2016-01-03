@@ -25,7 +25,7 @@ class FormGroupFilter extends InputFilter{
 						"max" => "200",
 						"messages" => array(
 							\Zend\Validator\StringLength::TOO_SHORT => "Số ký tự phải lớn hơn hoặc bằng %min%",
-							\Zend\Validator\StringLength::TOO_LONG => "Số ký tự phải nhỏ hơn hoặc bằng %max%",
+							\Zend\Validator\StringLength::TOO_LONG  => "Số ký tự phải nhỏ hơn hoặc bằng %max%",
 						)
 					),
 					"break_chain_on_failure" => "true"
@@ -42,12 +42,18 @@ class FormGroupFilter extends InputFilter{
 					"name" => "Digits",
 					"options" => array(
 						"messages" => array(
-							\Zend\Validator\Digits::INVALID => "ký tự phải là số"
+							\Zend\Validator\Digits::NOT_DIGITS => "ký tự phải là số"
 						)
 					),
 					"break_chain_on_failure" => "true"
 				),
 			)
+		));
+
+		//PASSWORD
+		$this->add(array(
+			'name'    => "status",
+			"required" => true
 		));
 	}
 }

@@ -104,5 +104,18 @@ class GroupTable extends AbstractTableGateway{
 			$this->_tableGateway->update($data,$where);
 		}					
 	}
+
+	public function saveItem($arrParam,$options = null){
+		if($options['task'] == "add-item"){
+			$arrParam['status'] = ($arrParam['status']=="active")? 1:int(0);
+			$arrParam['created'] = date("Y-m-d H:i:s");
+			$this->_tableGateway->insert($arrParam);
+		}
+		if($options['task'] == "edit-item"){
+			echo "<pre>";
+			print_r($arrParam);
+			echo "</pre>";
+		}
+	}
 }
 ?>
