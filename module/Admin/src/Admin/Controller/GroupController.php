@@ -10,7 +10,7 @@ class GroupController extends AbstractActionController{
 	protected $_table ;
 	protected $_configPaginator = [
 		"pageRange"   => 3,
-		"itemPerPage" => 3
+		"itemPerPage" => 5
 	];
 	protected $_orderList = [
 		"order"    => "ASC",
@@ -61,8 +61,6 @@ class GroupController extends AbstractActionController{
 				"items"     => $items,
 				"paginator" => \ZendVN\Paginator\Paginator::createPagination($totalItem,$this->_configPaginator),
 				"paramSetting" => $paramSetting
-
-			
 		));
 	}
 
@@ -86,8 +84,8 @@ class GroupController extends AbstractActionController{
 				$ssOrder->offsetUnset("search_key");
 			}	
 		}
-		return false;
-		//return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
+		// return false;
+		return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
 	}
 
 	public function statusAction(){
@@ -124,6 +122,29 @@ class GroupController extends AbstractActionController{
 		}
 		$this->flashMessenger()->addMessage($message);
 		return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
+	}
+
+	public function orderingAction(){
+		$message = "Vui lòng chọn phần tử muốn thay đổi Ordering";
+		if($this->request->isPost()){
+			if(!empty($this->request->getPost("id"))){
+				$this->getTable()->ordering(array(
+					"id"       => $this->request->getPost("id"),
+					"ordering" => $this->request->getPost("ordering")
+				));
+				$message = "Các phần tử đã được thay đổi trạng thái";
+			}		
+		}
+		$this->flashMessenger()->addMessage($message);
+		return $this->redirect()->toRoute("adminRoute/default",array("controller"=>"group","action"=>"index"));
+	}
+
+	public function addAction(){
+		$form = $this->getServiceLocator()->get("FormElementManager")->get("formAdminGroup");
+		if($this->)
+		return new ViewModel(array(
+			"form"=>$form
+		));
 	}
 
 	

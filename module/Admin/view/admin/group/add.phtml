@@ -1,0 +1,22 @@
+<div class="text-center">
+	<a class="btn btn-app" onclick="submitForm('/admin/group/add')"><i class="fa fa-save"></i>Save</a>
+	<a class="btn btn-app"><i class="fa fa-arrow-circle-left"></i>Cancel</a>
+</div>
+
+<?php 
+	$form = $this->form;
+	$form->prepare();	
+?>
+<div class="box box-info">
+    <div class="box-body">
+    	<?php 
+    		echo $this->form()->openTag($form);
+	    		echo $this->partialLoop("partial_formAdminGroup.phtml",array(
+	    				array("elm" =>$form->get("name")),
+	    				array("elm" =>$form->get("ordering")),
+	    				array("elm" =>$form->get("status")),
+	    			));
+    		echo $this->form()->closeTag();
+    	?>
+    </div>
+</div>

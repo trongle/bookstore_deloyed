@@ -35,6 +35,14 @@ function deleteMulti(){
     submitForm("/admin/group/delete");
 }
 
+function ordering(){
+    submitForm("/admin/group/ordering");
+}
+
+function redirect(url){
+    submitForm(url);
+}
+
 $(document).ready(function(){
   //fadeOut alert
   $(".alert-dismissable").fadeOut(3000);

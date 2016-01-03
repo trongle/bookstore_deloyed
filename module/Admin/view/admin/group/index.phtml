@@ -7,42 +7,45 @@ use Zend\Form\Element\Url;
   if(isset($this->items) && !empty($this->items)){
     $xhtmlTable = "";
     foreach($items as $item){
-        $class = $this->cycle(array("odd","even"))->next();
-        $name  = $item->name;
-        $created = date("H:i:s d-m-Y",strtotime($item->created));
+        $class      = $this->cycle(array("odd","even"))->next();
+        $name       = $item->name;
+        $created    = date("H:i:s d-m-Y",strtotime($item->created));
         $created_by = $item->created_by;
-        $order = $item->ordering;
-        $id = $item->id;
-        $status = $this->changeStatusLink($id,$item->status);
-        $xhtmlTable .= sprintf('<tr class="%s">
-                              <td class="sorting_1"><input type="checkbox" class="check-box" name="id[]" value="%s" /></td>
-                              <td>%s</td><td>%s</td><td>%s</td><td><input class="input-order" size="4" type="text" value="%s"/></td>
-                              %s 
-                              <td>%s</td>
-                        </tr>',$class,$id,$name,$created,$created_by,$order,$status,$id);
+        $id         = $item->id;
+        $ordering   = $this->zvnFormText("ordering[{$id}]",$item->ordering,array("class"=>"input-order","size"=>"4"));
+        $status     = $this->changeStatusLink($id,$item->status);
+        $xhtmlTable .= '<tr class="'.$class.'">
+                              <td class="sorting_1"><input type="checkbox" class="check-box" name="id[]" value="'.$id.'" /></td>
+                              <td>'.$name.'</td>
+                              <td>'.$created.'</td>
+                              <td>'.$created_by.'</td>
+                              <td>'.$ordering.'</td>
+                              '.$status.' 
+                              <td>'.$id.'</td>
+                        </tr>'; 
     }
   }
 // LINK FORM
-  $linkForm = $this->basePath("admin/group/filter");
+$linkForm = $this->basePath("admin/group/filter");
 // SEARCH FUNC [SELECT-BOX]
-  $value = array(
-              "name" => "Search by Name",
-              "id"   => "Search by ID",
-              "all"  => "Search All"
-          );
-  $search = $this->paramSetting['search'];
-  $keyword_type = $this->zvnFormSelectBox("search_key",null,$value,$search['search_key']);
-  $keyword_text = $this->zvnFormText("search_value",$search['search_value']);
-  $btn_claer    = $this->zvnFormButton("btn_clear","clear","Clear",array("type"=>"submit"));
-  $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-primary","type"=>"button"));
+$value = array(
+    "name" => "Search by Name",
+    "id"   => "Search by ID",
+    "all"  => "Search All"
+);
+$search       = $this->paramSetting['search'];
+$keyword_type = $this->zvnFormSelectBox("search_key",null,$value,$search['search_key']);
+$keyword_text = $this->zvnFormText("search_value",$search['search_value'],array("class"=>"form-control input-sm "));
+$btn_claer    = $this->zvnFormButton("btn_clear","clear","Clear",array("type"=>"submit"));
+$btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-primary","type"=>"button"));
 
 ?>
 
 <div class="row">
           <!-- BUTTON -->
             <div class="text-center">
-              <a class="btn btn-app"><i class="fa fa-repeat"></i> Reload</a>
-              <a class="btn btn-app"><i class="fa fa-plus-square-o"></i> Add</a>
+              <a class="btn btn-app btn-status"  onclick="ordering()"><i class="fa fa-repeat"></i> Reload</a>
+              <a class="btn btn-app " onclick="redirect('/admin/group/add')"><i class="fa fa-plus-square-o"></i> Add</a>
               <a class="btn btn-app btn-status"  onclick="changeMultiStatus(1)"><i class="fa fa-check-circle-o"></i> Active</a>
               <a class="btn btn-app btn-status"  onclick="changeMultiStatus(0)"><i class="fa fa-circle-o"></i> InActive</a>
               <a class="btn btn-app btn-status"  onclick="deleteMulti()"><i class="fa fa-minus-circle"></i> Delete</a>  </div><!-- /.box-body -->

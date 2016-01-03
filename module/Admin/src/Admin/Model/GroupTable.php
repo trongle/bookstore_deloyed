@@ -92,5 +92,17 @@ class GroupTable extends AbstractTableGateway{
 			}			
 		}
 	}
+
+	public function ordering($arrParam,$options = null){
+		foreach ($arrParam["id"] as  $id) {
+			$data = array(
+				"ordering" => $arrParam["ordering"][$id]
+			);
+			$where = array(
+				"id" => $id
+			);
+			$this->_tableGateway->update($data,$where);
+		}					
+	}
 }
 ?>

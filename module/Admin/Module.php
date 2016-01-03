@@ -97,5 +97,17 @@ class Module {
     		)
     	);
     }
+
+    public function getFormElementConfig(){
+    	return array(
+    		"factories" => array(
+    			"formAdminGroup" => function($sm){
+    				$form = new \Admin\Form\FormGroup();
+                    $form->setInputFilter(new \Admin\Form\FormGroupFilter());
+                    return $form;
+    			}
+    		)
+    	);
+    }
 }
 ?>

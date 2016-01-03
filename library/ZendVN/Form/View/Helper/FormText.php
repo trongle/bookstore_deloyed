@@ -15,7 +15,7 @@ class FormText extends ZendFormText{
 	}
 
 	public function setDefaultAttributes($attributes){
-		$attributes['class'] = "form-control input-sm ". (isset($attributes['class'])? $attributes['class'] : "col-xs-2");
+		$attributes['class'] =  (isset($attributes['class'])? $attributes['class'] : "col-xs-2");
 		return $attributes;
 	}
 }
