@@ -118,6 +118,7 @@ class GroupTable extends AbstractTableGateway{
 			$arrParam['status'] = ($arrParam['status']=="active")? 1:0;
 			$arrParam['created'] = date("Y-m-d H:i:s");
 			$this->_tableGateway->insert($arrParam);
+			return $this->_tableGateway->getLastInsertValue();
 		}
 		if($options['task'] == "edit-item"){
 			$arrParam['status'] = ($arrParam['status'] == "active") ? 1:0;

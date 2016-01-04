@@ -12,7 +12,9 @@
 			break;
 		case 'add':
 		case 'edit':
-			echo $this->buttonTool("Save","fa-save","submit","no");
+			echo $this->buttonTool("Save","fa-save","save","no");
+			echo $this->buttonTool("Save & Close","fa-folder-open-o","save-close","no");
+			echo $this->buttonTool("Save & New","fa-plus-square","save-new","no");
 			echo $this->buttonTool("Cancel","fa-arrow-circle-left",null,"no","/admin/group/index");
 			break;
 		default:

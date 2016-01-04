@@ -35,6 +35,11 @@ function deleteMulti(){
     submitForm("/admin/group/delete");
 }
 
+function saveAction(type){
+  $("input[name=action]").val(type);
+  submitForm();
+}
+
 $(document).ready(function(){
         //event for Button    
         $("a[data-type=ordering]").click(function(){
@@ -49,8 +54,14 @@ $(document).ready(function(){
         $("a[data-type=delete]").click(function(){
           deleteMulti()
         })
-        $("a[data-type=submit]").click(function(){
-          submitForm()
+        $("a[data-type=save]").click(function(){
+          saveAction("save");
+        })
+        $("a[data-type=save-close]").click(function(){
+          saveAction("save-close");
+        })
+        $("a[data-type=save-new]").click(function(){
+          saveAction("save-new");
         })
 
 

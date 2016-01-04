@@ -118,10 +118,16 @@ class GroupController extends MyAbstractController{
 		$form = $this->getForm();
 		if($this->request->isPost()){
 			$form->setData($this->_mainParam["data"]);
+			$action = $this->_mainParam["data"]["action"];
 			if($form->isValid()){
-				$this->getTable()->saveItem($form->getData(),array("task"=>"add-item"));
+				$id = $this->getTable()->saveItem($form->getData(),array("task"=>"add-item"));
 				$this->flashMessenger()->addMessage("Một Group đã được thêm thành công");
-				return $this->toAction();
+				if($action == "save-new") $this->toAction(array("action" => "add"));
+				if($action == "save-close") $this->toAction();
+				if($action == "save") $this->toAction(array(
+																"action" => "edit",
+																"id"     => $id
+															));
 			}
 		}
 		return new ViewModel(array(
@@ -136,11 +142,17 @@ class GroupController extends MyAbstractController{
 		$form->bind($info);
 		if($this->request->isPost()){
 			$form->setData($this->_mainParam["data"]);
+			$action = $this->_mainParam["data"]["action"];
 			if($form->isValid()){				
 				$data = $form->getData(\Zend\Form\FormInterface::VALUES_AS_ARRAY);
 				$this->getTable()->saveItem($data,array("task"=>"edit-item"));
 				$this->flashMessenger()->addMessage("Một Group đã được chỉnh sữa thành công");
-				return $this->toAction();
+				if($action == "save-new") $this->toAction(array("action" => "add"));
+				if($action == "save-close") $this->toAction();
+				if($action == "save") $this->toAction(array(
+															"action" => "edit",
+															"id"     => $this->_mainParam["data"]['id']
+														));
 			}
 		}
 		return new ViewModel(array(

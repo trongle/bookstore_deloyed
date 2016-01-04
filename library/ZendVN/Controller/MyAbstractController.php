@@ -79,9 +79,12 @@ class MyAbstractController extends AbstractActionController
 	public function toAction(array $actionInfo = null){
 		$actionInfo["controller"] = (isset($actionInfo["controller"]))? $actionInfo["controller"] : $this->_mainParam['controller'];
 		$actionInfo["action"]     = (isset($actionInfo["action"]))? $actionInfo["action"] : "index";
+		$actionInfo["id"]         = (isset($actionInfo["id"]))? $actionInfo["id"] : null ;
 		return $this->redirect()->toRoute("adminRoute/default",array(
-																"controller"=>$actionInfo["controller"],
-																"action"=>$actionInfo["action"]));
+																	"controller" =>$actionInfo["controller"],
+																	"action"     =>$actionInfo["action"],
+																	"id"         =>$actionInfo["id"]
+																));
 	}
 }
 ?>
