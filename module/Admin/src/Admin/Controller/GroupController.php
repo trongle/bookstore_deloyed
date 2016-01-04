@@ -6,14 +6,17 @@ use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
 class GroupController extends MyAbstractController{
-	protected $_table ;
 	protected $_configPaginator = [
 		"pageRange"   => 3,
 		"itemPerPage" => 5
 	];
 	protected $_orderList = [
-		"order"    => "ASC",
+		"order"    => "DESC",
 		"order_by" => "id"
+	];
+	protected $_options = [
+		"tableName" => "GroupTable",
+		"formName"  => "formAdminGroup"
 	];
 
 	protected $_search = [
@@ -21,44 +24,34 @@ class GroupController extends MyAbstractController{
 		"search_value" => null
 	];
 
-	public function getTable(){
-		if($this->_table == ""){
-			$this->_table = $this->getServiceLocator()->get("GroupTable");
-		};
-		return $this->_table;		
-	}
-	public function indexAction(){
-		$this->_configPaginator['curentPage'] = $this->params()->fromRoute("page",1);
+	protected $_filter_status;
 
+	public function init(){
 		$ssOrder = new Container(__NAMESPACE__);
-		if($ssOrder->offsetExists('order') && $ssOrder->offsetExists('order_by') ){
-			$this->_orderList['order']    = $ssOrder->offsetGet("order");
-			$this->_orderList['order_by'] = $ssOrder->offsetGet("order_by");
-		}
+		//SET FILTER 
+		$this->_orderList['order']     = !empty($ssOrder->order)? $ssOrder->order : $this->_orderList['order'] ;
+		$this->_orderList['order_by']  = !empty($ssOrder->order_by)? $ssOrder->order_by : $this->_orderList['order_by'];
+		$this->_filter_status          = $ssOrder->filter_status;
+		$this->_search['search_key']   = $ssOrder->search_key;
+		$this->_search['search_value'] = $ssOrder->search_value;
 
-		$filter_status = "";
-		if($ssOrder->offsetExists('filter_status')){
-			$filter_status = $ssOrder->offsetGet("filter_status");
-		}
+		//SET PAGINATOR
+		$this->_configPaginator['curentPage'] = $this->params()->fromRoute("page",1);
+		$this->_mainParam =array_merge($this->_mainParam,array(
+														"paginator"     => $this->_configPaginator,
+														"order"         => $this->_orderList,
+														"filter_status" => $this->_filter_status,
+														"search"        => $this->_search
+													));
+	}
 
-		if($ssOrder->offsetExists('search_key') && $ssOrder->offsetExists('search_value') ){
-			$this->_search['search_key']   = $ssOrder->offsetGet("search_key");
-			$this->_search['search_value'] = $ssOrder->offsetGet("search_value");
-		}
-
-		$paramSetting = [
-			"paginator"     => $this->_configPaginator,
-			"order"         => $this->_orderList,
-			"filter_status" => $filter_status,
-			"search"        => $this->_search
-		];
-
-		$items = $this->getTable()->listItem($paramSetting,array("task"=>"list-item"));
-		$totalItem = $this->getTable()->countItem($paramSetting);
+	public function indexAction(){
+		$items = $this->getTable()->listItem($this->_mainParam,array("task"=>"list-item"));
+		$totalItem = $this->getTable()->countItem($this->_mainParam);
 		return new ViewModel(array(
 				"items"     => $items,
 				"paginator" => \ZendVN\Paginator\Paginator::createPagination($totalItem,$this->_configPaginator),
-				"paramSetting" => $paramSetting
+				"paramSetting" => $this->_mainParam
 		));
 	}
 
@@ -138,7 +131,7 @@ class GroupController extends MyAbstractController{
 	}
 
 	public function addAction(){
-		$form = $this->serviceLocator->get("FormElementManager")->get("formAdminGroup");
+		$form = $this->getForm();
 		if($this->request->isPost()){
 			$data = $this->request->getPost();
 			$form->setData($data);
@@ -154,7 +147,7 @@ class GroupController extends MyAbstractController{
 	}
 
 	public function editAction(){
-		$form = $this->serviceLocator->get("FormElementManager")->get("formAdminGroup");
+		$form = $this->getForm();
 		$id   = $this->params("id");
 		$info = $this->getTable()->getItem(array("id"=>$id));
 		$form->bind($info);
