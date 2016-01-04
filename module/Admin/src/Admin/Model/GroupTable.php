@@ -72,47 +72,55 @@ class GroupTable extends AbstractTableGateway{
 			);
 			$where = array("id" => $arrParam['id']);
 			$this->_tableGateway->update($data,$where);
+			return true;
 		}
 		if($options['task'] == "change-multi-status"){
-			echo "<pre>";
-			print_r($arrParam);
-			echo "</pre>";
 			$data = array(
 				"status" => $arrParam['status']
 			);
 			 $where = "id IN (".implode(",",$arrParam['id']).")";
 			$this->_tableGateway->update($data,$where);
+			return true;
 		}
+		return false;
 	}
 
 	public function deleteItem($arrParam,$options = null){
 		if($options['task'] == "delete-multi"){
-			foreach ($arrParam as  $value) {
-				$this->_tableGateway->delete(array("id"=>$value));
-			}			
+			if(!empty($arrParam)){
+				foreach ($arrParam as  $value) {
+					$this->_tableGateway->delete(array("id"=>$value));
+				}	
+				return true;
+			}				
 		}
+		return false;
 	}
 
 	public function ordering($arrParam,$options = null){
-		foreach ($arrParam["id"] as  $id) {
-			$data = array(
-				"ordering" => $arrParam["ordering"][$id]
-			);
-			$where = array(
-				"id" => $id
-			);
-			$this->_tableGateway->update($data,$where);
-		}					
+		if(!empty($arrParam['id'])){
+			foreach ($arrParam["id"] as  $id) {
+				$data = array(
+					"ordering" => $arrParam["ordering"][$id]
+				);
+				$where = array(
+					"id" => $id
+				);
+				$this->_tableGateway->update($data,$where);
+			}	
+			return true;
+		}
+		return false;						
 	}
 
 	public function saveItem($arrParam,$options = null){
 		if($options['task'] == "add-item"){
-			$arrParam['status'] = ($arrParam['status']=="active")? 1:int(0);
+			$arrParam['status'] = ($arrParam['status']=="active")? 1:0;
 			$arrParam['created'] = date("Y-m-d H:i:s");
 			$this->_tableGateway->insert($arrParam);
 		}
 		if($options['task'] == "edit-item"){
-			$arrParam['status'] = ($arrParam['status'] == "active") ? 1:(int)0;
+			$arrParam['status'] = ($arrParam['status'] == "active") ? 1:0;
 			$arrParam['modified'] = date("Y-m-d H:i:s");
 			$this->_tableGateway->update($arrParam,array("id"=>$arrParam['id'])); 
 		}

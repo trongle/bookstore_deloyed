@@ -37,7 +37,7 @@ function deleteMulti(){
 
 $(document).ready(function(){
   //fadeOut alert
-  $(".alert-dismissable").fadeOut(3000);
+  $(".alert-dismissable").fadeOut(6000);
 
 
   $("select[name=filter_status]").on("change",function(){
