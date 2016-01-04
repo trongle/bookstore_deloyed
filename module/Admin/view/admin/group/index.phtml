@@ -2,6 +2,7 @@
 
 use Zend\Form\Element\Text;
 use Zend\Form\Element\Url;
+$currentController = $this->paramSetting["controller"];
 //DATA LIST-ITEM
   $xhtmlTable = 'Không có dữ liệu ';
   if(isset($this->items) && !empty($this->items)){
@@ -14,7 +15,7 @@ use Zend\Form\Element\Url;
         $id         = $item->id;
         $ordering   = $this->zvnFormText("ordering[{$id}]",$item->ordering,array("class"=>"input-order","size"=>"4"));
         $status     = $this->changeStatusLink($id,$item->status);
-        $linkEdit   = $this->url("adminRoute/default",array("controller"=>"group",
+        $linkEdit   = $this->linkToGo("adminRoute/default",array("controller"=>"group",
                                                             "action"    =>"edit",
                                                             "id"        =>$id         
                                                       ));
@@ -116,7 +117,7 @@ $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-pri
             </div></div>
             <div class="row">
             <?php
-              $realURL = $this->url("adminRoute/paginator",array("controller"=>"group"));
+              $realURL = $this->linkToGo("adminRoute/paginator",array("controller"=>"group"));
               echo $this->paginationControl($this->paginator,null,"paginator.phtml",array("realURL"=>$realURL));
             ?>
             </div>
