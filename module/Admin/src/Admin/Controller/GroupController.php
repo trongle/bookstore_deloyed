@@ -1,13 +1,11 @@
 <?php 
 
 namespace Admin\Controller;
-session_start();
-use Zend\Mvc\Controller\AbstractActionController;
+use ZendVN\Controller\MyAbstractController;
 use Zend\Session\Container;
-use Zend\Stdlib\ArrayObject;
 use Zend\View\Model\ViewModel;
 
-class GroupController extends AbstractActionController{
+class GroupController extends MyAbstractController{
 	protected $_table ;
 	protected $_configPaginator = [
 		"pageRange"   => 3,
@@ -30,7 +28,6 @@ class GroupController extends AbstractActionController{
 		return $this->_table;		
 	}
 	public function indexAction(){
-		
 		$this->_configPaginator['curentPage'] = $this->params()->fromRoute("page",1);
 
 		$ssOrder = new Container(__NAMESPACE__);

@@ -1,5 +1,7 @@
 <?php
 
+echo $this->params['module'];
+
 use Zend\Form\Element\Text;
 use Zend\Form\Element\Url;
 //DATA LIST-ITEM
@@ -41,7 +43,7 @@ $search       = $this->paramSetting['search'];
 $keyword_type = $this->zvnFormSelectBox("search_key",null,$value,$search['search_key']);
 $keyword_text = $this->zvnFormText("search_value",$search['search_value'],array("class"=>"form-control input-sm "));
 $btn_claer    = $this->zvnFormButton("btn_clear","clear","Clear",array("type"=>"submit"));
-$btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-primary","type"=>"button"));
+$btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-primary","type"=>"submit"));
 
 ?>
 

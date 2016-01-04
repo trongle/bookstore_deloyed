@@ -1,4 +1,7 @@
 <?php 
+echo "<pre>";
+print_r($this->params);
+echo "</pre>";
 	// admin/index/index  =>   <h1>Dashboard<small>Control panel</small></h1>
 	// admin/group/index  =>   <h1>Group<small>list</small></h1>
 	// admin/group/add    =>   <h1>Group<small>add</small></h1>

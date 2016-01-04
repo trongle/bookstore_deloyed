@@ -12,34 +12,34 @@ class Module {
 	   $moduleRouteListener = new ModuleRouteListener();
 	   $moduleRouteListener->attach($eventManager);
 
-	   $eventManager->attach("dispatch",array($this,"layoutForModule"));
-	   $eventManager->attach("dispatch",array($this,"setHeader"));
+	   // $eventManager->attach("dispatch",array($this,"layoutForModule"));
+	   // $eventManager->attach("dispatch",array($this,"setHeader"));
 	}
 
-	public function layoutForModule(MvcEvent $e){
-		$routerMatch     = $e->getRouteMatch();
-		$arrayController = explode("\\",$routerMatch->getParam("controller"));
-		$module          = strtolower($arrayController[0]);
-		//đọc layout.config.php
-		$config = $e->getApplication()->getServiceManager()->get("config");
-		$layout = $config["module_for_layouts"][$module];
+	// public function layoutForModule(MvcEvent $e){
+	// 	$routerMatch     = $e->getRouteMatch();
+	// 	$arrayController = explode("\\",$routerMatch->getParam("controller"));
+	// 	$module          = strtolower($arrayController[0]);
+	// 	//đọc layout.config.php
+	// 	$config = $e->getApplication()->getServiceManager()->get("config");
+	// 	$layout = $config["module_for_layouts"][$module];
 	
-		$controller = $e->getTarget();
-		$controller->layout($layout);
-	}
+	// 	$controller = $e->getTarget();
+	// 	$controller->layout($layout);
+	// }
 
-	public function setHeader(MvcEvent $e){
-		$routerMatch = $e->getRouteMatch();
-		$arrayController = explode("\\",$routerMatch->getParam("controller"));
+	// public function setHeader(MvcEvent $e){
+	// 	$routerMatch = $e->getRouteMatch();
+	// 	$arrayController = explode("\\",$routerMatch->getParam("controller"));
 
-		$viewModel = $e->getViewModel();
-		//truyền ra cho layout
-		$viewModel->params = array(
-			"module" => strtolower($arrayController[0])
-			,"controller" => strtolower($arrayController[2])
-			,"action" => strtolower($routerMatch->getParam("action"))
-		);
-	}
+	// 	$viewModel = $e->getViewModel();
+	// 	//truyền ra cho layout
+	// 	$viewModel->params = array(
+	// 		"module"      => strtolower($arrayController[0])
+	// 		,"controller" => strtolower($arrayController[2])
+	// 		,"action"     => strtolower($routerMatch->getParam("action"))
+	// 	);
+	// }
 	public function getConfig(){
 		
 		return array_merge(
