@@ -95,6 +95,7 @@ class Module {
 				"zvnFormButton"    => "ZendVN\Form\View\Helper\FormButton",
 				"changeStatusLink" => "ZendVN\View\Helper\ChangeStatusLink",
 				"linkToGo" 		   => "ZendVN\View\Helper\LinkToGo",
+				"buttonTool" 	   => "ZendVN\View\Helper\ButtonTool",
     		)
     	);
     }

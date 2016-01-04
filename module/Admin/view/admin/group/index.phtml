@@ -47,13 +47,9 @@ $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-pri
 ?>
 
 <div class="row">
-          <!-- BUTTON -->
-            <div class="text-center">
-              <a class="btn btn-app btn-status"  onclick="submitForm('/admin/group/ordering')"><i class="fa fa-repeat"></i> Reload</a>
-              <a class="btn btn-app " href="/admin/group/add"><i class="fa fa-plus-square-o"></i> Add</a>
-              <a class="btn btn-app btn-status"  onclick="changeMultiStatus(1)"><i class="fa fa-check-circle-o"></i> Active</a>
-              <a class="btn btn-app btn-status"  onclick="changeMultiStatus(0)"><i class="fa fa-circle-o"></i> InActive</a>
-              <a class="btn btn-app btn-status"  onclick="deleteMulti()"><i class="fa fa-minus-circle"></i> Delete</a>  </div><!-- /.box-body -->
+          <!-- BUTTON-TOOL -->
+            <?php  echo $this->render("area_button.phtml"); ?>
+          <!-- /.box-body -->
 <!-- ALERT -->
             <?php  echo $this->flashMessenger()->render(); ?>
 <!-- END_ALERT -->

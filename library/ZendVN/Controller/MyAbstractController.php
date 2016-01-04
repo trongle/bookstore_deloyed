@@ -48,6 +48,7 @@ class MyAbstractController extends AbstractActionController
 
 	public function onInit(MvcEvent $e){
 		$routerMatch     = $e->getRouteMatch();
+		
 		$arrayController = explode("\\",$routerMatch->getParam("controller"));
 		$module          = strtolower($arrayController[0]);
 
