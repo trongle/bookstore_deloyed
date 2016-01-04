@@ -16,7 +16,7 @@ $currentController = $this->paramSetting["controller"];
         $ordering   = $this->zvnFormText("ordering[{$id}]",$item->ordering,array("class"=>"input-order","size"=>"4"));
         $status     = $this->changeStatusLink($id,$item->status);
         $linkEdit   = $this->linkToGo("adminRoute/default",array("controller"=>"group",
-                                                            "action"    =>"edit",
+                                                            "action"    =>"save",
                                                             "id"        =>$id         
                                                       ));
         $xhtmlTable .= '<tr class="'.$class.'">

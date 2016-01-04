@@ -124,6 +124,7 @@ class GroupTable extends AbstractTableGateway{
 			$arrParam['status'] = ($arrParam['status'] == "active") ? 1:0;
 			$arrParam['modified'] = date("Y-m-d H:i:s");
 			$this->_tableGateway->update($arrParam,array("id"=>$arrParam['id'])); 
+			return $arrParam['id'];
 		}
 	}
 
