@@ -129,15 +129,27 @@ class UserTable extends AbstractTableGateway{
 	}
 
 	public function saveItem($arrParam,$options = null){
+		
 		if($options['task'] == "add-item"){
 			$arrParam['status'] = ($arrParam['status']=="active")? 1:0;
 			$arrParam['created'] = date("Y-m-d H:i:s");
+			$arrParam['password'] = md5($arrParam['password']);		
+			$arrParam['group_id'] = $arrParam["group"];
+			unset($arrParam["group"]); 
 			$this->_tableGateway->insert($arrParam);
 			return $this->_tableGateway->getLastInsertValue();
 		}
 		if($options['task'] == "edit-item"){
 			$arrParam['status'] = ($arrParam['status'] == "active") ? 1:0;
 			$arrParam['modified'] = date("Y-m-d H:i:s");
+			$arrParam['group_id'] = $arrParam["group"];
+			unset($arrParam["group"]);
+			//kiem tra neu co nhap password
+			if(empty($arrParam["password"])){
+				unset($arrParam["password"]);
+			}else{
+				$arrParam["password"] = md5($arrParam["password"]);
+			}
 			$this->_tableGateway->update($arrParam,array("id"=>$arrParam['id'])); 
 			return $arrParam['id'];
 		}
@@ -145,7 +157,7 @@ class UserTable extends AbstractTableGateway{
 
 	public function getItem($arrParam,$options = null){
 		return 	$this->_tableGateway->select(function(select $select) use($arrParam){
-				$select->columns(array("id","name","ordering","status"))
+				$select->columns(array("id","username","email","group_id","fullname","ordering","status"))
 					   ->where(array("id"=>$arrParam["id"]));
 			})->current();
 	}

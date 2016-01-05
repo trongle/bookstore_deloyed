@@ -48,6 +48,8 @@ class User
 		
 		$arr = get_object_vars($this);
 		$arr['status'] = ($arr['status']==1)? "active":"inactive";
+		$arr['group']  = $arr['group_id'];
+		unset($arr['group_id']);
 		return $arr;
 	}
 

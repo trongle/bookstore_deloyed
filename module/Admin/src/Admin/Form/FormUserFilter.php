@@ -1,13 +1,27 @@
 <?php 
 namespace Admin\Form;
 
+use Zend\Db\TableGateway\Feature\GlobalAdapterFeature;
 use Zend\InputFilter\InputFilter;
 
 class FormUserFilter extends InputFilter{
-	public function __construct(){
+	public function __construct(array $options = null){
+		$exclude = null;
+		$requirePassword = true;
+		//danh cho edit
+		if($options["id"] != null){
+			$exclude = array(
+						"field" => "id",
+						"value" => "8"
+					);
+			$requirePassword = false;
+		}
+
+
+
 		//name
 		$this->add(array(
-			'name'    => "name",
+			'name'    => "username",
 			"validators" => array(
 				array(
 					"name" => "NotEmpty",
@@ -29,20 +43,49 @@ class FormUserFilter extends InputFilter{
 						)
 					),
 					"break_chain_on_failure" => "true"
-				)			
+				),
+				array(
+					"name" => "DbNoRecordExists",
+					"options" => array(
+						"table"   => "user",
+						"field"   => "username",
+						"adapter" => GlobalAdapterFeature::getStaticAdapter(),
+						"exclude" => $exclude,
+						"messages" => array(
+							\Zend\Validator\Db\NoRecordExists::ERROR_RECORD_FOUND => "Username đã tồn tại"
+						)
+					),
+					"break_chain_on_failure" => "true"
+				),			
 			)
 			
 		));
 
-		//PASSWORD
+		//email
 		$this->add(array(
-			'name'    => "ordering",
+			'name'    => "email",
 			"validators" => array(
 				array(
-					"name" => "Digits",
+					"name" => "EmailAddress",
 					"options" => array(
 						"messages" => array(
-							\Zend\Validator\Digits::NOT_DIGITS => "ký tự phải là số"
+							\Zend\Validator\EmailAddress::INVALID_FORMAT   => "Email không hợp lệ",
+							\Zend\Validator\EmailAddress::INVALID_HOSTNAME => "Email không hợp lệ",
+							\Zend\Validator\EmailAddress::INVALID          => "Email không hợp lệ",
+							\Zend\Validator\EmailAddress::DOT_ATOM         => "Email không hợp lệ",
+						)
+					),
+					"break_chain_on_failure" => "true"
+				),
+				array(
+					"name" => "DbNoRecordExists",
+					"options" => array(
+						"table"   => "user",
+						"field"   => "email",
+						"adapter" => GlobalAdapterFeature::getStaticAdapter(),
+						"exclude" => $exclude,
+						"messages" => array(
+							\Zend\Validator\Db\NoRecordExists::ERROR_RECORD_FOUND => "Email đã tồn tại"
 						)
 					),
 					"break_chain_on_failure" => "true"
@@ -50,7 +93,37 @@ class FormUserFilter extends InputFilter{
 			)
 		));
 
-		//PASSWORD
+		//password
+		$this->add(array(
+			'name'    => "password",
+			"required" => $requirePassword,
+			"validators" => array(
+				array(
+					"name" => "Regex",
+					"options" => array(
+						"pattern"  => "#^(?=.*\d)(?=.*[A-Z])(?=.*\W).{8,15}$#",
+						"messages" => array(
+							\Zend\Validator\Regex::NOT_MATCH => "password phải có ít nhất 1 ký tự HOA,1 thường ,1 đặc biệt @,một số 1"
+						),
+					),
+					"break_chain_on_failure" => "true"
+				),
+				array(
+					"name" => "StringLength",
+					"options" => array(
+						"min"  => "8",
+						"max"  => "15",
+						"messages" => array(
+							\Zend\Validator\StringLength::TOO_SHORT => "mật khẩu phải có ít nhất 8 ký tự",
+							\Zend\Validator\StringLength::TOO_LONG  => "mật khẩu phải ngắn hơn 15 ký tự",
+						),
+					),
+					"break_chain_on_failure" => "true"
+				),
+			)
+		));
+
+		//status
 		$this->add(array(
 			'name'    => "status",
 			"required" => true

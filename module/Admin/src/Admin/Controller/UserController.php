@@ -123,35 +123,36 @@ class UserController extends MyAbstractController{
 
 	public function saveAction(){
 		$form = $this->getForm();
-		// $this->_mainParam["data"]['id']   = $this->params("id");
-		// $info = $this->getTable()->getItem(array("id"=>$this->_mainParam["data"]['id']));
+		$this->_mainParam["data"]['id']   = $this->params("id");
+		$info = $this->getTable()->getItem(array("id"=>$this->_mainParam["data"]['id']));
 
-		// $task    = "add-item";
-		// $title   = " - Group - Add";
-		// $message = "Một Group đã được thêm thành công";
-		// if(!empty($info)){
-		// 	$form->bind($info);
-		// 	$task = "edit-item";
-		// 	$message = "Một Group đã được chỉnh sữa thành công";
-		// 	$title = " - Group - Edit";
-		// }
-		// $this->headTitle($title);
+		$task    = "add-item";
+		$title   = " - User - Add";
+		$message = "Một User đã được thêm thành công";
+		if(!empty($info)){
+			$form->bind($info);
+			$form->setInputFilter(new \Admin\Form\FormUserFilter(array("id"=>$this->_mainParam["data"]['id'])));
+			$task = "edit-item";
+			$message = "Một User đã được chỉnh sữa thành công";
+			$title = " - User - Edit";
+		}
+		$this->headTitle($title);
 		
-		// if($this->request->isPost()){
-		// 	$form->setData($this->_mainParam["data"]);
-		// 	$action = $this->_mainParam["data"]["action"];
-		// 	if($form->isValid()){				
-		// 		$data = $form->getData(\Zend\Form\FormInterface::VALUES_AS_ARRAY);
-		// 		$id   = $this->getTable()->saveItem($data,array("task"=> $task));
-		// 		$this->flashMessenger()->addMessage($message);
-		// 		if($action == "save-new") $this->toAction(array("action" => "save"));
-		// 		if($action == "save-close") $this->toAction();
-		// 		if($action == "save") $this->toAction(array(
-		// 													"action" => "save",
-		// 													"id"     => $id
-		// 												));
-		// 	}
-		// }
+		if($this->request->isPost()){
+			$form->setData($this->_mainParam["data"]);
+			$action = $this->_mainParam["data"]["action"];
+			if($form->isValid()){				
+				$data = $form->getData(\Zend\Form\FormInterface::VALUES_AS_ARRAY);
+				$id   = $this->getTable()->saveItem($data,array("task"=> $task));
+				$this->flashMessenger()->addMessage($message);
+				if($action == "save-new") $this->toAction(array("action" => "save"));
+				if($action == "save-close") $this->toAction();
+				if($action == "save") $this->toAction(array(
+															"action" => "save",
+															"id"     => $id
+														));
+			}
+		}
 		return new ViewModel(array(
 			"myForm" => $form
 		));

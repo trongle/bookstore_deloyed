@@ -3,6 +3,7 @@ namespace Admin;
 
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\Feature\GlobalAdapterFeature;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
@@ -14,6 +15,8 @@ class Module {
 	   $moduleRouteListener = new ModuleRouteListener();
 	   $moduleRouteListener->attach($eventManager);
 
+	   $adapter = $e->getApplication()->getServiceManager()->get("dbConfig");
+	   GlobalAdapterFeature::setStaticAdapter($adapter);
 	   // $eventManager->attach("dispatch",array($this,"layoutForModule"));
 	   // $eventManager->attach("dispatch",array($this,"setHeader"));
 	}

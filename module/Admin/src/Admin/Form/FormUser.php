@@ -77,7 +77,7 @@ class FormUser extends Form{
 
 		//email
 		$this->add(array(
-			"type" => "email",
+			"type" => "text",
 			"name" => "email",
 			"required" => false,
 			"attributes" => array(
@@ -116,7 +116,7 @@ class FormUser extends Form{
 		//group
 		$this->add(array(
 			"type" => "select",
-			"name" => "group_id",
+			"name" => "group",
 			"required" => false,
 			"attributes" => array(
 				"class" => "form-control"
