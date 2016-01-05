@@ -15,23 +15,26 @@ class UserTable extends AbstractTableGateway{
 	public function countItem($arrParam = null,$options = null){
 		$result = $this->_tableGateway->select(function(Select $select) use($arrParam){
 			if(!empty($arrParam['filter_status'])){
-					$status = ($arrParam['filter_status']=="active")? 1:0;
-					$select->where->equalTo("status",(int)$status);
+				$status = ($arrParam['filter_status']=="active")? 1:0;
+				$select->where->equalTo("status",(int)$status);
 			}
 
+			if(!empty($arrParam['filter_group'])){
+				$select->where->equalTo("group_id",$arrParam['filter_group']);
+			} 
+
 			if(!empty($arrParam['search']['search_value']) && !empty($arrParam['search']['search_key'])){
-					if($arrParam['search']['search_key'] != "all"){
-						$select->where->like("user.".$arrParam['search']['search_key'],
-											 "%".$arrParam['search']['search_value']."%");
-					}else{
-						$select->where->NEST
-						              ->like("user."."username","%".$arrParam['search']['search_value']."%")
-									  ->or->equalTo("user."."id",$arrParam['search']['search_value'])
-									  ->or->like("email","%".$arrParam['search']['search_value']."%")
-									  ->UNNEST;
-					}	
-					
-				}
+				if($arrParam['search']['search_key'] != "all"){
+					$select->where->like("user.".$arrParam['search']['search_key'],
+										 "%".$arrParam['search']['search_value']."%");
+				}else{
+					$select->where->NEST
+					              ->like("user."."username","%".$arrParam['search']['search_value']."%")
+								  ->or->equalTo("user."."id",$arrParam['search']['search_value'])
+								  ->or->like("email","%".$arrParam['search']['search_value']."%")
+								  ->UNNEST;
+				}			
+			}
 		});
 		return $result->count();
 	}
@@ -52,6 +55,10 @@ class UserTable extends AbstractTableGateway{
 				if(!empty($arrParam['filter_status'])){
 					$status = ($arrParam['filter_status']=="active")? 1:0;
 					$select->where->equalTo("user.status",$status);
+				}
+
+				if(!empty($arrParam['filter_group'])){
+					$select->where->equalTo("group_id",$arrParam['filter_group']);
 				} 
 
 				if(!empty($arrParam['search']['search_value']) && !empty($arrParam['search']['search_key'])){

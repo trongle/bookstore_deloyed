@@ -12,6 +12,23 @@ class GroupTable extends AbstractTableGateway{
 		return $this;
 	}
 
+	public function itemInSelectBox($arrParam = null,$options = null){
+		if($options == null){
+			$result = $this->_tableGateway->select(function(select $select) use($arrParam){
+					$select->columns(array("id","name"))
+					       ->order(array("ordering ASC"));
+			});
+			$arr = array();
+			if(!empty($result)){
+				foreach($result as $item){
+					$arr[$item->id] = $item->name;
+				}
+			}
+		}
+
+		return $arr;
+	}
+
 	public function countItem($arrParam = null,$options = null){
 		$result = $this->_tableGateway->select(function(Select $select) use($arrParam){
 			if(!empty($arrParam['filter_status'])){

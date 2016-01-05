@@ -79,6 +79,9 @@ $(document).ready(function(){
         $("select[name=filter_status]").on("change",function(){
           submitForm();
         })
+        $("select[name=filter_group]").on("change",function(){
+          submitForm();
+        })
 
         //nhấn enter submit luôn
         $("input[name=search_value]").keypress(function(e){

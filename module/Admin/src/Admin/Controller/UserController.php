@@ -17,6 +17,7 @@ class UserController extends MyAbstractController{
 	];
 
 	protected $_filter_status;
+	protected $_filter_group;
 
 	public function init(){
 		$ssOrder = new Container(__CLASS__);
@@ -24,6 +25,7 @@ class UserController extends MyAbstractController{
 		$this->_orderList['order']     = !empty($ssOrder->order)? $ssOrder->order : $this->_orderList['order'] ;
 		$this->_orderList['order_by']  = !empty($ssOrder->order_by)? $ssOrder->order_by : $this->_orderList['order_by'];
 		$this->_filter_status          = $ssOrder->filter_status;
+		$this->_filter_group           = $ssOrder->filter_group;
 		$this->_search['search_key']   = $ssOrder->search_key;
 		$this->_search['search_value'] = $ssOrder->search_value;
 
@@ -38,6 +40,7 @@ class UserController extends MyAbstractController{
 														"paginator"     => $this->_configPaginator,
 														"order"         => $this->_orderList,
 														"filter_status" => $this->_filter_status,
+														"filter_group"  => $this->_filter_group,
 														"search"        => $this->_search
 													));
 
@@ -46,12 +49,15 @@ class UserController extends MyAbstractController{
 	}
 
 	public function indexAction(){
-		$items     = $this->getTable()->listItem($this->_mainParam,array("task"=>"list-item"));
-		$totalItem = $this->getTable()->countItem($this->_mainParam);
+		$items       = $this->getTable()->listItem($this->_mainParam,array("task"=>"list-item"));
+		$totalItem   = $this->getTable()->countItem($this->_mainParam);
+		$groupTable  = $this->serviceLocator->get("GroupTable");
+		$selectGroup = $groupTable->itemInSelectBox();
 		return new ViewModel(array(
 				"items"        => $items,
 				"paginator"    => \ZendVN\Paginator\Paginator::createPagination($totalItem,$this->_configPaginator),
-				"paramSetting" => $this->_mainParam
+				"paramSetting" => $this->_mainParam,
+				"selectGroup"  => $selectGroup
 		));
 	}
 
@@ -62,6 +68,7 @@ class UserController extends MyAbstractController{
 			$ssOrder->order         = $this->_mainParam['data']['order'];	//new Way	 
 			$ssOrder->order_by      = $this->_mainParam['data']['order_by'];		
 			$ssOrder->filter_status = $this->_mainParam['data']['filter_status'];		
+			$ssOrder->filter_group  = $this->_mainParam['data']['filter_group'];		
 			$ssOrder->search_value  = $this->_mainParam['data']['search_value'];		
 			$ssOrder->search_key    = $this->_mainParam['data']['search_key'];	
 

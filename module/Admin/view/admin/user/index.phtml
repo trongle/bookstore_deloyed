@@ -77,8 +77,14 @@ $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-pri
                   <div class="col-xs-8 ">
                     <div class="dataTables_filter pull-right">
                       <?php
+                        //SELECT-STATUS
                         $filter_status = $this->paramSetting['filter_status'];
                         echo $this->zvnFormSelectBox("filter_status","-- Select a status--",array("active"=>"Active","inactive"=>"InActive"),$filter_status);
+                        
+                         //SELECT-GROUP
+                        $filter_group = $this->paramSetting['filter_group'];
+                        echo " ".$this->zvnFormSelectBox("filter_group","-- Select a group --",$this->selectGroup,$filter_group);
+
                       ?>
                     </div>
                   </div>
