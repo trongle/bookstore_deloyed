@@ -125,7 +125,8 @@ class Module {
                     return $form;
     			},
     			"formAdminUser" => function($sm){
-    				$form = new \Admin\Form\FormUser();
+    				$groupTable = $sm->getServiceLocator()->get("GroupTable");
+    				$form = new \Admin\Form\FormUser($groupTable);
                     $form->setInputFilter(new \Admin\Form\FormUserFilter());
                     return $form;
     			}

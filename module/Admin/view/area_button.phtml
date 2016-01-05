@@ -1,11 +1,13 @@
 <!-- BUTTON-TOOL -->
 <div class="text-center">
 <?php
-	$currentAction = $this->layout()->params['action'];
+	
+	$currentAction     = $this->layout()->params['action'];
+	$currentController = $this->layout()->params['controller'];
 	switch ($currentAction) {
 		case 'index':
 			echo $this->buttonTool("Ordering","fa-repeat","ordering");
-			echo $this->buttonTool("Add","fa-plus-square-o",null,"no","/admin/group/save");
+			echo $this->buttonTool("Add","fa-plus-square-o",null,"no","/admin/".$currentController."/save");
 			echo $this->buttonTool("Active","fa-check-circle-o","active");
 			echo $this->buttonTool("InActive","fa-circle-o","inactive");
 			echo $this->buttonTool("Delete","fa-minus-circle","delete");
@@ -14,7 +16,7 @@
 			echo $this->buttonTool("Save","fa-save","save","no");
 			echo $this->buttonTool("Save & Close","fa-folder-open-o","save-close","no");
 			echo $this->buttonTool("Save & New","fa-plus-square","save-new","no");
-			echo $this->buttonTool("Cancel","fa-arrow-circle-left",null,"no","/admin/group/index");
+			echo $this->buttonTool("Cancel","fa-arrow-circle-left",null,"no","/admin/".$currentController."/index");
 			break;
 		default:
 			break;
