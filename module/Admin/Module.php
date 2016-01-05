@@ -1,10 +1,12 @@
 <?php 
 namespace Admin;
 
+use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class Module {
 	public function onBootstrap(MvcEvent $e){
@@ -66,7 +68,7 @@ class Module {
 	public function getServiceConfig(){
         return array(
             "factories" => array(
-                "TableGateway" => function($sm){
+                "GroupTableGateway" => function($sm){
                     $adapter = $sm->get("dbConfig");
 
                     $resultSetPrototype = new ResultSet();
@@ -75,13 +77,27 @@ class Module {
                     return $tableGateway = new TableGateway("groups",$adapter,null,$resultSetPrototype);
                 },
                 "Admin\Model\Group" => function($sm){
-                    $tableGateway = $sm->get("TableGateway");
+                    $tableGateway = $sm->get("GroupTableGateway");
                     return  new \Admin\Model\GroupTable($tableGateway);
+                },
+                "UserTableGateway" => function($sm){
+                    $adapter = $sm->get("dbConfig");
+                    //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
+                    $resultSetPrototype = new HydratingResultSet();
+                    $resultSetPrototype->setHydrator(new ObjectProperty());
+                    $resultSetPrototype->setObjectPrototype(new \Admin\Model\Entity\User());
+
+                    return $tableGateway = new TableGateway("user",$adapter,null,$resultSetPrototype);
+                },
+                "Admin\Model\User" => function($sm){
+                    $tableGateway = $sm->get("UserTableGateway");
+                    return  new \Admin\Model\UserTable($tableGateway);
                 }
             ),
             "aliases" => array(
-                "GroupTable" => "Admin\Model\Group"
-            )
+                "GroupTable" => "Admin\Model\Group",
+                "UserTable"  => "Admin\Model\User"
+            ),
         );
     }
 
@@ -106,6 +122,11 @@ class Module {
     			"formAdminGroup" => function($sm){
     				$form = new \Admin\Form\FormGroup();
                     $form->setInputFilter(new \Admin\Form\FormGroupFilter());
+                    return $form;
+    			},
+    			"formAdminUser" => function($sm){
+    				$form = new \Admin\Form\FormUser();
+                    $form->setInputFilter(new \Admin\Form\FormUserFilter());
                     return $form;
     			}
     		)

@@ -5,7 +5,7 @@ use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\TableGateway;
 
-class GroupTable extends AbstractTableGateway{
+class UserTable extends AbstractTableGateway{
 	protected $_tableGateway;
 	public function __construct(TableGateway $tableGateway){
 		$this->_tableGateway = $tableGateway;
@@ -21,15 +21,17 @@ class GroupTable extends AbstractTableGateway{
 
 			if(!empty($arrParam['search']['search_value']) && !empty($arrParam['search']['search_key'])){
 					if($arrParam['search']['search_key'] != "all"){
-						$select->where->like($arrParam['search']['search_key'],
+						$select->where->like("user.".$arrParam['search']['search_key'],
 											 "%".$arrParam['search']['search_value']."%");
 					}else{
 						$select->where->NEST
-						              ->like("name","%".$arrParam['search']['search_value']."%")
-									  ->or->equalTo("id",$arrParam['search']['search_value'])
+						              ->like("user."."username","%".$arrParam['search']['search_value']."%")
+									  ->or->equalTo("user."."id",$arrParam['search']['search_value'])
+									  ->or->like("email","%".$arrParam['search']['search_value']."%")
 									  ->UNNEST;
-					}		
-			}
+					}	
+					
+				}
 		});
 		return $result->count();
 	}
@@ -37,29 +39,35 @@ class GroupTable extends AbstractTableGateway{
 	public function listItem($arrParam = null,$options = null){
 		if($options['task'] == "list-item"){
 			$result =   $this->_tableGateway->select(function(Select $select) use($arrParam){
-				$select->columns(array("id","name","ordering","created","created_by","status","modified","modified_by"))
+				$select->columns(array("id","username","ordering","created","created_by","status","fullname","email"))
+				       ->join(array("g"=>"groups"),
+				       		  "g.id = user.group_id",
+				       		  array("name"),
+				       		  $select::JOIN_LEFT
+				       	)
 				       ->order(array(sprintf("%s %s",$arrParam['order']['order_by'] , $arrParam['order']['order'])))
 				       ->offset(($arrParam['paginator']['curentPage']-1) * $arrParam['paginator']['itemPerPage'])
 				       ->limit($arrParam['paginator']['itemPerPage']);
 
 				if(!empty($arrParam['filter_status'])){
 					$status = ($arrParam['filter_status']=="active")? 1:0;
-					$select->where->equalTo("status",$status);
+					$select->where->equalTo("user.status",$status);
 				} 
 
 				if(!empty($arrParam['search']['search_value']) && !empty($arrParam['search']['search_key'])){
 					if($arrParam['search']['search_key'] != "all"){
-						$select->where->like($arrParam['search']['search_key'],
+						$select->where->like("user.".$arrParam['search']['search_key'],
 											 "%".$arrParam['search']['search_value']."%");
 					}else{
 						$select->where->NEST
-						              ->like("name","%".$arrParam['search']['search_value']."%")
-									  ->or->equalTo("id",$arrParam['search']['search_value'])
+						              ->like("user."."username","%".$arrParam['search']['search_value']."%")
+									  ->or->equalTo("user."."id",$arrParam['search']['search_value'])
+									  ->or->like("email","%".$arrParam['search']['search_value']."%")
 									  ->UNNEST;
 					}	
 					
 				}
-			// echo $select->getSqlString();exit();
+			  // echo $select->getSqlString();exit();
 			});
 		}
 		return $result;

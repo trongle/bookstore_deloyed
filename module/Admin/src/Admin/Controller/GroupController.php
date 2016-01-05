@@ -19,7 +19,7 @@ class GroupController extends MyAbstractController{
 	protected $_filter_status;
 
 	public function init(){
-		$ssOrder = new Container(__NAMESPACE__);
+		$ssOrder = new Container(__CLASS__);
 		//SET FILTER 
 		$this->_orderList['order']     = !empty($ssOrder->order)? $ssOrder->order : $this->_orderList['order'] ;
 		$this->_orderList['order_by']  = !empty($ssOrder->order_by)? $ssOrder->order_by : $this->_orderList['order_by'];
@@ -57,7 +57,7 @@ class GroupController extends MyAbstractController{
 
 	public function filterAction(){
 		if($this->request->isPost()){
-			$ssOrder      = new Container(__NAMESPACE__);
+			$ssOrder      = new Container(__CLASS__);
 			//$ssOrder->offsetSet("order",$order); 	default way 
 			$ssOrder->order         = $this->_mainParam['data']['order'];	//new Way	 
 			$ssOrder->order_by      = $this->_mainParam['data']['order_by'];		

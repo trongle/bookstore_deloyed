@@ -1,19 +1,19 @@
 <?php
 
-use Zend\Form\Element\Text;
-use Zend\Form\Element\Url;
 $currentController = $this->paramSetting["controller"];
 //DATA LIST-ITEM
   $xhtmlTable = 'Không có dữ liệu ';
   if(isset($this->items) && !empty($this->items)){
+  
     $xhtmlTable = "";
     foreach($items as $item){
         $class       = $this->cycle(array("odd","even"))->next();
-        $name        = $item->name;
+        $username    = $item->username;
         $created     = date("H:i:s d-m-Y",strtotime($item->created));
         $created_by  = $item->created_by;
-        $modified    = $item->modified;
-        $modified_by = $item->modified_by;
+        $fullname    = $item->fullname;
+        $group_name  = $item->name;
+        $email       = $item->email;
         $id          = $item->id;
         $ordering    = $this->zvnFormText("ordering[{$id}]",$item->ordering,array("class"=>"input-order","size"=>"4"));
         $status      = $this->changeStatusLink($id,$item->status);
@@ -23,11 +23,12 @@ $currentController = $this->paramSetting["controller"];
                                                       ));
         $xhtmlTable .= '<tr class="'.$class.'">
                               <td class="sorting_1"><input type="checkbox" class="check-box" name="id[]" value="'.$id.'" /></td>
-                              <td><a href="'.$linkEdit.'">'.$name.'</a></td>
+                              <td><a href="'.$linkEdit.'">'.$username.'</a></td>
                               <td>'.$created.'</td>
                               <td>'.$created_by.'</td>
-                              <td>'.$modified.'</td>
-                              <td>'.$modified_by.'</td>
+                              <td>'.$fullname.'</td>
+                              <td>'.$email.'</td>
+                              <td>'.$group_name.'</td>
                               <td>'.$ordering.'</td>
                               '.$status.' 
                               <td>'.$id.'</td>
@@ -35,12 +36,13 @@ $currentController = $this->paramSetting["controller"];
     }
   }
 // LINK FORM
-$linkForm = $this->basePath("admin/group/filter");
+$linkForm = $this->basePath("admin/user/filter");
 // SEARCH FUNC [SELECT-BOX]
 $value = array(
-    "name" => "Search by Name",
-    "id"   => "Search by ID",
-    "all"  => "Search All"
+    "username" => "Search by Username",
+    "id"       => "Search by ID",
+    "email"    => "Search by Email",
+    "all"      => "Search All"
 );
 $search       = $this->paramSetting['search'];
 $keyword_type = $this->zvnFormSelectBox("search_key",null,$value,$search['search_key']);
@@ -96,8 +98,9 @@ $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-pri
                             echo $this->changeSortLink($order,"name","Name").
                                  $this->changeSortLink($order,"created","Created").
                                  $this->changeSortLink($order,"created_by","Created_by").
-                                 $this->changeSortLink($order,"modified","Modified").
-                                 $this->changeSortLink($order,"modified_by","Modified_by").
+                                 $this->changeSortLink($order,"fullname","Fullname").
+                                 $this->changeSortLink($order,"email","Email").
+                                 $this->changeSortLink($order,"name","Group_name").
                                  $this->changeSortLink($order,"ordering","Ordering").
                                  $this->changeSortLink($order,"status","Status").
                                  $this->changeSortLink($order,"id","ID");   
@@ -119,7 +122,7 @@ $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-pri
             </div></div>
             <div class="row">
             <?php
-              $realURL = $this->linkToGo("adminRoute/paginator",array("controller"=>"group"));
+              $realURL = $this->linkToGo("adminRoute/paginator",array("controller"=>"user"));
               echo $this->paginationControl($this->paginator,null,"paginator.phtml",array("realURL"=>$realURL));
             ?>
             </div>
