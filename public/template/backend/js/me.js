@@ -12,13 +12,20 @@ function sortList(orderBy,order){
 }
 
 function changeStatus(id,status){
+  var linkSubmit = $("#adminForm").attr("action").replace(/filter/gi,"status")
   $("input[name=id]").val(id);       
   $("input[name=status]").val(status);  
-  submitForm("/admin/group/status");
+  submitForm(linkSubmit);
 }
 function changeMultiStatus(type){
+  var linkSubmit = $("#adminForm").attr("action").replace(/filter/gi,"status")
   $("input[name=status]").val(type); 
-  submitForm("/admin/group/status");
+  submitForm(linkSubmit);
+}
+
+function changeOrdering(type){
+  var linkSubmit = $("#adminForm").attr("action").replace(/filter/gi,"ordering")
+  submitForm(linkSubmit);
 }
 
 function addBadgeForStatus(item){
@@ -32,7 +39,8 @@ function deleteMulti(){
     if(!window.confirm("Bạn có chắc muốn xóa ?")){
       return false;
     }
-    submitForm("/admin/group/delete");
+    var linkSubmit = $("#adminForm").attr("action").replace(/filter/gi,"delete")
+    submitForm(linkSubmit);
 }
 
 function saveAction(type){
@@ -43,16 +51,16 @@ function saveAction(type){
 $(document).ready(function(){
         //event for Button    
         $("a[data-type=ordering]").click(function(){
-          submitForm('/admin/group/ordering')
+          changeOrdering();
         })
         $("a[data-type=active]").click(function(){
-          changeMultiStatus(1)
+          changeMultiStatus(1);
         })
         $("a[data-type=inactive]").click(function(){
-          changeMultiStatus(0)
+          changeMultiStatus(0);
         })
         $("a[data-type=delete]").click(function(){
-          deleteMulti()
+          deleteMulti();
         })
         $("a[data-type=save]").click(function(){
           saveAction("save");

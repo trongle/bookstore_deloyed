@@ -68,7 +68,7 @@ class GroupTable extends AbstractTableGateway{
 	public function changeStatus($arrParam = null,$options = null){
 		if($options['task'] == "change-status"){
 			$data = array(
-				"status" => ($arrParam['status'] == 1)? (int)0 : 1
+				"status" => ($arrParam['status'] == 1)? 0 : 1
 			);
 			$where = array("id" => $arrParam['id']);
 			$this->_tableGateway->update($data,$where);
