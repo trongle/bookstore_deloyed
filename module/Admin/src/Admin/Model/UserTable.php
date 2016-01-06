@@ -42,7 +42,7 @@ class UserTable extends AbstractTableGateway{
 	public function listItem($arrParam = null,$options = null){
 		if($options['task'] == "list-item"){
 			$result =   $this->_tableGateway->select(function(Select $select) use($arrParam){
-				$select->columns(array("id","username","ordering","modified","modified_by","created","created_by","status","fullname","email"))
+				$select->columns(array("id","username","avatar","ordering","modified","modified_by","created","created_by","status","fullname","email"))
 				       ->join(array("g"=>"groups"),
 				       		  "g.id = user.group_id",
 				       		  array("name"),
@@ -157,7 +157,7 @@ class UserTable extends AbstractTableGateway{
 
 	public function getItem($arrParam,$options = null){
 		return 	$this->_tableGateway->select(function(select $select) use($arrParam){
-				$select->columns(array("id","username","email","group_id","fullname","ordering","status"))
+				$select->columns(array("id","username","email","group_id","avatar","fullname","ordering","status"))
 					   ->where(array("id"=>$arrParam["id"]));
 			})->current();
 	}

@@ -12,7 +12,7 @@ class FormUserFilter extends InputFilter{
 		if($options["id"] != null){
 			$exclude = array(
 						"field" => "id",
-						"value" => "8"
+						"value" => $options["id"]
 					);
 			$requirePassword = false;
 		}
@@ -117,6 +117,37 @@ class FormUserFilter extends InputFilter{
 							\Zend\Validator\StringLength::TOO_SHORT => "mật khẩu phải có ít nhất 8 ký tự",
 							\Zend\Validator\StringLength::TOO_LONG  => "mật khẩu phải ngắn hơn 15 ký tự",
 						),
+					),
+					"break_chain_on_failure" => "true"
+				),
+			)
+		));
+
+		//email
+		$this->add(array(
+			'name'    => "image",
+			"required" => false,
+			"validators" => array(
+				array(
+					"name" => "FileSize",
+					"options" => array(
+						"min" => "2KB",
+						"max" => "2MB",
+						"messages" => array(
+							\Zend\Validator\File\Size::TOO_BIG   => "Dung lượng lớn nhất cho phép là '%max%' nhưng '%size%' lớn hơn",
+							\Zend\Validator\File\Size::TOO_SMALL => "Dung lượng nhỏ nhất cho phép là '%min%' nhưng '%size%' nhỏ hơn",
+						)
+					),
+					"break_chain_on_failure" => "true"
+				),
+				array(
+					"name" => "FileExtension",
+					"options" => array(
+						"extension" => array("png","jpg"),
+						"messages" => array(
+							\Zend\Validator\File\Extension::FALSE_EXTENSION => "phần mở rộng không phù hợp"
+						)
+						
 					),
 					"break_chain_on_failure" => "true"
 				),

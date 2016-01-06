@@ -9,13 +9,14 @@ class FormUser extends Form{
 		parent::__construct();
 		$this->setAttributes(
 			array(
-				"action" => "#",
-				"method" => "POST",
-				"class"  => "form-horizontal",
-				"role"   => "form",
-				"name"   => "adminForm",
-				"id"     => "adminForm",
-				"style"  => "padding-top: 10px"
+				"action"  => "#",
+				"method"  => "POST",
+				"class"   => "form-horizontal",
+				"role"    => "form",
+				"name"    => "adminForm",
+				"id"      => "adminForm",
+				"style"   => "padding-top: 10px",
+				"enctype" => "multipart/form-data",
 			));
 		
 		//name
@@ -153,8 +154,36 @@ class FormUser extends Form{
 				)
 			)	
 		));
+
+		//fileImg
+		$this->add(array(
+			"type" => "file",
+			"name" => "image",
+			"required" => false,
+			"attributes" => array(
+				"class" => "form-control"
+			),
+			"options" => array(
+				"label" => "Avatar",
+				"label_attributes" => array(
+					"class" => "col-sm-3 control-label",
+					"for"   => "image"
+				)
+			)	
+		));
+
+	
 		$this->add(array(
 			"name" => "id",
+			"type" => "hidden"
+		));
+
+		$this->add(array(
+			"name" => "action",
+			"type" => "hidden"
+		));
+		$this->add(array(
+			"name" => "avatar",
 			"type" => "hidden"
 		));
 	}

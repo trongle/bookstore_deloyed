@@ -19,13 +19,14 @@ $currentController = $this->paramSetting["controller"];
         $id          = $item->id;
         $ordering    = $this->zvnFormText("ordering[{$id}]",$item->ordering,array("class"=>"input-order","size"=>"4"));
         $status      = $this->changeStatusLink($id,$item->status);
+        $avatar      = $item->avatar;
         $linkEdit    = $this->linkToGo("adminRoute/default",array("controller"=>"user",
                                                             "action"    =>"save",
                                                             "id"        =>$id         
                                                       ));
         $xhtmlTable .= '<tr class="'.$class.'">
                               <td class="sorting_1"><input type="checkbox" class="check-box" name="id[]" value="'.$id.'" /></td>
-                              '.$this->createTdName($username,$fullname,$linkEdit)
+                              '.$this->createTdName($username,$fullname,$linkEdit,$avatar)
                               .$this->createTd($created,$created_by,"fa-fw fa-user")
                               .$this->createTd($modified,$modified_by,"fa-fw fa-user").'
                               <td>'.$email.'</td>

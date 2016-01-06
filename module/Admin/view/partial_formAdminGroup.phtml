@@ -1,8 +1,32 @@
 <?php 
-echo  sprintf('<div class="form-group">
-						%s
-				<div class="col-sm-6">%s</div>
-			  </div>',$this->formLabel($this->elm),$this->formElement($this->elm));
+$type    = $this->type;
+$element = $this->elm;
+$xhtml   = "";
+switch ($type) {
+	case 'hidden':
+		$xhtml = sprintf('<div class="form-group">%s</div>',$this->formElement($element));
+		break;
+	case 'avatar':
+		$path = URL_FILES."users/thumb/".$element->getValue();
+
+		
+		
+		$xhtml = sprintf('<div class="form-group">
+								<label for="avatar" class="col-sm-3 control-label">
+									Current label
+								</label><div class="col-sm-6">
+								<img width="90" height="90" src="%s"/></div></div>',$path);
+		if(empty($element->getValue())){
+			$xhtml = "";
+		}
+		break;
+	
+	default:
+		$xhtml = sprintf('<div class="form-group">%s<div class="col-sm-6">%s</div></div>',
+							$this->formLabel($element),$this->formElement($element));
+		break;
+}
+echo  $xhtml
 
 ?>
 

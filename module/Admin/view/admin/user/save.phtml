@@ -19,11 +19,15 @@
 	    				array("elm" =>$myForm->get("email")),
 	    				array("elm" =>$myForm->get("password")),
 	    				array("elm" =>$myForm->get("group")),
+	    				array("elm" =>$myForm->get("image")),
+	    				array("elm" =>$myForm->get("avatar"),"type"=>"avatar"),
 	    				array("elm" =>$myForm->get("ordering")),
 	    				array("elm" =>$myForm->get("status")),
+	    				array("elm" =>$myForm->get("id"),"type"=>"hidden"),
+	    				array("elm" =>$myForm->get("action"),"type"=>"hidden"),
+	    				array("elm" =>$myForm->get("avatar"),"type"=>"hidden"),
+	    				
 	    			));
-	    		echo $this->formHidden($myForm->get("id"));
-	    		echo $this->zvnFormHidden("action","save");
     		echo $this->form()->closeTag();
     	?>
     </div>

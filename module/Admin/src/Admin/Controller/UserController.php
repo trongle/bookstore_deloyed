@@ -36,6 +36,9 @@ class UserController extends MyAbstractController{
 		//SET OPTIONS 
 		$this->_options["tableName"] = "UserTable";
 		$this->_options["formName"]  = "formAdminUser";
+		// echo "<pre>";
+		// print_r($this->request->getFiles()->toArray());
+		// echo "</pre>";
 		$this->_mainParam =array_merge($this->_mainParam,array(
 														"paginator"     => $this->_configPaginator,
 														"order"         => $this->_orderList,
@@ -44,8 +47,10 @@ class UserController extends MyAbstractController{
 														"search"        => $this->_search
 													));
 
+
 		//nhân các tham so trả về từ request của các Action
-		$this->_mainParam["data"] = $this->request->getPost()->toArray();
+		$this->_mainParam["data"] = array_merge($this->request->getPost()->toArray(),
+			 									$this->request->getFiles()->toArray());
 	}
 
 	public function indexAction(){
@@ -132,9 +137,9 @@ class UserController extends MyAbstractController{
 		if(!empty($info)){
 			$form->bind($info);
 			$form->setInputFilter(new \Admin\Form\FormUserFilter(array("id"=>$this->_mainParam["data"]['id'])));
-			$task = "edit-item";
+			$task    = "edit-item";
 			$message = "Một User đã được chỉnh sữa thành công";
-			$title = " - User - Edit";
+			$title   = " - User - Edit";
 		}
 		$this->headTitle($title);
 		
@@ -143,6 +148,8 @@ class UserController extends MyAbstractController{
 			$action = $this->_mainParam["data"]["action"];
 			if($form->isValid()){				
 				$data = $form->getData(\Zend\Form\FormInterface::VALUES_AS_ARRAY);
+				//loại bỏ action do lấy getData bằng hydrating
+				unset($data["action"]);
 				$id   = $this->getTable()->saveItem($data,array("task"=> $task));
 				$this->flashMessenger()->addMessage($message);
 				if($action == "save-new") $this->toAction(array("action" => "save"));
