@@ -10,6 +10,8 @@ $currentController = $this->paramSetting["controller"];
         $class       = $this->cycle(array("odd","even"))->next();
         $username    = $item->username;
         $created     = date("H:i:s d-m-Y",strtotime($item->created));
+        $modified    = date("H:i:s d-m-Y",strtotime($item->modified));
+        $modified_by = $item->modified_by;
         $created_by  = $item->created_by;
         $fullname    = $item->fullname;
         $group_name  = $item->name;
@@ -23,10 +25,9 @@ $currentController = $this->paramSetting["controller"];
                                                       ));
         $xhtmlTable .= '<tr class="'.$class.'">
                               <td class="sorting_1"><input type="checkbox" class="check-box" name="id[]" value="'.$id.'" /></td>
-                              <td><a href="'.$linkEdit.'">'.$username.'</a></td>
-                              <td>'.$created.'</td>
-                              <td>'.$created_by.'</td>
-                              <td>'.$fullname.'</td>
+                              '.$this->createTdName($username,$fullname,$linkEdit)
+                              .$this->createTd($created,$created_by,"fa-fw fa-user")
+                              .$this->createTd($modified,$modified_by,"fa-fw fa-user").'
                               <td>'.$email.'</td>
                               <td>'.$group_name.'</td>
                               <td>'.$ordering.'</td>
@@ -103,8 +104,7 @@ $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-pri
                             $order = $this->paramSetting['order'];
                             echo $this->changeSortLink($order,"name","Name").
                                  $this->changeSortLink($order,"created","Created").
-                                 $this->changeSortLink($order,"created_by","Created_by").
-                                 $this->changeSortLink($order,"fullname","Fullname").
+                                 $this->changeSortLink($order,"modified","Modified").
                                  $this->changeSortLink($order,"email","Email").
                                  $this->changeSortLink($order,"name","Group_name").
                                  $this->changeSortLink($order,"ordering","Ordering").

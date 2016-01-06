@@ -115,6 +115,8 @@ class Module {
 				"changeStatusLink" => "ZendVN\View\Helper\ChangeStatusLink",
 				"linkToGo" 		   => "ZendVN\View\Helper\LinkToGo",
 				"buttonTool" 	   => "ZendVN\View\Helper\ButtonTool",
+				"createTd" 	   	   => "ZendVN\View\Helper\CreateTd",
+				"createTdName"    => "ZendVN\View\Helper\CreateTdName",
     		)
     	);
     }

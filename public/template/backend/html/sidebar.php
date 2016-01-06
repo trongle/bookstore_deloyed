@@ -62,7 +62,7 @@
       var classParent = "<?php echo $this->params['module'].'-'.$this->params['controller'] ?>";
       $("ul.sidebar-menu > li."+classParent).addClass("active");
 
-      if($("ul.sidebar-menu > li."+classParent).children("ul")) {
+      if($("ul.sidebar-menu > li."+classParent).children("ul")){
         var classChild = "<?php echo $this->params['controller'].'-'.$this->params['action'] ?>"
         $("ul.treeview-menu > li."+classChild).addClass("active");
       }
