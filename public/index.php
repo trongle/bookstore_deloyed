@@ -11,7 +11,8 @@ Zend\Loader\AutoLoaderFactory::Factory(array(
 	"Zend\Loader\StandardAutoLoader" => array(
 		"autoregister_zf" => true,
 		"namespaces" => array(
-			"ZendVN" => PATH_LIBRARY."ZendVN",
+			"ZendVN"           => PATH_LIBRARY."ZendVN",
+			"PHPImageWorkshop" => PATH_VENDOR."PHPImageWorkshop",
 		),
 		"prefixes" => array(
 			"HTMLPurifier" => PATH_VENDOR."HTMLPurifier"

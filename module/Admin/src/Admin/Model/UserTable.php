@@ -1,6 +1,8 @@
 <?php 
 namespace Admin\Model;
 
+use PHPImageWorkshop\ImageWorkshop;
+use ZendVN\File\Upload;
 use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\TableGateway;
@@ -129,17 +131,32 @@ class UserTable extends AbstractTableGateway{
 	}
 
 	public function saveItem($arrParam,$options = null){
-		
+		//Quenr@i3
 		if($options['task'] == "add-item"){
-			$arrParam['status'] = ($arrParam['status']=="active")? 1:0;
-			$arrParam['created'] = date("Y-m-d H:i:s");
+			$arrParam['status']   = ($arrParam['status']=="active")? 1:0;
+			$arrParam['created']  = date("Y-m-d H:i:s");
 			$arrParam['password'] = md5($arrParam['password']);		
 			$arrParam['group_id'] = $arrParam["group"];
+			if(!empty($arrParam['image']['tmp_name'])){
+				$uploadObj = new Upload();
+				$directory = PATH_FILES."users";
+				$fileName  = $uploadObj->UploadFile("image",$directory,array("task"=>"rename"),"user_");
+				$arrParam["avatar"] = $fileName;
+				//resize
+				$path  = PATH_FILES."users/".$fileName;
+				$layer = ImageWorkshop::initFromPath($path);
+				$layer->cropMaximumInPixel(0, 0, "MM");
+				$layer->resizeInPixel(160, 160, true);
+				$layer->save( PATH_FILES."users/thumb", $fileName, true);
+			}
+			
 			unset($arrParam["group"]); 
+			unset($arrParam["image"]);
 			$this->_tableGateway->insert($arrParam);
 			return $this->_tableGateway->getLastInsertValue();
 		}
 		if($options['task'] == "edit-item"){
+
 			$arrParam['status'] = ($arrParam['status'] == "active") ? 1:0;
 			$arrParam['modified'] = date("Y-m-d H:i:s");
 			$arrParam['group_id'] = $arrParam["group"];
@@ -150,8 +167,8 @@ class UserTable extends AbstractTableGateway{
 			}else{
 				$arrParam["password"] = md5($arrParam["password"]);
 			}
-			$this->_tableGateway->update($arrParam,array("id"=>$arrParam['id'])); 
-			return $arrParam['id'];
+			// $this->_tableGateway->update($arrParam,array("id"=>$arrParam['id'])); 
+			// return $arrParam['id'];
 		}
 	}
 
