@@ -2,6 +2,7 @@
 namespace Admin\Model;
 
 use PHPImageWorkshop\ImageWorkshop;
+use ZendVN\File\Image;
 use ZendVN\File\Upload;
 use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\AbstractTableGateway;
@@ -106,6 +107,9 @@ class UserTable extends AbstractTableGateway{
 		if($options['task'] == "delete-multi"){
 			if(!empty($arrParam)){
 				foreach ($arrParam as  $value) {
+					$avatar = new Image();
+					$avatarName = $this->getItem(array("id"=>$value));
+					$avatar->removeAvatar($avatarName->avatar);
 					$this->_tableGateway->delete(array("id"=>$value));
 				}	
 				return true;
@@ -138,16 +142,8 @@ class UserTable extends AbstractTableGateway{
 			$arrParam['password'] = md5($arrParam['password']);		
 			$arrParam['group_id'] = $arrParam["group"];
 			if(!empty($arrParam['image']['tmp_name'])){
-				$uploadObj = new Upload();
-				$directory = PATH_FILES."users";
-				$fileName  = $uploadObj->UploadFile("image",$directory,array("task"=>"rename"),"user_");
-				$arrParam["avatar"] = $fileName;
-				//resize
-				$path  = PATH_FILES."users/".$fileName;
-				$layer = ImageWorkshop::initFromPath($path);
-				$layer->cropMaximumInPixel(0, 0, "MM");
-				$layer->resizeInPixel(160, 160, true);
-				$layer->save( PATH_FILES."users/thumb", $fileName, true);
+				$avatar = new Image();
+				$arrParam['avatar'] = $avatar->upload("image");
 			}
 			
 			unset($arrParam["group"]); 
@@ -160,15 +156,23 @@ class UserTable extends AbstractTableGateway{
 			$arrParam['status'] = ($arrParam['status'] == "active") ? 1:0;
 			$arrParam['modified'] = date("Y-m-d H:i:s");
 			$arrParam['group_id'] = $arrParam["group"];
+			if(!empty($arrParam['image']['tmp_name'])){
+				$avatar = new Image();
+				//xóa avatar cũ
+				$avatar->removeAvatar($arrParam['avatar']);
+
+				$arrParam['avatar'] = $avatar->upload("image");
+			}
 			unset($arrParam["group"]);
+			unset($arrParam["image"]);
 			//kiem tra neu co nhap password
 			if(empty($arrParam["password"])){
 				unset($arrParam["password"]);
 			}else{
 				$arrParam["password"] = md5($arrParam["password"]);
 			}
-			// $this->_tableGateway->update($arrParam,array("id"=>$arrParam['id'])); 
-			// return $arrParam['id'];
+			$this->_tableGateway->update($arrParam,array("id"=>$arrParam['id'])); 
+			return $arrParam['id'];
 		}
 	}
 
