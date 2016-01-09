@@ -95,11 +95,25 @@ class Module {
                 "Admin\Model\User" => function($sm){
                     $tableGateway = $sm->get("UserTableGateway");
                     return  new \Admin\Model\UserTable($tableGateway);
-                }
+                },
+                "NestedTableGateway" => function($sm){
+                    $adapter = $sm->get("dbConfig");
+                    //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
+                    $resultSetPrototype = new HydratingResultSet();
+                    $resultSetPrototype->setHydrator(new ObjectProperty());
+                    $resultSetPrototype->setObjectPrototype(new \Admin\Model\Entity\Nested());
+
+                    return $tableGateway = new TableGateway("nested",$adapter,null,$resultSetPrototype);
+                },
+                "Admin\Model\Nested" => function($sm){
+                    $tableGateway = $sm->get("NestedTableGateway");
+                    return  new \Admin\Model\NestedTable($tableGateway);
+                },
             ),
             "aliases" => array(
                 "GroupTable" => "Admin\Model\Group",
-                "UserTable"  => "Admin\Model\User"
+                "UserTable"  => "Admin\Model\User",
+                "NestedTable" => "Admin\Model\Nested",
             ),
         );
     }

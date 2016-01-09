@@ -49,7 +49,7 @@ $value = array(
 $search       = $this->paramSetting['search'];
 $keyword_type = $this->zvnFormSelectBox("search_key",null,$value,$search['search_key']);
 $keyword_text = $this->zvnFormText("search_value",$search['search_value'],array("class"=>"form-control input-sm "));
-$btn_claer    = $this->zvnFormButton("btn_clear","clear","Clear",array("type"=>"submit"));
+$btn_clear    = $this->zvnFormButton("btn_clear","clear","Clear",array("type"=>"submit"));
 $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-primary","type"=>"submit"));
 
 ?>
@@ -72,7 +72,7 @@ $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-pri
                       echo $this->partial("partial_search.phtml",array(
                           "keyword_type" => $keyword_type,
                           "keyword_text" => $keyword_text,
-                          "button"       => $btn_claer.$btn_go
+                          "button"       => $btn_clear.$btn_go
                       ))
                     ?>
                   <!-- SELECT BOX -->

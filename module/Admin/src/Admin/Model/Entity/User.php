@@ -24,6 +24,7 @@ class User
 	public $register_time;
 	public $group_id;
 	public $avatar;
+	public $sign;
 
 	public function exchangeArray($data){
 	
@@ -44,10 +45,9 @@ class User
 		$this->register_time = (!empty($data['register_time'])) ? $data['register_time']  :"";
 		$this->group_id      = (!empty($data['group_id']))   	? $data['group_id']       :"";
 		$this->avatar        = (!empty($data['avatar']))   	    ? $data['avatar']         :"";
+		$this->sign          = (!empty($data['sign']))   	    ? $data['sign']           :"";
 	}
-
 	public function getArrayCopy(){
-		
 		$arr = get_object_vars($this);
 		$arr['status'] = ($arr['status']==1)? "active":"inactive";
 		$arr['group']  = $arr['group_id'];

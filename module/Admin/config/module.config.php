@@ -10,6 +10,7 @@ return array(
 			"Admin\Controller\Config"   => "Admin\Controller\ConfigController",
 			"Admin\Controller\Order"    => "Admin\Controller\OrderController",
 			"Admin\Controller\Category" => "Admin\Controller\CategoryController",
+			"Admin\Controller\Nested"   => "Admin\Controller\NestedController",
 		)
 	),
 	"view_manager" => array(

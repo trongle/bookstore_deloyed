@@ -1,3 +1,8 @@
+<!-- script -->
+<?php 
+	echo $this->headScript()->appendFile(URL_SCRIPT."ckeditor/ckeditor.js","text/javascript");
+?>
+
 <!-- BUTTON-TOOL -->
 <?php echo $this->render("area_button.phtml") ?>
 
@@ -23,6 +28,7 @@
 	    				array("elm" =>$myForm->get("avatar"),"type"=>"avatar"),
 	    				array("elm" =>$myForm->get("ordering")),
 	    				array("elm" =>$myForm->get("status")),
+	    				array("elm" =>$myForm->get("sign")),
 	    				array("elm" =>$myForm->get("id"),"type"=>"hidden"),
 	    				array("elm" =>$myForm->get("action"),"type"=>"hidden"),
 	    				array("elm" =>$myForm->get("avatar"),"type"=>"hidden"),
@@ -32,3 +38,9 @@
     	?>
     </div>
 </div>
+
+<script type="text/javascript">
+	CKEDITOR.replace('sign',{ 
+        	customConfig : "custom/config_1.js",
+    });
+</script>

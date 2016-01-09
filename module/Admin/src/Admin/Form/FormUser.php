@@ -172,6 +172,24 @@ class FormUser extends Form{
 			)	
 		));
 
+		//sign
+		$this->add(array(
+			"type" => "textarea",
+			"name" => "sign",
+			"required" => false,
+			"attributes" => array(
+				"class" => "form-control",
+				"id"    => "sign"
+			),
+			"options" => array(
+				"label" => "Sign",
+				"label_attributes" => array(
+					"class" => "col-sm-3 control-label",
+					"for"   => "sign",
+				)
+			)	
+		));
+
 	
 		$this->add(array(
 			"name" => "id",

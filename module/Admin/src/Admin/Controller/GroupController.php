@@ -21,7 +21,7 @@ class GroupController extends MyAbstractController{
 	public function init(){
 		$ssOrder = new Container(__CLASS__);
 		//SET FILTER 
-		$this->_orderList['order']     = !empty($ssOrder->order)? $ssOrder->order : $this->_orderList['order'] ;
+		$this->_orderList['order']     = !empty($ssOrder->order)   ? $ssOrder->order    : $this->_orderList['order'] ;
 		$this->_orderList['order_by']  = !empty($ssOrder->order_by)? $ssOrder->order_by : $this->_orderList['order_by'];
 		$this->_filter_status          = $ssOrder->filter_status;
 		$this->_search['search_key']   = $ssOrder->search_key;
@@ -31,6 +31,7 @@ class GroupController extends MyAbstractController{
 		$this->_configPaginator['pageRange']   = 3;
 		$this->_configPaginator['itemPerPage'] = 5;
 		$this->_configPaginator['curentPage']  = $this->params()->fromRoute("page",1);
+
 		//SET OPTIONS 
 		$this->_options["tableName"] = "GroupTable";
 		$this->_options["formName"] = "formAdminGroup";

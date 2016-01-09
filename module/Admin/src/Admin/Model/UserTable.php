@@ -135,6 +135,16 @@ class UserTable extends AbstractTableGateway{
 	}
 
 	public function saveItem($arrParam,$options = null){
+		if(!empty($arrParam['sign'])){
+			$input  = $arrParam['sign'];
+			$config = array(
+				"HTML.AllowedAttributes" =>array("style"),
+				"HTML.AllowedElements" =>array("p","b","em","span","strong"),
+			);
+		
+			$filter = new \ZendVN\Filter\Purifier($config);
+			$arrParam['sign'] = $filter->filter($input);
+		}
 		//Quenr@i3
 		if($options['task'] == "add-item"){
 			$arrParam['status']   = ($arrParam['status']=="active")? 1:0;
@@ -148,6 +158,7 @@ class UserTable extends AbstractTableGateway{
 			
 			unset($arrParam["group"]); 
 			unset($arrParam["image"]);
+			
 			$this->_tableGateway->insert($arrParam);
 			return $this->_tableGateway->getLastInsertValue();
 		}
@@ -178,7 +189,7 @@ class UserTable extends AbstractTableGateway{
 
 	public function getItem($arrParam,$options = null){
 		return 	$this->_tableGateway->select(function(select $select) use($arrParam){
-				$select->columns(array("id","username","email","group_id","avatar","fullname","ordering","status"))
+				$select->columns(array("id","username","email","group_id","avatar","sign","fullname","ordering","status"))
 					   ->where(array("id"=>$arrParam["id"]));
 			})->current();
 	}
