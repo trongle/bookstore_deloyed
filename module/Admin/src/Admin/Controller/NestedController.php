@@ -57,9 +57,10 @@ class NestedController extends MyAbstractController
 		$items = $this->getTable()->listNode();
 		$xhtml = "";
 		foreach($items as $item){
-		
-			$space = str_repeat("-----|",$item->level);
-			$xhtml .= "<p>".$space." ".$item->name ."</p>";
+			$data[$item->parent][] = $item->id;
+			$ordering = array_search($item->id,$data[$item->parent]) +1;
+			$space = str_repeat("----------|",$item->level - 1);
+			$xhtml .= sprintf("<p>%s %s %s</p>",$space,$ordering,$item->name);
 		}
 		echo $xhtml;
 		return $this->response;
@@ -103,5 +104,52 @@ class NestedController extends MyAbstractController
 		echo $xhtml;
 		return $this->response;
 	}
+
+		//insert
+	public function insert01Action(){
+		$nodeNew = array("status" => "1","name" => "C");
+		$nodeID = "1";
+		$options["position"] = "right";
+		$this->getTable()->insertNode($nodeNew,$nodeID,$options);
+
+		return $this->response;
+	}
+
+		//detach
+	public function detachAction(){
+		$this->getTable()->detachNode(3);
+		return $this->response;
+	}
+
+		//moveNode
+	public function moveAction(){
+		$nodeMoveID = 3	;
+		$this->getTable()->moveDown($nodeMoveID);
+		return $this->response;
+	}
+
+		//update
+			//+ thay đổi thông tin
+			//+ thay đổi parent
+	public function updateAction(){
+		$data   = array(
+			"name" => "node B1 -> D3",
+		);
+		$nodeID = 6;
+		$nodeParentID = 5;
+		$this->getTable()->updateNode($data,$nodeID,$nodeParentID);
+		return $this->response;
+	}
+
+		//Remove
+			//+ branch
+			//+ one
+	public function removeAction(){
+		$nodeID = 5;
+		$this->getTable()->removeNode($nodeID,array("action"=>"branch"));
+		return $this->response;
+	}
+
+
 }
 ?>
