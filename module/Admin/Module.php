@@ -17,34 +17,9 @@ class Module {
 
 	   $adapter = $e->getApplication()->getServiceManager()->get("dbConfig");
 	   GlobalAdapterFeature::setStaticAdapter($adapter);
-	   // $eventManager->attach("dispatch",array($this,"layoutForModule"));
-	   // $eventManager->attach("dispatch",array($this,"setHeader"));
+
 	}
 
-	// public function layoutForModule(MvcEvent $e){
-	// 	$routerMatch     = $e->getRouteMatch();
-	// 	$arrayController = explode("\\",$routerMatch->getParam("controller"));
-	// 	$module          = strtolower($arrayController[0]);
-	// 	//đọc layout.config.php
-	// 	$config = $e->getApplication()->getServiceManager()->get("config");
-	// 	$layout = $config["module_for_layouts"][$module];
-	
-	// 	$controller = $e->getTarget();
-	// 	$controller->layout($layout);
-	// }
-
-	// public function setHeader(MvcEvent $e){
-	// 	$routerMatch = $e->getRouteMatch();
-	// 	$arrayController = explode("\\",$routerMatch->getParam("controller"));
-
-	// 	$viewModel = $e->getViewModel();
-	// 	//truyền ra cho layout
-	// 	$viewModel->params = array(
-	// 		"module"      => strtolower($arrayController[0])
-	// 		,"controller" => strtolower($arrayController[2])
-	// 		,"action"     => strtolower($routerMatch->getParam("action"))
-	// 	);
-	// }
 	public function getConfig(){
 		
 		return array_merge(
@@ -109,11 +84,25 @@ class Module {
                     $tableGateway = $sm->get("NestedTableGateway");
                     return  new \Admin\Model\NestedTable($tableGateway);
                 },
+                "CategoryTableGateway" => function($sm){
+                    $adapter = $sm->get("dbConfig");
+                    //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
+                    $resultSetPrototype = new HydratingResultSet();
+                    $resultSetPrototype->setHydrator(new ObjectProperty());
+                    $resultSetPrototype->setObjectPrototype(new \Admin\Model\Entity\Category());
+
+                    return $tableGateway = new TableGateway("category",$adapter,null,$resultSetPrototype);
+                },
+                "Admin\Model\Category" => function($sm){
+                   $tableGateway = $sm->get("CategoryTableGateway");
+                   return  new \Admin\Model\CategoryTable($tableGateway);
+                },
             ),
             "aliases" => array(
-                "GroupTable" => "Admin\Model\Group",
-                "UserTable"  => "Admin\Model\User",
-                "NestedTable" => "Admin\Model\Nested",
+                "GroupTable"    => "Admin\Model\Group",
+                "UserTable"     => "Admin\Model\User",
+                "NestedTable"   => "Admin\Model\Nested",
+                "CategoryTable" => "Admin\Model\Category",
             ),
         );
     }

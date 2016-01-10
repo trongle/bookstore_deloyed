@@ -3,10 +3,6 @@ namespace Admin\Model\Entity;
 
 class User
 {
-
-
-
-
 	public $id;
 	public $username;
 	public $ordering;
@@ -48,6 +44,7 @@ class User
 		$this->sign          = (!empty($data['sign']))   	    ? $data['sign']           :"";
 	}
 	public function getArrayCopy(){
+	
 		$arr = get_object_vars($this);
 		$arr['status'] = ($arr['status']==1)? "active":"inactive";
 		$arr['group']  = $arr['group_id'];

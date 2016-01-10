@@ -11,3 +11,9 @@
 	color: pink;
 	display: block;
 }
+
+span.gi{
+	color       : #d7d7d7;
+	font-weight : bold;
+	margin-right:5px;
+}
