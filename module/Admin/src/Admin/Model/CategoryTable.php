@@ -47,14 +47,19 @@ class CategoryTable extends NestedTable{
 	public function listItem($arrParam = null,$options = null){
 		if($options['task'] == "list-item"){
 			$result =   $this->_tableGateway->select(function(Select $select) use($arrParam){
-				$select->columns(array("id","name","modified","modified_by","created","created_by","status","parent","level"))
+				$select->columns(array("id","name","modified","modified_by","created","created_by","status","parent","level","left","right"))
+				       ->join(array("c"=>"category"),
+				       		"category.parent = c.id",
+				       		array("lpa"=>"left","rpa"=>"right"),
+				       		"left"
+				       	)
 				       ->offset(($arrParam['paginator']['curentPage']-1) * $arrParam['paginator']['itemPerPage'])
 				       ->limit($arrParam['paginator']['itemPerPage'])
-				       ->where->notEqualTo("parent",0);
+				       ->where->notEqualTo("category.parent",0);
 
 				if(!empty($arrParam["order"]['order_by']) && !empty($arrParam["order"]['order'])){
 
-					$select->order(array(sprintf("%s %s",$arrParam['order']['order_by'] , $arrParam['order']['order'])));
+					$select->order(array(sprintf("category.%s %s",$arrParam['order']['order_by'] , $arrParam['order']['order'])));
 				}
 
 				if(!empty($arrParam['filter_status'])){
@@ -102,6 +107,15 @@ class CategoryTable extends NestedTable{
 			);
 			 $where = "id IN (".implode(",",$arrParam['id']).")";
 			$this->_tableGateway->update($data,$where);
+			return true;
+		}
+		return false;
+	}
+
+	public function changeMoveNode($arrParam = null,$options = null){
+		if($options == null){
+			if($arrParam["status"] == "up") $this->moveUp($arrParam["id"]);
+			if($arrParam["status"] == "down") $this->moveDown($arrParam["id"]);
 			return true;
 		}
 		return false;
@@ -155,7 +169,7 @@ class CategoryTable extends NestedTable{
 		if($options['task'] == "edit-item"){
 			$arrParam['status'] = ($arrParam['status'] == "active") ? 1:0;
 			$arrParam['modified'] = date("Y-m-d H:i:s");
-			$nodeParentID = $arrParam['parent'];
+			$nodeParentID = ($arrParam['parent'] == $arrParam["id"]) ? null:$arrParam['parent'];
 			unset($arrParam['parent']);
 			$this->updateNode($arrParam,$arrParam['id'],$nodeParentID);
 			return $arrParam['id'];

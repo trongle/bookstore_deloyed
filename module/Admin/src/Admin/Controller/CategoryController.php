@@ -162,6 +162,19 @@ class CategoryController extends MyAbstractController{
 		));
 	}
 
+	public function changeMoveNodeAction(){
+		$task = "";
+		$message = "Vui lòng chọn phần tử muốn thay đổi thứ tự";
+		if($this->request->isPost()){
+			if(isset($this->_mainParam["data"]["id"])){			
+				if($this->getTable()->changeMoveNode($this->_mainParam["data"])){
+					$message = "Thứ tự đã được cập nhật";	
+				}				
+			}
+		}
+		$this->flashMessenger()->addMessage($message);
+		return $this->toAction();
+	}
 
 
 }

@@ -48,6 +48,13 @@ function saveAction(type){
   submitForm();
 }
 
+function moveNode(id,type){
+  var linkSubmit = $("#adminForm").attr("action").replace(/filter/gi,"changeMoveNode")
+  $("input[name=id]").val(id);       
+  $("input[name=status]").val(type);  
+  submitForm(linkSubmit);
+}
+
 $(document).ready(function(){
 
         //event for Button    

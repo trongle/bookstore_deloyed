@@ -7,7 +7,7 @@ $currentController = $this->paramSetting["controller"];
   
     $xhtmlTable = "";
     foreach($items as $item){
-    	$id          = $item->id;
+    	  $id          = $item->id;
         $class       = $this->cycle(array("odd","even"))->next();
         $space       = str_repeat("----------|",$item->level - 1);
         $name        = "<span class='gi'>".$space."</span>".$item->name;
@@ -25,9 +25,14 @@ $currentController = $this->paramSetting["controller"];
                                                             "action"    =>"save",
                                                             "id"        =>$id         
                                                       ));
+        // move up - down
+        $buttonMoveUp   = $this->changeMoveNode($id,"up",$item->left - 1,$item->lpa,$this->paramSetting["order"]);
+        $buttonMoveDown = $this->changeMoveNode($id,"down",$item->right + 1,$item->rpa,$this->paramSetting["order"]);
+
+
         $xhtmlTable .= '<tr class="'.$class.'">
                               <td class="sorting_1"><input type="checkbox" class="check-box" name="id[]" value="'.$id.'" /></td>
-                              <td>'.$ordering.'</td>
+                              <td>'.$buttonMoveUp." ".$buttonMoveDown." ".$ordering.'</td>
                               <td class="gi" style="text-align:left"><a href="'.$linkEdit.'">'.$name.'</a></td>'           
                               .$this->createTd($created,$created_by,"fa-fw fa-user")
                               .$this->createTd($modified,$modified_by,"fa-fw fa-user")

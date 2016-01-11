@@ -119,7 +119,8 @@ class Module {
 				"linkToGo" 		   => "ZendVN\View\Helper\LinkToGo",
 				"buttonTool" 	   => "ZendVN\View\Helper\ButtonTool",
 				"createTd" 	   	   => "ZendVN\View\Helper\CreateTd",
-				"createTdName"    => "ZendVN\View\Helper\CreateTdName",
+                "createTdName"     => "ZendVN\View\Helper\CreateTdName",
+				"changeMoveNode"   => "ZendVN\View\Helper\ChangeMoveNode",
     		)
     	);
     }
