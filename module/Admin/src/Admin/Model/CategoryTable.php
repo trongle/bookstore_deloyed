@@ -1,7 +1,7 @@
 <?php 
 namespace Admin\Model;
 
-use Admin\Model\Entity\Nested;
+use Admin\Model\NestedTable;
 use PHPImageWorkshop\ImageWorkshop;
 use ZendVN\File\Image;
 use ZendVN\File\Upload;
@@ -9,7 +9,7 @@ use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\TableGateway;
 
-class CategoryTable extends Nested{
+class CategoryTable extends NestedTable{
 	protected $_tableGateway;
 	public function __construct(TableGateway $tableGateway){
 		$this->_tableGateway = $tableGateway;
@@ -108,13 +108,10 @@ class CategoryTable extends Nested{
 	}
 
 	public function deleteItem($arrParam,$options = null){
-		echo "<pre>";
-		print_r($arrParam);
-		echo "</pre>";
 		if($options['task'] == "delete-multi"){
 			if(!empty($arrParam)){
-				foreach ($arrParam as  $value) {
-					$this->_tableGateway->delete(array("id"=>$value));
+				foreach ($arrParam as  $id) {
+					$this->removeNode($id,array("action" => "one"));
 				}	
 				return true;
 			}				
@@ -139,61 +136,35 @@ class CategoryTable extends Nested{
 	}
 
 	public function saveItem($arrParam,$options = null){
-		if(!empty($arrParam['sign'])){
-			$input  = $arrParam['sign'];
+		if(!empty($arrParam['description'])){
+			$input  = $arrParam['description'];
 			$config = array(
 				"HTML.AllowedAttributes" =>array("style"),
 				"HTML.AllowedElements" =>array("p","b","em","span","strong"),
 			);
-		
 			$filter = new \ZendVN\Filter\Purifier($config);
-			$arrParam['sign'] = $filter->filter($input);
+			$arrParam['description'] = $filter->filter($input);
 		}
 		//Quenr@i3
 		if($options['task'] == "add-item"){
 			$arrParam['status']   = ($arrParam['status']=="active")? 1:0;
-			$arrParam['created']  = date("Y-m-d H:i:s");
-			$arrParam['password'] = md5($arrParam['password']);		
-			$arrParam['group_id'] = $arrParam["group"];
-			if(!empty($arrParam['image']['tmp_name'])){
-				$avatar = new Image();
-				$arrParam['avatar'] = $avatar->upload("image");
-			}
-			
-			unset($arrParam["group"]); 
-			unset($arrParam["image"]);
-			
-			$this->_tableGateway->insert($arrParam);
+			$arrParam['created']  = date("Y-m-d H:i:s");			
+			$this->insertNode($arrParam,$arrParam['parent'],array("position" => "right"));
 			return $this->_tableGateway->getLastInsertValue();
 		}
 		if($options['task'] == "edit-item"){
-
 			$arrParam['status'] = ($arrParam['status'] == "active") ? 1:0;
 			$arrParam['modified'] = date("Y-m-d H:i:s");
-			$arrParam['group_id'] = $arrParam["group"];
-			if(!empty($arrParam['image']['tmp_name'])){
-				$avatar = new Image();
-				//xóa avatar cũ
-				$avatar->removeAvatar($arrParam['avatar']);
-
-				$arrParam['avatar'] = $avatar->upload("image");
-			}
-			unset($arrParam["group"]);
-			unset($arrParam["image"]);
-			//kiem tra neu co nhap password
-			if(empty($arrParam["password"])){
-				unset($arrParam["password"]);
-			}else{
-				$arrParam["password"] = md5($arrParam["password"]);
-			}
-			$this->_tableGateway->update($arrParam,array("id"=>$arrParam['id'])); 
+			$nodeParentID = $arrParam['parent'];
+			unset($arrParam['parent']);
+			$this->updateNode($arrParam,$arrParam['id'],$nodeParentID);
 			return $arrParam['id'];
 		}
 	}
 
 	public function getItem($arrParam,$options = null){
 		return 	$this->_tableGateway->select(function(select $select) use($arrParam){
-				$select->columns(array("id","username","email","group_id","avatar","sign","fullname","ordering","status"))
+				$select->columns(array("id","name","parent","level","description"))
 					   ->where(array("id"=>$arrParam["id"]));
 			})->current();
 	}
@@ -208,6 +179,19 @@ class CategoryTable extends Nested{
 			if(!empty($result)){
 				for($i = 1;$i <= $result->level;$i++){
 					$item[$i] = "level ".$i; 
+				}
+			}
+		}
+
+		if($options['task'] == "list-form"){
+			$result = $this->_tableGateway->select(function(select $select) use($arrParam){
+					$select->columns(array("id","level","name"))
+					       ->order(array("left ASC"));
+			});
+			$item = array();
+			if(!empty($result)){
+				foreach($result as $row){
+					$item[$row->id] = str_repeat("-------|",$row->level)." ".$row->name;
 				}
 			}
 		}

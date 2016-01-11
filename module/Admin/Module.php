@@ -137,7 +137,13 @@ class Module {
     				$form = new \Admin\Form\FormUser($groupTable);
                     $form->setInputFilter(new \Admin\Form\FormUserFilter());
                     return $form;
-    			}
+    			},
+                "formAdminCategory" => function($sm){
+                    $categoryTable = $sm->getServiceLocator()->get("CategoryTable");
+                    $form = new \Admin\Form\FormCategory($categoryTable);
+                    $form->setInputFilter(new \Admin\Form\FormCategoryFilter());
+                    return $form;
+                }
     		)
     	);
     }

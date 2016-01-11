@@ -120,8 +120,9 @@ class NestedTable extends AbstractTableGateway{
 			
 				break;
 		}
-		$data["name"]   = $nodeNew["name"];
-		$data["status"] = $nodeNew["status"];
+
+		$data = array_merge($nodeNew,$data);
+
 		$this->_tableGateway->update($setRight,$whereRight);
 		$this->_tableGateway->update($setLeft,$whereLeft);
 		$this->_tableGateway->insert($data);
@@ -241,27 +242,27 @@ class NestedTable extends AbstractTableGateway{
 		$where->greaterThan("left",$nodeSelect->right);
 		$where->greaterThan("right",0);
 		$this->_tableGateway->update($set,$where);
-			//Right
+		// 	//Right
 		$set   = array("right" => new Expression("`right` + ?",array($nodeLength)) );
 		$where = new where();
 		$where->greaterThanOrEqualTo("right",$nodeSelect->right);
 		$this->_tableGateway->update($set,$where);
 
-		//==============update Level cho nodeMove==================
+		// //==============update Level cho nodeMove==================
 		$set = array("level" => new Expression("`level` + ?",array($nodeSelect->level - $nodeMove->level + 1)) );
 		$where = new where();
 		$where->lessThanOrEqualTo("right",0);
 		$this->_tableGateway->update($set,$where);
 
-		//==============cập nhật các node trên nhánh detach==================
-			//Left	
+		// //==============cập nhật các node trên nhánh detach==================
+		// 	//Left	
 		$set = array("left" => new Expression("`left` + ?",array($nodeSelect->right)));
 		$this->_tableGateway->update($set,$where);
 			//Right	
 		$set = array("right" => new Expression("`right` + ?",array($nodeSelect->right + $nodeLength - 1)));
 		$this->_tableGateway->update($set,$where);
 
-		//==============cập nhật parent cho các node trên detach==================
+		// //==============cập nhật parent cho các node trên detach==================
 		$set = array("parent" => $nodeSelect->id);
 		$where = new where();
 		$where->equalTo("id",$nodeMove->id);
@@ -409,6 +410,7 @@ class NestedTable extends AbstractTableGateway{
 		if(!empty($nodeID) && !empty($data)){
 			$this->_tableGateway->update($data,array("id" => $nodeID));
 			if(!empty($nodeParentID)){
+
 				$nodeParent = $this->getInfoNode($nodeParentID);
 				$node       = $this->getInfoNode($nodeID);
 				if(!empty($nodeParent) && $node->parent != $nodeParent->id ){

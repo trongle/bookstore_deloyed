@@ -133,7 +133,7 @@ class CategoryController extends MyAbstractController{
 		$message = "Một User đã được thêm thành công";
 		if(!empty($info)){
 			$form->bind($info);
-			$form->setInputFilter(new \Admin\Form\FormUserFilter(array("id"=>$this->_mainParam["data"]['id'])));
+			$form->setInputFilter(new \Admin\Form\FormCategoryFilter(array("id"=>$this->_mainParam["data"]['id'])));
 			$task    = "edit-item";
 			$message = "Một User đã được chỉnh sữa thành công";
 			$title   = " - User - Edit";

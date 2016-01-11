@@ -49,6 +49,7 @@ function saveAction(type){
 }
 
 $(document).ready(function(){
+
         //event for Button    
         $("a[data-type=ordering]").click(function(){
           changeOrdering();
@@ -120,5 +121,7 @@ $(document).ready(function(){
               addBadgeForStatus(count);
 
           })
+
+
 })
 

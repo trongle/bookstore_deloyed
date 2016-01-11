@@ -15,4 +15,5 @@ CKEDITOR.editorConfig = function( config ) {
 	];
 	config.toolbar       = "Basic";
 	config.resize_dir    = 'vertical';//vertical
+	config.removePlugins = "iframe";
 };

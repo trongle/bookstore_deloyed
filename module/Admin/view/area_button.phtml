@@ -1,25 +1,33 @@
 <!-- BUTTON-TOOL -->
 <div class="text-center">
 <?php
-	
+	$button = "";
 	$currentAction     = $this->layout()->params['action'];
 	$currentController = $this->layout()->params['controller'];
 	switch ($currentAction) {
 		case 'index':
-			echo $this->buttonTool("Ordering","fa-repeat","ordering");
-			echo $this->buttonTool("Add","fa-plus-square-o",null,"no","/admin/".$currentController."/save");
-			echo $this->buttonTool("Active","fa-check-circle-o","active");
-			echo $this->buttonTool("InActive","fa-circle-o","inactive");
-			echo $this->buttonTool("Delete","fa-minus-circle","delete");
+			$button =  $this->buttonTool("Ordering","fa-repeat","ordering");
+			$button .= $this->buttonTool("Add","fa-plus-square-o",null,"no","/admin/".$currentController."/save");
+			$button .= $this->buttonTool("Active","fa-check-circle-o","active");
+			$button .= $this->buttonTool("InActive","fa-circle-o","inactive");
+			$button .= $this->buttonTool("Delete","fa-minus-circle","delete");
+			if($currentController == "category"){
+				$button = $this->buttonTool("Add","fa-plus-square-o",null,"no","/admin/".$currentController."/save");
+				$button .= $this->buttonTool("Active","fa-check-circle-o","active");
+				$button .= $this->buttonTool("InActive","fa-circle-o","inactive");
+				$button .= $this->buttonTool("Delete","fa-minus-circle","delete");
+			}
 			break;
 		case 'save':
-			echo $this->buttonTool("Save","fa-save","save","no");
-			echo $this->buttonTool("Save & Close","fa-folder-open-o","save-close","no");
-			echo $this->buttonTool("Save & New","fa-plus-square","save-new","no");
-			echo $this->buttonTool("Cancel","fa-arrow-circle-left",null,"no","/admin/".$currentController."/index");
+			$button = $this->buttonTool("Save","fa-save","save","no");
+			$button .= $this->buttonTool("Save & Close","fa-folder-open-o","save-close","no");
+			$button .= $this->buttonTool("Save & New","fa-plus-square","save-new","no");
+			$button .= $this->buttonTool("Cancel","fa-arrow-circle-left",null,"no","/admin/".$currentController."/index");
 			break;
 		default:
 			break;
 	}
+
+	echo $button;
 ?>
 </div>

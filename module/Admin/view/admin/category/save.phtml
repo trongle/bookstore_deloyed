@@ -1,7 +1,5 @@
-
 <!-- script -->
-<?php
-
+<?php 
 	echo $this->headScript()->appendFile(URL_SCRIPT."ckeditor/ckeditor.js","text/javascript");
 ?>
 
@@ -21,20 +19,12 @@
     	<?php 
     		echo $this->form()->openTag($myForm);
 	    		echo $this->partialLoop("partial_formAdminGroup.phtml",array(
-	    				array("elm" =>$myForm->get("username")),
-	    				array("elm" =>$myForm->get("fullname")),
-	    				array("elm" =>$myForm->get("email")),
-	    				array("elm" =>$myForm->get("password")),
-	    				array("elm" =>$myForm->get("group")),
-	    				array("elm" =>$myForm->get("image")),
-	    				array("elm" =>$myForm->get("avatar"),"type"=>"avatar"),
-	    				array("elm" =>$myForm->get("ordering")),
+	    				array("elm" =>$myForm->get("name")),
+	    				array("elm" =>$myForm->get("parent")),
 	    				array("elm" =>$myForm->get("status")),
-	    				array("elm" =>$myForm->get("sign")),
+	    				array("elm" =>$myForm->get("description")),
 	    				array("elm" =>$myForm->get("id"),"type"=>"hidden"),
-	    				array("elm" =>$myForm->get("action"),"type"=>"hidden"),
-	    				array("elm" =>$myForm->get("avatar"),"type"=>"hidden"),
-	    				
+	    				array("elm" =>$myForm->get("action"),"type"=>"hidden"),	    				
 	    			));
     		echo $this->form()->closeTag();
     	?>
@@ -42,7 +32,12 @@
 </div>
 
 <script type="text/javascript">
-	CKEDITOR.replace('sign',{ 
+//category
+	$(document).ready(function(){
+		var id = $("input[name=id]").val();
+		$("select[name=parent] option[value="+id+"]").attr("disabled",true)
+	})
+	CKEDITOR.replace('description',{ 
         	customConfig : "custom/config_1.js",
     });
 </script>
