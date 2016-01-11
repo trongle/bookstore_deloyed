@@ -24,6 +24,10 @@ class CategoryTable extends Nested{
 				$select->where->equalTo("status",(int)$status);
 			}
 
+			if(!empty($arrParam['filter_level'])){
+				$select->where->equalTo("category.level",$arrParam['filter_level']);
+			}
+
 			if(!empty($arrParam['search']['search_value']) && !empty($arrParam['search']['search_key'])){
 				if($arrParam['search']['search_key'] != "all"){
 					$select->where->like("category.".$arrParam['search']['search_key'],
@@ -39,22 +43,27 @@ class CategoryTable extends Nested{
 		return $result->count();
 	}
 
+
 	public function listItem($arrParam = null,$options = null){
 		if($options['task'] == "list-item"){
 			$result =   $this->_tableGateway->select(function(Select $select) use($arrParam){
 				$select->columns(array("id","name","modified","modified_by","created","created_by","status","parent","level"))
 				       ->offset(($arrParam['paginator']['curentPage']-1) * $arrParam['paginator']['itemPerPage'])
 				       ->limit($arrParam['paginator']['itemPerPage'])
-				       ->order(array("left ASC"))
 				       ->where->notEqualTo("parent",0);
 
-				if(!empty($arrParam['order_by']) && !empty($arrParam['order'])){
+				if(!empty($arrParam["order"]['order_by']) && !empty($arrParam["order"]['order'])){
+
 					$select->order(array(sprintf("%s %s",$arrParam['order']['order_by'] , $arrParam['order']['order'])));
 				}
 
 				if(!empty($arrParam['filter_status'])){
 					$status = ($arrParam['filter_status']=="active")? 1:0;
 					$select->where->equalTo("category.status",$status);
+				}
+
+				if(!empty($arrParam['filter_level'])){
+					$select->where->lessThanOrEqualTo("category.level",$arrParam['filter_level']);
 				}
 
 
@@ -64,13 +73,15 @@ class CategoryTable extends Nested{
 											 "%".$arrParam['search']['search_value']."%");
 					}else{
 						$select->where->NEST
-						              ->like("category."."username","%".$arrParam['search']['search_value']."%")
+						              ->like("category."."name","%".$arrParam['search']['search_value']."%")
 									  ->or->equalTo("category."."id",$arrParam['search']['search_value'])
 									  ->UNNEST;
 					}	
 					
 				}
-			  // echo $select->getSqlString();exit();
+			$select->order(array("left ASC"));
+			  // echo $select->getSqlString();
+			
 			});
 		}
 		return $result;
@@ -97,12 +108,12 @@ class CategoryTable extends Nested{
 	}
 
 	public function deleteItem($arrParam,$options = null){
+		echo "<pre>";
+		print_r($arrParam);
+		echo "</pre>";
 		if($options['task'] == "delete-multi"){
 			if(!empty($arrParam)){
 				foreach ($arrParam as  $value) {
-					$avatar = new Image();
-					$avatarName = $this->getItem(array("id"=>$value));
-					$avatar->removeAvatar($avatarName->avatar);
 					$this->_tableGateway->delete(array("id"=>$value));
 				}	
 				return true;
@@ -185,6 +196,23 @@ class CategoryTable extends Nested{
 				$select->columns(array("id","username","email","group_id","avatar","sign","fullname","ordering","status"))
 					   ->where(array("id"=>$arrParam["id"]));
 			})->current();
+	}
+
+	public function itemInSelectBox($arrParam = null,$options = null){
+		if($options == null){
+			$result = $this->_tableGateway->select(function(select $select) use($arrParam){
+					$select->columns(array("id","level"))
+					       ->order(array("level DESC"));
+			})->current();
+			$item = array();
+			if(!empty($result)){
+				for($i = 1;$i <= $result->level;$i++){
+					$item[$i] = "level ".$i; 
+				}
+			}
+		}
+
+		return $item;
 	}
 }
 ?>

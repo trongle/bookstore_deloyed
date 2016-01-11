@@ -40,7 +40,7 @@ $currentController = $this->paramSetting["controller"];
 $linkForm = $this->basePath("admin/category/filter");
 // SEARCH FUNC [SELECT-BOX]
 $value = array(
-    "username" => "Search by Name",
+    "name" => "Search by Name",
     "id"       => "Search by ID",
     "all"      => "Search All"
 );
@@ -79,7 +79,10 @@ $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-pri
                       <?php
                         //SELECT-STATUS
                         $filter_status = $this->paramSetting['filter_status'];
-                        echo $this->zvnFormSelectBox("filter_status","-- Select a status--",array("active"=>"Active","inactive"=>"InActive"),$filter_status);          
+                        $filter_level = $this->paramSetting['filter_level'];
+                        echo $this->zvnFormSelectBox("filter_status","-- Select a status--",array("active"=>"Active","inactive"=>"InActive"),$filter_status); 
+                        echo " ";         
+                        echo $this->zvnFormSelectBox("filter_level","-- Select max level--",$this->selectLevel,$filter_level);          
                       ?>
                     </div>
                   </div>
@@ -96,7 +99,7 @@ $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-pri
                         <?php 
                             //-----order---
                             $order = $this->paramSetting['order'];
-                            echo $this->changeSortLink($order,"ordering","Ordering").
+                            echo $this->changeSortLink($order,"left","Ordering").
                             	 $this->changeSortLink($order,"name","Name").
                                  $this->changeSortLink($order,"created","Created").
                                  $this->changeSortLink($order,"modified","Modified").                         
@@ -107,8 +110,8 @@ $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-pri
                       </tr>
                       <?php
                       //----hidden---
-                            echo $this->zvnFormHidden("order","ASC").
-                                 $this->zvnFormHidden("order_by","id").
+                            echo $this->zvnFormHidden("order","").
+                                 $this->zvnFormHidden("order_by","").
                                  $this->zvnFormHidden("status","").
                                  $this->zvnFormHidden("id","");
                       ?>

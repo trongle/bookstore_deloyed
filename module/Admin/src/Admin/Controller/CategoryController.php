@@ -7,8 +7,8 @@ use Zend\View\Model\ViewModel;
 
 class CategoryController extends MyAbstractController{
 	protected $_orderList = [
-		"order"    => "DESC",
-		"order_by" => "id"
+		"order"    => "ASC",
+		"order_by" => "left"
 	];
 
 	protected $_search = [
@@ -17,7 +17,7 @@ class CategoryController extends MyAbstractController{
 	];
 
 	protected $_filter_status;
-	protected $_filter_group;
+	protected $_filter_level;
 
 	public function init(){
 		$ssOrder = new Container(__CLASS__);
@@ -25,6 +25,7 @@ class CategoryController extends MyAbstractController{
 		$this->_orderList['order']     = !empty($ssOrder->order)? $ssOrder->order : $this->_orderList['order'] ;
 		$this->_orderList['order_by']  = !empty($ssOrder->order_by)? $ssOrder->order_by : $this->_orderList['order_by'];
 		$this->_filter_status          = $ssOrder->filter_status;
+		$this->_filter_level           = $ssOrder->filter_level;
 		$this->_search['search_key']   = $ssOrder->search_key;
 		$this->_search['search_value'] = $ssOrder->search_value;
 
@@ -39,6 +40,7 @@ class CategoryController extends MyAbstractController{
 														"paginator"     => $this->_configPaginator,
 														"order"         => $this->_orderList,
 														"filter_status" => $this->_filter_status,
+														"filter_level"  => $this->_filter_level,
 														"search"        => $this->_search
 													));
 
@@ -51,11 +53,14 @@ class CategoryController extends MyAbstractController{
 	public function indexAction(){
 		$items       = $this->getTable()->listItem($this->_mainParam,array("task"=>"list-item"));
 		$totalItem   = $this->getTable()->countItem($this->_mainParam);
+		$selectLevel = $this->getTable()->itemInSelectBox();
+
 		return new ViewModel(array(
 				"items"        => $items,
 				"paginator"    => \ZendVN\Paginator\Paginator::createPagination($totalItem,$this->_configPaginator),
-				"paramSetting" => $this->_mainParam
-		));
+				"paramSetting" => $this->_mainParam, 
+				"selectLevel"  => $selectLevel
+  		));
 	}
 
 	public function filterAction(){
@@ -67,6 +72,7 @@ class CategoryController extends MyAbstractController{
 			$ssOrder->filter_status = $this->_mainParam['data']['filter_status'];			
 			$ssOrder->search_value  = $this->_mainParam['data']['search_value'];		
 			$ssOrder->search_key    = $this->_mainParam['data']['search_key'];	
+			$ssOrder->filter_level  = $this->_mainParam['data']['filter_level'];	
 
 			if(isset($this->_mainParam['data']['btn_clear'])){
 				$ssOrder->offsetUnset("search_value");
