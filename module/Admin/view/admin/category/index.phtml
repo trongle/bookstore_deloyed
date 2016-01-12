@@ -19,7 +19,7 @@ $currentController = $this->paramSetting["controller"];
        //ordering
         $data[$item->parent][] = $item->id;
 		    $ordering    = $this->zvnFormText("ordering[{$id}]",array_search($item->id,$data[$item->parent]) + 1,array("class"=>"input-order","size"=>"4")); 
-       
+               
         $status      = $this->changeStatusLink($id,$item->status);
         $linkEdit    = $this->linkToGo("adminRoute/default",array("controller"=>"category",
                                                             "action"    =>"save",

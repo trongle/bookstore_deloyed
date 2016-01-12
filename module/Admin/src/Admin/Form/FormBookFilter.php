@@ -56,6 +56,24 @@ class FormBookFilter extends InputFilter{
 			
 		));
 
+		
+		//name
+		$this->add(array(
+			'name'    => "price",
+			"validators" => array(
+				array(
+					"name" => "Digits",
+					"options" => array(
+						"messages" => array(
+							\Zend\Validator\Digits::NOT_DIGITS => "Nội dung nhập vào phải là số",
+						)
+					),
+					"break_chain_on_failure" => "true"
+				)		
+			)
+			
+		));
+
 		//picture
 		$this->add(array(
 			'name'    => "image",
@@ -91,6 +109,12 @@ class FormBookFilter extends InputFilter{
 		$this->add(array(
 			'name'    => "status",
 			"required" => true
+		));
+
+		//status
+		$this->add(array(
+			'name'    => "sale_off_type",
+			"required" => false
 		));
 	}
 }

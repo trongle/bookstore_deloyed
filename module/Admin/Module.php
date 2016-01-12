@@ -129,12 +129,14 @@ class Module {
 				"zvnFormHidden"    => "ZendVN\Form\View\Helper\FormHidden",
 				"zvnFormText"      => "ZendVN\Form\View\Helper\FormText",
 				"zvnFormButton"    => "ZendVN\Form\View\Helper\FormButton",
-				"changeStatusLink" => "ZendVN\View\Helper\ChangeStatusLink",
+                "changeStatusLink" => "ZendVN\View\Helper\ChangeStatusLink",
+				"changeSpecialLink" => "ZendVN\View\Helper\ChangeSpecialLink",
 				"linkToGo" 		   => "ZendVN\View\Helper\LinkToGo",
 				"buttonTool" 	   => "ZendVN\View\Helper\ButtonTool",
 				"createTd" 	   	   => "ZendVN\View\Helper\CreateTd",
                 "createTdName"     => "ZendVN\View\Helper\CreateTdName",
-				"changeMoveNode"   => "ZendVN\View\Helper\ChangeMoveNode",
+                "changeMoveNode"   => "ZendVN\View\Helper\ChangeMoveNode",
+				"createPrice"      => "ZendVN\View\Helper\CreatePrice",
     		)
     	);
     }

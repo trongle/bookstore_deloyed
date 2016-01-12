@@ -17,6 +17,11 @@ $currentController = $this->paramSetting["controller"];
         $created_by    = $item->created_by;  
         $ordering      = $this->zvnFormText("ordering[{$id}]",$item->ordering,array("class"=>"input-order","size"=>"4"));
         $status        = $this->changeStatusLink($id,$item->status);
+        $special       = $this->changeSpecialLink($id,$item->special);
+        $price         = $this->createPrice($item->price,$item->sale_off);
+        
+        
+    
         $picture       = URL_FILES."books/no-avatar.jpg";
         $category_name = $item->ca_name;
         if(!empty($item->picture)){
@@ -30,11 +35,12 @@ $currentController = $this->paramSetting["controller"];
                               <td class="sorting_1"><input type="checkbox" class="check-box" name="id[]" value="'.$id.'" /></td>
                               <td><img src="'.$picture.'" class="img_thumbnail"></td>
                               <td><a href="'.$linkEdit.'">'.$name.'</a></td>
+                              <td>'.$price.'</td>
                               <td>'.$category_name.'</td>'
                               .$this->createTd($created,$created_by,"fa-fw fa-user")
                               .$this->createTd($modified,$modified_by,"fa-fw fa-user").'
                               <td>'.$ordering.'</td>
-                              '.$status.' 
+                              '.$special.$status.' 
                               <td>'.$id.'</td>
                         </tr>'; 
     }
@@ -83,8 +89,12 @@ $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-pri
                         //SELECT-STATUS
                         $filter_status = $this->paramSetting['filter_status'];
                         echo $this->zvnFormSelectBox("filter_status","-- Select a status --",array("active"=>"Active","inactive"=>"InActive"),$filter_status);
+
+                        //SELECT-SPECIAL
+                        $filter_special = $this->paramSetting['filter_special'];
+                        echo $this->zvnFormSelectBox("filter_special","-- Select a type --",array("normal"=>"Normal","special"=>"Special"),$filter_special);
                         
-                         //SELECT-GROUP
+                         //SELECT-CATEGORY
                         $filter_category = $this->paramSetting['filter_category'];
                         echo  $this->zvnFormSelectBox("filter_category","-- Select a category --",$this->selectCategory,$filter_category);
                       ?>
@@ -105,14 +115,15 @@ $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-pri
                             $order = $this->paramSetting['order'];
                             echo $this->changeSortLink($order,"picture","Picture").
                                  $this->changeSortLink($order,"name","Name").
+                                 $this->changeSortLink($order,"price","Price").
                                  $this->changeSortLink($order,"ca_name","Category_name").
                                  $this->changeSortLink($order,"created","Created").
                                  $this->changeSortLink($order,"modified","Modified").
                                  $this->changeSortLink($order,"ordering","Ordering").
+                                 $this->changeSortLink($order,"special","Special").
                                  $this->changeSortLink($order,"status","Status").
                                  $this->changeSortLink($order,"id","ID");   
-
-                         ?>
+                        ?>
                       </tr>
                       <?php
                       //----hidden---

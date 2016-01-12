@@ -28,6 +28,13 @@ function changeOrdering(type){
   submitForm(linkSubmit);
 }
 
+function changeSpecial(id,status){
+  var linkSubmit = $("#adminForm").attr("action").replace(/filter/gi,"special")
+  $("input[name=id]").val(id);       
+  $("input[name=status]").val(status);  
+  submitForm(linkSubmit);
+}
+
 function addBadgeForStatus(item){
     $("a[data-show=yes]").prepend("<span class='badge bg-aqua'>"+item+"</span>")
     if(item == null){
@@ -88,6 +95,9 @@ $(document).ready(function(){
           submitForm();
         })
         $("select[name=filter_group]").on("change",function(){
+          submitForm();
+        })
+        $("select[name=filter_special]").on("change",function(){
           submitForm();
         })
         $("select[name=filter_level]").on("change",function(){

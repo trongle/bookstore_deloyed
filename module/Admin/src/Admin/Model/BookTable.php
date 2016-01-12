@@ -7,6 +7,7 @@ use ZendVN\File\Upload;
 use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Json\Json;
 
 class BookTable extends AbstractTableGateway{
 	protected $_tableGateway;
@@ -27,6 +28,11 @@ class BookTable extends AbstractTableGateway{
 				$select->where->equalTo("book.category_id",$arrParam['filter_category']);
 			}
 
+			if(!empty($arrParam['filter_special'])){
+				$special = ($arrParam['filter_special']=="special")? 1:0;
+				$select->where->equalTo("book.special",$special);
+			}
+
 			if(!empty($arrParam['search']['search_value']) && !empty($arrParam['search']['search_key'])){
 				if($arrParam['search']['search_key'] != "all"){
 					$select->where->like("book.".$arrParam['search']['search_key'],
@@ -45,7 +51,7 @@ class BookTable extends AbstractTableGateway{
 	public function listItem($arrParam = null,$options = null){
 		if($options['task'] == "list-item"){
 			$result =   $this->_tableGateway->select(function(Select $select) use($arrParam){
-				$select->columns(array("id","name","picture","ordering","modified","modified_by","created","created_by","status"))
+				$select->columns(array("id","name","picture","ordering","modified","modified_by","created","created_by","status","special","price","sale_off"))
 				       ->join(array("c"=>"category"),
 				       		  "c.id = book.category_id",
 				       		  array("ca_name"=>"name"),
@@ -58,6 +64,11 @@ class BookTable extends AbstractTableGateway{
 				if(!empty($arrParam['filter_status'])){
 					$status = ($arrParam['filter_status']=="active")? 1:0;
 					$select->where->equalTo("book.status",$status);
+				}
+
+				if(!empty($arrParam['filter_special'])){
+					$special = ($arrParam['filter_special']=="special")? 1:0;
+					$select->where->equalTo("book.special",$special);
 				}
 
 
@@ -88,7 +99,7 @@ class BookTable extends AbstractTableGateway{
 	public function changeStatus($arrParam = null,$options = null){
 		if($options['task'] == "change-status"){
 			$data = array(
-				"status" => ($arrParam['status'] == 1)? (int)0 : 1
+				"status" => ($arrParam['status'] == 1)? 0 : 1
 			);
 			$where = array("id" => $arrParam['id']);
 			$this->_tableGateway->update($data,$where);
@@ -103,6 +114,17 @@ class BookTable extends AbstractTableGateway{
 			return true;
 		}
 		return false;
+	}
+
+	public function changeSpecial($arrParam = null,$options = null){
+		if($options == null){
+			$data = array(
+				"special" => ($arrParam['status'] == 1)? 0 : 1
+			);
+			$where = array("id" => $arrParam['id']);
+			$this->_tableGateway->update($data,$where);
+			return true;
+		}
 	}
 
 	public function deleteItem($arrParam,$options = null){
@@ -157,7 +179,13 @@ class BookTable extends AbstractTableGateway{
 			}
 			
 			unset($arrParam["image"]);
-			
+			//edit sale-off
+			if(!empty($arrParam["sale_off_type"]) && !empty($arrParam["sale_off_value"]) ){
+				$arrParam["sale_off"] = Json::encode(array("type"=>$arrParam["sale_off_type"],"value"=>$arrParam["sale_off_value"]));
+				
+			}
+			unset($arrParam["sale_off_value"]);
+			unset($arrParam["sale_off_type"]);
 			$this->_tableGateway->insert($arrParam);
 			return $this->_tableGateway->getLastInsertValue();
 		}
@@ -173,6 +201,15 @@ class BookTable extends AbstractTableGateway{
 				$arrParam['picture'] = $avatar->upload("image","book_",array("task"=>"book"));
 			}
 			unset($arrParam["image"]);
+			//edit sale-off
+			if(!empty($arrParam["sale_off_type"]) && !empty($arrParam["sale_off_value"]) ){
+				$arrParam["sale_off"] = Json::encode(array("type"=>$arrParam["sale_off_type"],"value"=>$arrParam["sale_off_value"]));
+				
+			}else{
+				$arrParam["sale_off"] = null;
+			}
+			unset($arrParam["sale_off_value"]);
+			unset($arrParam["sale_off_type"]);
 	
 			$this->_tableGateway->update($arrParam,array("id"=>$arrParam['id'])); 
 			return $arrParam['id'];
@@ -181,9 +218,11 @@ class BookTable extends AbstractTableGateway{
 
 	public function getItem($arrParam,$options = null){
 		return 	$this->_tableGateway->select(function(select $select) use($arrParam){
-				$select->columns(array("id","name","description","ordering","status","picture","category_id"))
+				$select->columns(array("id","name","description","ordering","status","picture","category_id","price","sale_off"))
 					   ->where(array("id"=>$arrParam["id"]));
 			})->current();
 	}
+
+
 }
 ?>

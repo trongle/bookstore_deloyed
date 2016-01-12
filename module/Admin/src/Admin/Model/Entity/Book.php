@@ -1,6 +1,8 @@
 <?php 
 namespace Admin\Model\Entity;
 
+use Zend\Json\Json;
+
 class Book
 {
 	public $id;
@@ -39,7 +41,10 @@ class Book
 	public function getArrayCopy(){
 		$arr = get_object_vars($this);
 		$arr['status'] = ($arr['status']==1)? "active":"inactive";
-		unset($arr['group_id']);
+		$arr['special'] = ($arr['status']==1)? "special":"normal";
+		$sale_off = Json::decode($arr["sale_off"]);
+		$arr['sale_off_type']  = $sale_off->type;
+		$arr['sale_off_value'] = $sale_off->value;
 		return $arr;
 	}
 

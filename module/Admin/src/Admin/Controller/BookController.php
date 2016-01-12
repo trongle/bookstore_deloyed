@@ -18,6 +18,7 @@ class BookController extends MyAbstractController{
 
 	protected $_filter_status;
 	protected $_filter_category;
+	protected $_filter_special;
 
 	public function init(){
 		$ssOrder = new Container(__CLASS__);
@@ -26,6 +27,7 @@ class BookController extends MyAbstractController{
 		$this->_orderList['order_by']  = !empty($ssOrder->order_by)? $ssOrder->order_by : $this->_orderList['order_by'];
 		$this->_filter_status          = $ssOrder->filter_status;
 		$this->_filter_category        = $ssOrder->filter_category;
+		$this->_filter_special         = $ssOrder->filter_special;
 		$this->_search['search_key']   = $ssOrder->search_key;
 		$this->_search['search_value'] = $ssOrder->search_value;
 
@@ -36,14 +38,12 @@ class BookController extends MyAbstractController{
 		//SET OPTIONS 
 		$this->_options["tableName"] = "BookTable";
 		$this->_options["formName"]  = "formAdminBook";
-		// echo "<pre>";
-		// print_r($this->request->getFiles()->toArray());
-		// echo "</pre>";
 		$this->_mainParam =array_merge($this->_mainParam,array(
 														"paginator"       => $this->_configPaginator,
 														"order"           => $this->_orderList,
 														"filter_status"   => $this->_filter_status,
 														"filter_category" => $this->_filter_category,
+														"filter_special"  => $this->_filter_special,
 														"search"          => $this->_search
 													));
 
@@ -73,6 +73,7 @@ class BookController extends MyAbstractController{
 			$ssOrder->order           = $this->_mainParam['data']['order'];	//new Way	 
 			$ssOrder->order_by        = $this->_mainParam['data']['order_by'];		
 			$ssOrder->filter_status   = $this->_mainParam['data']['filter_status'];		
+			$ssOrder->filter_special  = $this->_mainParam['data']['filter_special'];		
 			$ssOrder->filter_category = $this->_mainParam['data']['filter_category'];		
 			$ssOrder->search_value    = $this->_mainParam['data']['search_value'];		
 			$ssOrder->search_key      = $this->_mainParam['data']['search_key'];	
@@ -164,6 +165,21 @@ class BookController extends MyAbstractController{
 		));
 	}
 
+	public function specialAction(){
+		$task = "";
+		$message = "Vui lòng chọn phần tử muốn thay đổi loại";
+		if($this->request->isPost()){
+			if(isset($this->_mainParam["data"]["id"])){
+				$id = $this->_mainParam["data"]["id"];
+				
+				if($this->getTable()->changeSpecial($this->_mainParam["data"])){
+					$message = "Loại đã được cập nhật";	
+				}				
+			}
+		}
+		$this->flashMessenger()->addMessage($message);
+		return $this->toAction();
+	}
 
 
 }

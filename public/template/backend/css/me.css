@@ -17,3 +17,7 @@ span.gi{
 	font-weight : bold;
 	margin-right:5px;
 }
+
+p.price {
+	text-decoration: line-through;
+}

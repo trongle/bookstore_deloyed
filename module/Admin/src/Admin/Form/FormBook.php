@@ -38,6 +38,44 @@ class FormBook extends Form{
 			)	
 		));
 
+		//price
+		$this->add(array(
+			"type" => "text",
+			"name" => "price",
+			"required" => true,
+			"attributes" => array(
+				"class"       => "form-control",
+				"id"          => "price",
+				"placeholder" => "Enter price",
+			),
+			"options" => array(
+				"label" => "Price",
+				"label_attributes" => array(
+					"class" => "col-sm-3 control-label",
+					"for"   => "price"
+				),
+			)	
+		));
+
+		//sale off value
+		$this->add(array(
+			"type" => "text",
+			"name" => "sale_off_value",
+			"required" => false,
+			"attributes" => array(
+				"class"       => "form-control",
+				"id"          => "sale_off_value",
+				"placeholder" => "Enter sale off value",
+			),
+			"options" => array(
+				"label" => "Sale off value",
+				"label_attributes" => array(
+					"class" => "col-sm-3 control-label",
+					"for"   => "sale_off_value"
+				),
+			)	
+		));
+
 		
 
 		//ordering
@@ -95,6 +133,50 @@ class FormBook extends Form{
 				"label_attributes" => array(
 					"class" => "col-sm-3 control-label",
 					"for"   => "status"
+				)
+			)	
+		));
+
+		//special
+		$this->add(array(
+			"type" => "select",
+			"name" => "special",
+			"required" => false,
+			"attributes" => array(
+				"class" => "form-control"
+			),
+			"options" => array(
+				"empty_option"  => "-- Select Special --",
+				"value_options" => array(
+					"normal"   => "Normal",
+					"special"  => "Special",
+				),
+				"label" => "Special",
+				"label_attributes" => array(
+					"class" => "col-sm-3 control-label",
+					"for"   => "special"
+				)
+			)	
+		));
+
+		//sale_off type
+		$this->add(array(
+			"type" => "select",
+			"name" => "sale_off_type",
+			"required" => false,
+			"attributes" => array(
+				"class" => "form-control"
+			),
+			"options" => array(
+				"empty_option"  => "-- Select sale off type --",
+				"value_options" => array(
+					"percent"  => "Percent",
+					"number" => "Number",
+				),
+				"label" => "Sale off type",
+				"label_attributes" => array(
+					"class" => "col-sm-3 control-label",
+					"for"   => "sale_off_type"
 				)
 			)	
 		));
