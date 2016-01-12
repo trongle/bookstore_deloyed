@@ -93,6 +93,9 @@ $(document).ready(function(){
         $("select[name=filter_level]").on("change",function(){
           submitForm();
         })
+        $("select[name=filter_category]").on("change",function(){
+          submitForm();
+        })
 
         //nhấn enter submit luôn
         $("input[name=search_value]").keypress(function(e){

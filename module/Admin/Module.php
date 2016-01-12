@@ -97,12 +97,26 @@ class Module {
                    $tableGateway = $sm->get("CategoryTableGateway");
                    return  new \Admin\Model\CategoryTable($tableGateway);
                 },
+                "BookTableGateway" => function($sm){
+                    $adapter = $sm->get("dbConfig");
+                    //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
+                    $resultSetPrototype = new HydratingResultSet();
+                    $resultSetPrototype->setHydrator(new ObjectProperty());
+                    $resultSetPrototype->setObjectPrototype(new \Admin\Model\Entity\Book());
+
+                    return $tableGateway = new TableGateway("book",$adapter,null,$resultSetPrototype);
+                },
+                "Admin\Model\Book" => function($sm){
+                    $tableGateway = $sm->get("BookTableGateway");
+                    return  new \Admin\Model\BookTable($tableGateway);
+                },
             ),
             "aliases" => array(
                 "GroupTable"    => "Admin\Model\Group",
                 "UserTable"     => "Admin\Model\User",
                 "NestedTable"   => "Admin\Model\Nested",
                 "CategoryTable" => "Admin\Model\Category",
+                "BookTable"     => "Admin\Model\Book",
             ),
         );
     }
@@ -144,7 +158,13 @@ class Module {
                     $form = new \Admin\Form\FormCategory($categoryTable);
                     $form->setInputFilter(new \Admin\Form\FormCategoryFilter());
                     return $form;
-                }
+                },
+                "formAdminBook" => function($sm){
+                    $categoryTable = $sm->getServiceLocator()->get("CategoryTable");
+                    $form = new \Admin\Form\FormBook($categoryTable);
+                    $form->setInputFilter(new \Admin\Form\FormBookFilter());
+                    return $form;
+                },
     		)
     	);
     }

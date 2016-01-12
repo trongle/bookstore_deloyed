@@ -1,7 +1,6 @@
 <?php 
 namespace Admin\Model;
 
-use Admin\Model\NestedTable;
 use PHPImageWorkshop\ImageWorkshop;
 use ZendVN\File\Image;
 use ZendVN\File\Upload;
@@ -9,7 +8,7 @@ use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\TableGateway;
 
-class CategoryTable extends NestedTable{
+class BookTable extends AbstractTableGateway{
 	protected $_tableGateway;
 	public function __construct(TableGateway $tableGateway){
 		$this->_tableGateway = $tableGateway;
@@ -18,24 +17,24 @@ class CategoryTable extends NestedTable{
 
 	public function countItem($arrParam = null,$options = null){
 		$result = $this->_tableGateway->select(function(Select $select) use($arrParam){
-			$select->where->notEqualTo("parent",0);
 			if(!empty($arrParam['filter_status'])){
 				$status = ($arrParam['filter_status']=="active")? 1:0;
 				$select->where->equalTo("status",(int)$status);
 			}
 
-			if(!empty($arrParam['filter_level'])){
-				$select->where->equalTo("category.level",$arrParam['filter_level']);
+
+			if(!empty($arrParam['filter_category'])){
+				$select->where->equalTo("book.category_id",$arrParam['filter_category']);
 			}
 
 			if(!empty($arrParam['search']['search_value']) && !empty($arrParam['search']['search_key'])){
 				if($arrParam['search']['search_key'] != "all"){
-					$select->where->like("category.".$arrParam['search']['search_key'],
+					$select->where->like("book.".$arrParam['search']['search_key'],
 										 "%".$arrParam['search']['search_value']."%");
 				}else{
 					$select->where->NEST
-					              ->like("category."."name","%".$arrParam['search']['search_value']."%")
-								  ->or->equalTo("category."."id",$arrParam['search']['search_value'])
+					              ->like("book."."name","%".$arrParam['search']['search_value']."%")
+								  ->or->equalTo("book."."id",$arrParam['search']['search_value'])
 								  ->UNNEST;
 				}			
 			}
@@ -43,50 +42,44 @@ class CategoryTable extends NestedTable{
 		return $result->count();
 	}
 
-
 	public function listItem($arrParam = null,$options = null){
 		if($options['task'] == "list-item"){
 			$result =   $this->_tableGateway->select(function(Select $select) use($arrParam){
-				$select->columns(array("id","name","modified","modified_by","created","created_by","status","parent","level","left","right"))
+				$select->columns(array("id","name","picture","ordering","modified","modified_by","created","created_by","status"))
 				       ->join(array("c"=>"category"),
-				       		"category.parent = c.id",
-				       		array("lpa"=>"left","rpa"=>"right"),
-				       		"left"
+				       		  "c.id = book.category_id",
+				       		  array("ca_name"=>"name"),
+				       		  $select::JOIN_LEFT
 				       	)
+				       ->order(array(sprintf("%s %s",$arrParam['order']['order_by'] , $arrParam['order']['order'])))
 				       ->offset(($arrParam['paginator']['curentPage']-1) * $arrParam['paginator']['itemPerPage'])
-				       ->limit($arrParam['paginator']['itemPerPage'])
-				       ->where->notEqualTo("category.parent",0);
-
-				if(!empty($arrParam["order"]['order_by']) && !empty($arrParam["order"]['order'])){
-
-					$select->order(array(sprintf("category.%s %s",$arrParam['order']['order_by'] , $arrParam['order']['order'])));
-				}
+				       ->limit($arrParam['paginator']['itemPerPage']);
 
 				if(!empty($arrParam['filter_status'])){
 					$status = ($arrParam['filter_status']=="active")? 1:0;
-					$select->where->equalTo("category.status",$status);
+					$select->where->equalTo("book.status",$status);
 				}
 
-				if(!empty($arrParam['filter_level'])){
-					$select->where->lessThanOrEqualTo("category.level",$arrParam['filter_level']);
+
+				if(!empty($arrParam['filter_category'])){
+					$select->where->equalTo("book.category_id",$arrParam['filter_category']);
 				}
 
+		
 
 				if(!empty($arrParam['search']['search_value']) && !empty($arrParam['search']['search_key'])){
 					if($arrParam['search']['search_key'] != "all"){
-						$select->where->like("category.".$arrParam['search']['search_key'],
+						$select->where->like("book.".$arrParam['search']['search_key'],
 											 "%".$arrParam['search']['search_value']."%");
 					}else{
 						$select->where->NEST
-						              ->like("category."."name","%".$arrParam['search']['search_value']."%")
-									  ->or->equalTo("category."."id",$arrParam['search']['search_value'])
+						              ->like("book."."name","%".$arrParam['search']['search_value']."%")
+									  ->or->equalTo("book."."id",$arrParam['search']['search_value'])
 									  ->UNNEST;
 					}	
 					
 				}
-			$select->order(array("left ASC"));
-			  // echo $select->getSqlString();
-			
+			  // echo $select->getSqlString();exit();
 			});
 		}
 		return $result;
@@ -112,20 +105,14 @@ class CategoryTable extends NestedTable{
 		return false;
 	}
 
-	public function changeMoveNode($arrParam = null,$options = null){
-		if($options == null){
-			if($arrParam["status"] == "up") $this->moveUp($arrParam["id"]);
-			if($arrParam["status"] == "down") $this->moveDown($arrParam["id"]);
-			return true;
-		}
-		return false;
-	}
-
 	public function deleteItem($arrParam,$options = null){
 		if($options['task'] == "delete-multi"){
 			if(!empty($arrParam)){
-				foreach ($arrParam as  $id) {
-					$this->removeNode($id,array("action" => "one"));
+				foreach ($arrParam as  $value) {
+					$avatar = new Image();
+					$avatarName = $this->getItem(array("id"=>$value));
+					$avatar->removeAvatar($avatarName->picture,array("task"=>"book"));
+					$this->_tableGateway->delete(array("id"=>$value));
 				}	
 				return true;
 			}				
@@ -156,75 +143,47 @@ class CategoryTable extends NestedTable{
 				"HTML.AllowedAttributes" =>array("style"),
 				"HTML.AllowedElements" =>array("p","b","em","span","strong"),
 			);
+		
 			$filter = new \ZendVN\Filter\Purifier($config);
 			$arrParam['description'] = $filter->filter($input);
 		}
 		//Quenr@i3
 		if($options['task'] == "add-item"){
 			$arrParam['status']   = ($arrParam['status']=="active")? 1:0;
-			$arrParam['created']  = date("Y-m-d H:i:s");			
-			$this->insertNode($arrParam,$arrParam['parent'],array("position" => "right"));
+			$arrParam['created']  = date("Y-m-d H:i:s");
+			if(!empty($arrParam['image']['tmp_name'])){
+				$avatar = new Image();
+				$arrParam['picture'] = $avatar->upload("image","book_",array("task"=>"book"));
+			}
+			
+			unset($arrParam["image"]);
+			
+			$this->_tableGateway->insert($arrParam);
 			return $this->_tableGateway->getLastInsertValue();
 		}
 		if($options['task'] == "edit-item"){
+
 			$arrParam['status'] = ($arrParam['status'] == "active") ? 1:0;
 			$arrParam['modified'] = date("Y-m-d H:i:s");
-			$nodeParentID = ($arrParam['parent'] == $arrParam["id"]) ? null:$arrParam['parent'];
-			unset($arrParam['parent']);
-			$this->updateNode($arrParam,$arrParam['id'],$nodeParentID);
+			if(!empty($arrParam['image']['tmp_name'])){
+				$avatar = new Image();
+				//xóa avatar cũ
+				$avatar->removeAvatar($arrParam['picture'],array("task"=>"book"));
+
+				$arrParam['picture'] = $avatar->upload("image","book_",array("task"=>"book"));
+			}
+			unset($arrParam["image"]);
+	
+			$this->_tableGateway->update($arrParam,array("id"=>$arrParam['id'])); 
 			return $arrParam['id'];
 		}
 	}
 
 	public function getItem($arrParam,$options = null){
 		return 	$this->_tableGateway->select(function(select $select) use($arrParam){
-				$select->columns(array("id","name","parent","level","description"))
+				$select->columns(array("id","name","description","ordering","status","picture","category_id"))
 					   ->where(array("id"=>$arrParam["id"]));
 			})->current();
-	}
-
-	public function itemInSelectBox($arrParam = null,$options = null){
-		if($options == null){
-			$result = $this->_tableGateway->select(function(select $select) use($arrParam){
-					$select->columns(array("id","level"))
-					       ->order(array("level DESC"));
-			})->current();
-			$item = array();
-			if(!empty($result)){
-				for($i = 1;$i <= $result->level;$i++){
-					$item[$i] = "level ".$i; 
-				}
-			}
-		}
-
-		if($options['task'] == "list-form"){
-			$result = $this->_tableGateway->select(function(select $select) use($arrParam){
-					$select->columns(array("id","level","name"))
-					       ->order(array("left ASC"));
-			});
-			$item = array();
-			if(!empty($result)){
-				foreach($result as $row){
-					$item[$row->id] = str_repeat("-------|",$row->level)." ".$row->name;
-				}
-			}
-		}
-
-		if($options['task'] == "list-book"){
-			$result = $this->_tableGateway->select(function(select $select) use($arrParam){
-					$select->columns(array("id","level","name"))
-					       ->order(array("left ASC"))
-					       ->where->notEqualTo("id",1);
-			});
-			$item = array();
-			if(!empty($result)){
-				foreach($result as $row){
-					$item[$row->id] = str_repeat("-------|",$row->level)." ".$row->name;
-				}
-			}
-		}
-
-		return $item;
 	}
 }
 ?>

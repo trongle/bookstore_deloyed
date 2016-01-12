@@ -17,6 +17,17 @@ switch ($type) {
 			$xhtml = "";
 		}
 		break;
+	case 'book':
+		$path = URL_FILES."books/thumb/140x210/".$element->getValue();
+		$xhtml = sprintf('<div class="form-group">
+								<label for="avatar" class="col-sm-3 control-label">
+									Current label
+								</label><div class="col-sm-6">
+								<img  src="%s"/></div></div>',$path);
+		if(empty($element->getValue())){
+			$xhtml = "";
+		}
+		break;
 	
 	default:
 		$xhtml = sprintf('<div class="form-group">%s<div class="col-sm-6">%s</div></div>',
