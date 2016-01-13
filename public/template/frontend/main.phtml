@@ -1,0 +1,114 @@
+﻿<?php echo  $this->doctype() ?>
+<html>
+  <head>
+    <?php 
+    //title
+    echo $this->headTitle()->prepend("Bookstore") ;
+    //meta
+    echo $this->headMeta()->appendName("viewport","width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
+                          ->appendName("description","Trongle no1")
+                          ->setCharset("utf-8");
+    //css
+    echo $this->headLink()->appendStylesheet(array(
+                            "rel" => "shortcut icon", 
+                            "type" => "image/x-icon",
+                            "href" => URL_IMG_SHOP."Book_blue.ico"),"append")
+                          ->appendStylesheet(URL_CSS_SHOP."bootstrap.css")
+                          ->appendStylesheet(URL_CSS_SHOP."stylesheet.css")
+                          ->appendStylesheet(URL_CSS_SHOP."font-awesome.min.css")
+                          ->appendStylesheet(URL_CSS_SHOP."responsive.css")
+                          ->appendStylesheet(URL_CSS_SHOP."camera.css")
+                          ->appendStylesheet(URL_CSS_SHOP."colorbox.css")
+         					;
+    echo $this->headScript()->appendFile(URL_JS_SHOP."jquery/jquery-1.10.2.min.js");
+   
+  ?>
+</head>
+
+<body>
+<div id="body">
+	<!-- MENU TOP -->
+	<?php include_once 'html/header_small_menu.php';?>
+				
+	<div id="page">
+		<div id="shadow">
+			<div class="shadow"></div>
+			
+			<!-- HEADER -->
+			<header id="header">
+			
+				<!-- MENU TOP -->
+				<?php include_once 'html/menu_top.php';?>
+				
+				<div class="container">
+					<!-- LOGO -->
+					<?php include_once 'html/header_small.php';?>
+					
+					<div class="row">
+						<div class="col-sm-12">
+							<!-- LOGO -->
+							<?php include_once 'html/header_logo.php';?>
+							
+							<!-- CART -->
+							<?php include_once 'html/header_cart.php';?>
+							
+							<!-- SEARCH -->
+							<?php include_once 'html/header_search.php';?>
+						</div>
+					</div>
+				</div>
+			</header>
+			
+			<section>
+				<div id="container">
+					<!-- BACK TOP -->
+					<p id="back-top"><a href="#top"><span></span></a></p>
+					
+					<div class="container">
+						<div id="notification"></div>
+						<div class="row">
+							<aside class="col-sm-3" id="column-left">
+								<!-- ASIDE CATEGORY -->
+								<?php include_once 'html/aside_category.php';?>
+	
+								<!-- ASIDE SPECIAL -->
+								<?php include_once 'html/aside_special.php';?>
+								
+								<!-- ASIDE INFO -->
+								<?php include_once 'html/aside_info.php';?>
+							
+							</aside>
+							<div class="col-sm-9" id="content">
+								<!-- SLIDER -->
+								<?php include_once 'html/slide.php';?>
+
+								<!-- CONTENT -->
+								<?php echo $this->content ?>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</section>
+
+			<!-- FOOTER -->
+			<?php include_once 'html/footer.php';?>
+		</div>
+	</div>
+</div>
+</body>
+<?php 
+  echo $this->headScript()->appendFile(URL_JS_SHOP."jquery/jquery-migrate-1.2.1.min.js")   
+                          ->appendFile(URL_JS_SHOP."jquery/ui/jquery-ui-1.8.16.custom.min.js") 
+                          ->appendFile(URL_JS_SHOP."colorbox/jquery.colorbox.js")    
+                          ->appendFile(URL_JS_SHOP."jquery.jcarousel.min.js")  
+                          ->appendFile(URL_JS_SHOP."bootstrap/bootstrap.js")
+                          ->appendFile(URL_JS_SHOP."jquery.prettyPhoto.js")
+                          ->appendFile(URL_JS_SHOP."elevate/jquery.elevatezoom.js")
+                          ->appendFile(URL_JS_SHOP."script.js")
+                          ->appendFile(URL_JS_SHOP."sl/camera.js")
+                          ->appendFile(URL_JS_SHOP."bxslider/jquery.bxslider.js") 
+                          ->appendFile(URL_JS_SHOP."common.js"); 
+?>
+</html>

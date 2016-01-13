@@ -3,6 +3,7 @@ return array(
 	"modules" => array(
 		"ZendDeveloperTools",
 		"Admin",
+		"Shop",
 		'RtHeadtitle',
 	),
 	"module_listener_options" => array(

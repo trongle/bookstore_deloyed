@@ -16,6 +16,12 @@
 	define("URL_CSS_LAYOUT",URL_PUBLIC."template/backend/css/");
 	define("URL_JS_LAYOUT",URL_PUBLIC."template/backend/js/");
 	define("URL_IMG_LAYOUT",URL_PUBLIC."template/backend/img/");
+
 	define("URL_FILES",URL_PUBLIC."files/");
 	define("URL_SCRIPT",URL_PUBLIC."script/");
+
+	//fontend
+	define("URL_IMG_SHOP",URL_PUBLIC."template/frontend/image/");
+	define("URL_JS_SHOP",URL_PUBLIC."template/frontend/js/");
+	define("URL_CSS_SHOP",URL_PUBLIC."template/frontend/css/");
 ?>
