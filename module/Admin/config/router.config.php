@@ -19,7 +19,7 @@ $adminRoute = array(
 		"route" => "/admin",
 		"defaults" => array(
 			"__NAMESPACE__" => "Admin\Controller",
-			"controller"    => "index",
+			"controller"    => "Admin\Controller\index",
 			"action"        => "index"
 		)
 	),
@@ -58,7 +58,7 @@ $adminRoute = array(
 return array(
 	"router"       => array(
 		"routes" => array(
-			"home" => $home,
+			"home"       => $home,
 			"adminRoute" => $adminRoute
 		)
 	)

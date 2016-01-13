@@ -3,7 +3,7 @@ namespace Shop\Controller;
 
 use ZendVN\Controller\MyAbstractController;
 
-class IndexController extends MyAbstractController{
+class CategoryController extends MyAbstractController{
 
 	public function init(){
 		$this->_options['tableName'] = "";
@@ -14,8 +14,8 @@ class IndexController extends MyAbstractController{
 			 									$this->request->getFiles()->toArray());
 	}
 
-	public function indexAction(){
-		echo "<h3 style = 'color:purple'>".__METHOD__."</h3>";
+	public function indexAction(){	
+		return false;
 	}
 }
 ?>

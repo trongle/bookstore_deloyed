@@ -13,6 +13,7 @@ Zend\Loader\AutoLoaderFactory::Factory(array(
 		"namespaces" => array(
 			"ZendVN"           => PATH_LIBRARY."ZendVN",
 			"PHPImageWorkshop" => PATH_VENDOR."PHPImageWorkshop",
+			"Block"			   => PATH_APPLICATION."/block",
 		),
 		"prefixes" => array(
 			"HTMLPurifier" => PATH_VENDOR."HTMLPurifier"

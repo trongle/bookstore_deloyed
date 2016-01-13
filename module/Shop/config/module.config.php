@@ -3,6 +3,7 @@ return array(
 	"controllers"  => array(
 		"invokables" => array(
 			"Shop\Controller\Index"    => "Shop\Controller\IndexController",
+			"Shop\Controller\Category" => "Shop\Controller\CategoryController",
 		)
 	),
 	"view_manager" => array(

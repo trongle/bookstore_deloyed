@@ -6,7 +6,7 @@ $home = array(
 		"route" => "/",
 		"defaults" => array(
 			"__NAMESPACE__" => "Shop\Controller",
-			"controller"    => "Index",
+			"controller"    => "Shop\Controller\Index",
 			"action"        => "index"
 		)
 	)
@@ -19,7 +19,7 @@ $shopRoute = array(
 		"route" => "/shop",
 		"defaults" => array(
 			"__NAMESPACE__" => "Shop\Controller",
-			"controller"    => "index",
+			"controller"    => "Shop\Controller\index",
 			"action"        => "index"
 		)
 	),

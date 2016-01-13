@@ -43,100 +43,34 @@ class Module {
 		);
 	}
 
-	// public function getServiceConfig(){
- //        return array(
- //            "factories" => array(
- //                "GroupTableGateway" => function($sm){
- //                    $adapter = $sm->get("dbConfig");
+	public function getServiceConfig(){
+        return array(
+            "factories" => array(
+                "CategoryTableGateway" => function($sm){
+                    $adapter = $sm->get("dbConfig");
+                    //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
+                    $resultSetPrototype = new HydratingResultSet();
+                    $resultSetPrototype->setHydrator(new ObjectProperty());
+                    $resultSetPrototype->setObjectPrototype(new \Shop\Model\Entity\Category());
 
- //                    $resultSetPrototype = new ResultSet();
- //                    $resultSetPrototype->setArrayObjectPrototype(new \Admin\Model\Entity\Group());
-
- //                    return $tableGateway = new TableGateway("groups",$adapter,null,$resultSetPrototype);
- //                },
- //                "Admin\Model\Group" => function($sm){
- //                    $tableGateway = $sm->get("GroupTableGateway");
- //                    return  new \Admin\Model\GroupTable($tableGateway);
- //                },
- //                "UserTableGateway" => function($sm){
- //                    $adapter = $sm->get("dbConfig");
- //                    //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
- //                    $resultSetPrototype = new HydratingResultSet();
- //                    $resultSetPrototype->setHydrator(new ObjectProperty());
- //                    $resultSetPrototype->setObjectPrototype(new \Admin\Model\Entity\User());
-
- //                    return $tableGateway = new TableGateway("user",$adapter,null,$resultSetPrototype);
- //                },
- //                "Admin\Model\User" => function($sm){
- //                    $tableGateway = $sm->get("UserTableGateway");
- //                    return  new \Admin\Model\UserTable($tableGateway);
- //                },
- //                "NestedTableGateway" => function($sm){
- //                    $adapter = $sm->get("dbConfig");
- //                    //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
- //                    $resultSetPrototype = new HydratingResultSet();
- //                    $resultSetPrototype->setHydrator(new ObjectProperty());
- //                    $resultSetPrototype->setObjectPrototype(new \Admin\Model\Entity\Nested());
-
- //                    return $tableGateway = new TableGateway("nested",$adapter,null,$resultSetPrototype);
- //                },
- //                "Admin\Model\Nested" => function($sm){
- //                    $tableGateway = $sm->get("NestedTableGateway");
- //                    return  new \Admin\Model\NestedTable($tableGateway);
- //                },
- //                "CategoryTableGateway" => function($sm){
- //                    $adapter = $sm->get("dbConfig");
- //                    //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
- //                    $resultSetPrototype = new HydratingResultSet();
- //                    $resultSetPrototype->setHydrator(new ObjectProperty());
- //                    $resultSetPrototype->setObjectPrototype(new \Admin\Model\Entity\Category());
-
- //                    return $tableGateway = new TableGateway("category",$adapter,null,$resultSetPrototype);
- //                },
- //                "Admin\Model\Category" => function($sm){
- //                   $tableGateway = $sm->get("CategoryTableGateway");
- //                   return  new \Admin\Model\CategoryTable($tableGateway);
- //                },
- //                "BookTableGateway" => function($sm){
- //                    $adapter = $sm->get("dbConfig");
- //                    //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
- //                    $resultSetPrototype = new HydratingResultSet();
- //                    $resultSetPrototype->setHydrator(new ObjectProperty());
- //                    $resultSetPrototype->setObjectPrototype(new \Admin\Model\Entity\Book());
-
- //                    return $tableGateway = new TableGateway("book",$adapter,null,$resultSetPrototype);
- //                },
- //                "Admin\Model\Book" => function($sm){
- //                    $tableGateway = $sm->get("BookTableGateway");
- //                    return  new \Admin\Model\BookTable($tableGateway);
- //                },
- //            ),
- //            "aliases" => array(
- //                "GroupTable"    => "Admin\Model\Group",
- //                "UserTable"     => "Admin\Model\User",
- //                "NestedTable"   => "Admin\Model\Nested",
- //                "CategoryTable" => "Admin\Model\Category",
- //                "BookTable"     => "Admin\Model\Book",
- //            ),
- //        );
- //    }
+                    return $tableGateway = new TableGateway("category",$adapter,null,$resultSetPrototype);
+                },
+                "Shop\Model\Category" => function($sm){
+                   $tableGateway = $sm->get("CategoryTableGateway");
+                   return  new \Shop\Model\CategoryTable($tableGateway);
+                },
+            )
+        );
+    }
 
     public function getViewHelperConfig(){
     	return array(
-    		"invokables" => array(
-				"changeSortLink"   => "ZendVN\View\Helper\ChangeSortLink",
-				"zvnFormSelectBox" => "ZendVN\Form\View\Helper\FormSelectBox",
-				"zvnFormHidden"    => "ZendVN\Form\View\Helper\FormHidden",
-				"zvnFormText"      => "ZendVN\Form\View\Helper\FormText",
-				"zvnFormButton"    => "ZendVN\Form\View\Helper\FormButton",
-                "changeStatusLink" => "ZendVN\View\Helper\ChangeStatusLink",
-				"changeSpecialLink" => "ZendVN\View\Helper\ChangeSpecialLink",
-				"linkToGo" 		   => "ZendVN\View\Helper\LinkToGo",
-				"buttonTool" 	   => "ZendVN\View\Helper\ButtonTool",
-				"createTd" 	   	   => "ZendVN\View\Helper\CreateTd",
-                "createTdName"     => "ZendVN\View\Helper\CreateTdName",
-                "changeMoveNode"   => "ZendVN\View\Helper\ChangeMoveNode",
-				"createPrice"      => "ZendVN\View\Helper\CreatePrice",
+    		"factories" => array(
+                "blockCategory"   => function($sm){
+                    $helper = new \Block\BlockCategory();
+                    $helper->setData($sm->getServiceLocator()->get( "Shop\Model\Category"));
+                    return $helper;
+                }
     		)
     	);
     }
