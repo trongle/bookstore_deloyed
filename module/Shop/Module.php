@@ -50,6 +50,10 @@ class Module {
                    $tableGateway = $sm->get("CategoryTableGateway");
                    return  new \Shop\Model\CategoryTable($tableGateway);
                 },
+                "Shop\Model\Book" => function($sm){
+                   $tableGateway = $sm->get("BookTableGateway");
+                   return  new \Shop\Model\BookTable($tableGateway);
+                },
             )
         );
     }
@@ -60,6 +64,11 @@ class Module {
                 "blockCategory"   => function($sm){
                     $helper = new \Block\BlockCategory();
                     $helper->setData($sm->getServiceLocator()->get( "Shop\Model\Category"));
+                    return $helper;
+                },
+                "blockSpecial"   => function($sm){
+                    $helper = new \Block\BlockSpecial();
+                    $helper->setData($sm->getServiceLocator()->get( "Shop\Model\Book"));
                     return $helper;
                 }
     		)

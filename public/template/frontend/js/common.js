@@ -15,21 +15,6 @@ if ($('body').width() > 767) {
 };
 
 $(document).ready(function() {
-	// SHOW POPUP
-	$("a.colorbox-1").colorbox({
-		rel: 'colorbox1',
-		inline:true,
-		html: true,
-		width:'58%',
-		maxWidth:'780px',
-		height:'70%',
-		open:false,
-		returnFocus:false,
-		fixed: true,
-		title: false,
-		href:'.quick-view-1',
-		current:'Product {current} of {total} '
-	});
 
 	$('#camera_wrap_0').camera({
 		fx: 'stampede',

@@ -1,3 +1,12 @@
+<?php 
+	if(!empty($this->_data)){
+		$img       =  URL_FILES."books/thumb/140x210/" . $this->_data->picture;
+		$name      = $this->_data->name;
+		$realPrice = $this->view->createPrice($this->_data->price,$this->_data->sale_off,array("task"=>"book-special"));
+		$link      = $this->view->url("shopRoute/default",array("controller" => "book","action" => "popup"));
+	}
+ ?>
+
 <div class="box specials">
 	<div class="box-heading special-heading">Specials</div>
 	<div class="box-content">
@@ -7,20 +16,20 @@
 					<div class="padding">
 						<div class="image2">
 							<a href="#">
-								<img id="img_43" src="<?php echo URL_IMG_SHOP ?>data/product-01-190x190.png"alt="Acicte magna " />
+								<img id="img_43" src="<?php echo $img ?>"alt="<?php echo $name ?> " />
 							</a>
 						</div>
 						
 						<!-- SHOW POPUP -->
-						<a href="#" class="colorbox-1 quick-view-button"><i class=" fa fa-search "></i></a>
+						<a href="" class="colorbox quick-view-button"><i class=" fa fa-search "></i></a>
 						
 						<div class="inner">
 							<div class="f-left">
 								<div class="price">
-									<span class="price-new">$588.33</span><span class="price-old">$589.50</span>
+									<?php echo $realPrice ?>
 								</div>
 								<div class="name maxheight-spec">
-									<a href="#">Acicte magna ipsum dolor sed do eiusmod tempor</a>
+									<a href="#"><?php echo $name ?></a>
 								</div>
 							</div>
 							
@@ -52,11 +61,8 @@
 				</div>
 			</div>
 			<div class="right col-sm-8">
-				<h2>Acicte magna ipsum dolor sed do eiusmod tempor</h2>
+				<h2><?php echo $name ?></h2>
 				<div class="inf">
-					<span class="manufacture">Brand: <a href="#">Magna lorem ipsum</a></span> 
-					<span class="model">Model:Product 16</span>
-					
 					<div class="price">
 						<span class="text-price">Price: </span> 
 						<span class="price-new">$588.33</span> 
@@ -86,3 +92,28 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+$(document).ready(function() {
+	// SHOW POPUP
+	$("a.colorbox").click(function(){
+		var url = $(this).attr("href");
+		alert(123);
+		return false;
+	})
+
+	// $("a.colorbox").colorbox({
+	// 	rel: 'colorbox1',
+	// 	inline:true,
+	// 	html: true,
+	// 	width:'58%',
+	// 	maxWidth:'780px',
+	// 	height:'70%',
+	// 	open:false,
+	// 	returnFocus:false,
+	// 	fixed: true,
+	// 	title: false,
+	// 	href:'.quick-view-1',
+	// 	current:'Product {current} of {total} '
+	// });
+}
+</script>
