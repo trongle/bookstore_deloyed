@@ -1,5 +1,6 @@
-<?php 
-namespace Admin\Model\Entity;
+<?php
+
+namespace ZendVN\Model\Entity;
 
 class Nested
 {

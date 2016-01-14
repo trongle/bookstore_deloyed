@@ -50,7 +50,7 @@ class Module {
                     $adapter = $sm->get("dbConfig");
 
                     $resultSetPrototype = new ResultSet();
-                    $resultSetPrototype->setArrayObjectPrototype(new \Admin\Model\Entity\Group());
+                    $resultSetPrototype->setArrayObjectPrototype(new \ZendVN\Model\Entity\Group());
 
                     return $tableGateway = new TableGateway("groups",$adapter,null,$resultSetPrototype);
                 },
@@ -63,7 +63,7 @@ class Module {
                     //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
                     $resultSetPrototype = new HydratingResultSet();
                     $resultSetPrototype->setHydrator(new ObjectProperty());
-                    $resultSetPrototype->setObjectPrototype(new \Admin\Model\Entity\User());
+                    $resultSetPrototype->setObjectPrototype(new \ZendVN\Model\Entity\User());
 
                     return $tableGateway = new TableGateway("user",$adapter,null,$resultSetPrototype);
                 },
@@ -76,7 +76,7 @@ class Module {
                     //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
                     $resultSetPrototype = new HydratingResultSet();
                     $resultSetPrototype->setHydrator(new ObjectProperty());
-                    $resultSetPrototype->setObjectPrototype(new \Admin\Model\Entity\Nested());
+                    $resultSetPrototype->setObjectPrototype(new \ZendVN\Model\Entity\Nested());
 
                     return $tableGateway = new TableGateway("nested",$adapter,null,$resultSetPrototype);
                 },
@@ -89,7 +89,7 @@ class Module {
                     //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
                     $resultSetPrototype = new HydratingResultSet();
                     $resultSetPrototype->setHydrator(new ObjectProperty());
-                    $resultSetPrototype->setObjectPrototype(new \Admin\Model\Entity\Category());
+                    $resultSetPrototype->setObjectPrototype(new \ZendVN\Model\Entity\Category());
 
                     return $tableGateway = new TableGateway("category",$adapter,null,$resultSetPrototype);
                 },
@@ -102,7 +102,7 @@ class Module {
                     //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
                     $resultSetPrototype = new HydratingResultSet();
                     $resultSetPrototype->setHydrator(new ObjectProperty());
-                    $resultSetPrototype->setObjectPrototype(new \Admin\Model\Entity\Book());
+                    $resultSetPrototype->setObjectPrototype(new \ZendVN\Model\Entity\Book());
 
                     return $tableGateway = new TableGateway("book",$adapter,null,$resultSetPrototype);
                 },

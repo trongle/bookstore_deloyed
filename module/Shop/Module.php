@@ -46,15 +46,6 @@ class Module {
 	public function getServiceConfig(){
         return array(
             "factories" => array(
-                "CategoryTableGateway" => function($sm){
-                    $adapter = $sm->get("dbConfig");
-                    //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
-                    $resultSetPrototype = new HydratingResultSet();
-                    $resultSetPrototype->setHydrator(new ObjectProperty());
-                    $resultSetPrototype->setObjectPrototype(new \Shop\Model\Entity\Category());
-
-                    return $tableGateway = new TableGateway("category",$adapter,null,$resultSetPrototype);
-                },
                 "Shop\Model\Category" => function($sm){
                    $tableGateway = $sm->get("CategoryTableGateway");
                    return  new \Shop\Model\CategoryTable($tableGateway);

@@ -1,5 +1,7 @@
 <?php 
-namespace Admin\Model\Entity;
+
+namespace ZendVN\Model\Entity;
+
 
 class Category
 {

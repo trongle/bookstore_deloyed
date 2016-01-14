@@ -1,6 +1,6 @@
 <?php 
-namespace Admin\Model\Entity;
 
+namespace ZendVN\Model\Entity;
 use Zend\Json\Json;
 
 class Book

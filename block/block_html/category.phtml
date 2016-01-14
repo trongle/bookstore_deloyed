@@ -4,19 +4,17 @@ $xhtml = "";
 
 if(!empty($this->_data)){
 	foreach ($this->_data as $category){
-		$classLI	= ($category->level == 1) ? 'cat-header' : '';
-		$id       = $category->id;
-		$link		= $this->view->url("shopRoute/default",array("controller" => "category","action" => "index","id"=>$id));
-		$name		= $category->name;
+		$classLI = ($category->level == 1) ? 'cat-header' : '';
+		$id      = $category->id;
+		$link    = $this->view->url("shopRoute/default",array("controller" => "category","action" => "index","id"=>$id));
+		$name    = $category->name;
 		
-
 		//if category->level == 3 de tranh level 3 co child là lv 4 nhưng khong hiển thị được con lv 4
 		if($category->right - $category->left == 1 || $category->level == 3){
 			$xhtml		.= sprintf('<li class="%s"><a href="%s">%s</a></li>', $classLI, $link, $name);
 			if(in_array($category->right + 1, $parentRight)) $xhtml		.= '</ul></li>';
 			//trường hợp vừa là con cuối vùa có con nên khọng đóng <ul><li> được 
-			if(in_array($category->right + 2, $parentRight)) $xhtml		.= '</ul></li>';
-			
+			if(in_array($category->right + 2, $parentRight)) $xhtml		.= '</ul></li>';		
 		}else{
 			$xhtml		.= sprintf('<li class="parent %s"><a href="%s">%s</a><ul>', $classLI, $link, $name);
 			$parentRight[]	= $category->right;
