@@ -54,6 +54,9 @@ class Module {
                    $tableGateway = $sm->get("BookTableGateway");
                    return  new \Shop\Model\BookTable($tableGateway);
                 },
+            ),
+            "aliases" => array(
+                "shopBookTable" => "Shop\Model\Book" 
             )
         );
     }

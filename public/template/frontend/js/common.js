@@ -15,6 +15,7 @@ if ($('body').width() > 767) {
 };
 
 $(document).ready(function() {
+	
 
 	$('#camera_wrap_0').camera({
 		fx: 'stampede',

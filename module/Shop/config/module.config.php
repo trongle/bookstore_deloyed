@@ -4,6 +4,7 @@ return array(
 		"invokables" => array(
 			"Shop\Controller\Index"    => "Shop\Controller\IndexController",
 			"Shop\Controller\Category" => "Shop\Controller\CategoryController",
+			"Shop\Controller\Book"     => "Shop\Controller\BookController",
 		)
 	),
 	"view_manager" => array(

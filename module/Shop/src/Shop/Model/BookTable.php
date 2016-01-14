@@ -74,6 +74,13 @@ class BookTable extends AbstractTableGateway{
 					   ->where->equalTo("status",1);
 			})->current();
 		}	
+
+		if($options["task"] == "book-popup"){
+			return 	$this->_tableGateway->select(function(select $select) use($arrParam){
+				$select->columns(array("id","name","description","picture","price","sale_off"))
+					   ->where->equalTo("id",$arrParam['id']);
+			})->current();
+		}	
 	}
 
 

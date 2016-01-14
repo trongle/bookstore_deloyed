@@ -1,0 +1,45 @@
+<?php 
+$xhtml = "<h3>Access Denied</h3>";
+if($this->isXmlHttpRequest){
+	$name = $this->data->name;
+	$description = $this->data->description;
+	$img = URL_FILES."books/thumb/140x210/".$this->data->picture;
+	$realPrice = $this->createPrice($this->data->price,$this->data->sale_off,array("task"=>"book-special")); 
+	$xhtml = '<div class="wrapper marg row">
+			<div class="left col-sm-4">
+				<div class="image3">
+					<a href="#">
+						<img src="'.$img.'" alt="Acicte magna ipsum dolor sed do eiusmod tempor" /></a>
+				</div>
+			</div>
+			<div class="right col-sm-8">
+				<h2>'.$name.'</h2>
+				<div class="inf">
+					<div class="price">
+						<span class="text-price">Price: </span> 
+						'.$realPrice.'
+					</div>
+				</div>
+				<div class="cart-button">
+					<div class="cart">
+						<a title="Add to cart" data-id="43;" class="button addToCart-1 "> <span>Add to cart</span></a>
+					</div>
+					<span class="clear"></span>
+				</div>
+				
+				<div class="clear"></div>
+				<div class="rating">
+					<img height="18" src="'. URL_IMG_SHOP.'stars-0.png" alt="Based on 0 reviews." />
+				</div>
+			</div>
+		</div>
+		<div class="description">
+			'.$description.'
+		</div>';
+}
+
+echo $xhtml;
+?>
+
+
+		
