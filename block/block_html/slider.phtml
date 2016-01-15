@@ -1,0 +1,31 @@
+<?php 
+$xhtml = "";
+if(!empty($this->_data)){
+	foreach ($this->_data as $data) {
+		$id = $data->id;
+		$img = URL_FILES."sliders/".$data->picture;
+		$name = $data->name;
+		$price = number_format($data->price,0,",",".");
+		$description = $data->description;
+		$linkDetail = $data->id;
+		$xhtml .= '<div title="slide-'.$id.'"
+						data-thumb="opencart_49309/image/cache/data/slide-2-870x370.jpg"
+						data-link="index.php?route=product/product&amp;product_id=32"
+						data-src="'.$img.'">
+						<div class="camera_caption fadeIn">
+							<h1>'.$name.'</h1>
+							'.$description.'
+							<span>'.$price.'</span> <a
+								href="'.$linkDetail.'">Shop now!</a>
+						</div>
+					</div>'; 
+	}
+}
+?>
+<div class="fluid_container">
+	<div id="camera_wrap_0">
+	
+		<?php echo $xhtml ?>
+	</div>	
+	<div class="clear"></div>
+</div>

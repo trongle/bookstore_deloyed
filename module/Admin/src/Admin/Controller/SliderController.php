@@ -5,7 +5,7 @@ use ZendVN\Controller\MyAbstractController;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
-class BookController extends MyAbstractController{
+class SliderController extends MyAbstractController{
 	protected $_orderList = [
 		"order"    => "DESC",
 		"order_by" => "id"
@@ -36,8 +36,8 @@ class BookController extends MyAbstractController{
 		$this->_configPaginator['itemPerPage'] = 5;
 		$this->_configPaginator['curentPage']  = $this->params()->fromRoute("page",1);
 		//SET OPTIONS 
-		$this->_options["tableName"] = "BookTable";
-		$this->_options["formName"]  = "formAdminBook";
+		$this->_options["tableName"] = "SliderTable";
+		$this->_options["formName"]  = "formAdminSlider";
 		$this->_mainParam =array_merge($this->_mainParam,array(
 														"paginator"       => $this->_configPaginator,
 														"order"           => $this->_orderList,
@@ -56,13 +56,11 @@ class BookController extends MyAbstractController{
 	public function indexAction(){
 		$items          = $this->getTable()->listItem($this->_mainParam,array("task"=>"list-item"));
 		$totalItem      = $this->getTable()->countItem($this->_mainParam);
-		$categoryTable  = $this->serviceLocator->get("CategoryTable");
-		$selectCategory = $categoryTable->itemInSelectBox(null,array("task"=>"list-book"));
+
 		return new ViewModel(array(
 			"items"           => $items,
 			"paginator"       => \ZendVN\Paginator\Paginator::createPagination($totalItem,$this->_configPaginator),
 			"paramSetting"    => $this->_mainParam,
-			"selectCategory"  => $selectCategory
 		));
 	}
 
@@ -94,8 +92,8 @@ class BookController extends MyAbstractController{
 			if(isset($this->_mainParam["data"]["id"])){
 				$id = $this->_mainParam["data"]["id"];
 				$task = (is_array($id))? "change-multi-status" : "change-status";
-				$sliderTable = $this->getServiceLocator()->get("SliderTable");
-				if($this->getTable()->changeStatus($this->_mainParam["data"],$sliderTable,array("task"=>$task))){
+				
+				if($this->getTable()->changeStatus($this->_mainParam["data"],array("task"=>$task))){
 					$message = "Trạng thái đã được cập nhật";	
 				}				
 			}
@@ -132,14 +130,14 @@ class BookController extends MyAbstractController{
 		$this->_mainParam["data"]['id']   = $this->params("id");
 		$info = $this->getTable()->getItem(array("id"=>$this->_mainParam["data"]['id']));
 		$task    = "add-item";
-		$title   = " - Book - Add";
-		$message = "Một Book đã được thêm thành công";
+		$title   = " - Slider - Add";
+		$message = "Một Slider đã được thêm thành công";
 		if(!empty($info)){
 			$form->bind($info);
-			$form->setInputFilter(new \Admin\Form\FormBookFilter(array("id"=>$this->_mainParam["data"]['id'])));
+			$form->setInputFilter(new \Admin\Form\FormSliderFilter(array("id"=>$this->_mainParam["data"]['id'])));
 			$task    = "edit-item";
-			$message = "Một Book đã được chỉnh sữa thành công";
-			$title   = " - Book - Edit";
+			$message = "Một Slider đã được chỉnh sữa thành công";
+			$title   = " - Slider - Edit";
 		}
 		$this->headTitle($title);
 		
@@ -165,21 +163,21 @@ class BookController extends MyAbstractController{
 		));
 	}
 
-	public function specialAction(){
-		$task = "";
-		$message = "Vui lòng chọn phần tử muốn thay đổi loại";
-		if($this->request->isPost()){
-			if(isset($this->_mainParam["data"]["id"])){
-				$id = $this->_mainParam["data"]["id"];
-				
-				if($this->getTable()->changeSpecial($this->_mainParam["data"])){
-					$message = "Loại đã được cập nhật";	
-				}				
+	public function autocompleteAction(){
+		$data = null;
+		if($this->request->isXmlHttpRequest()){
+			$bookTable = $this->getServiceLocator()->get("shopBookTable");
+			$data = $bookTable->getItem($this->_mainParam['data'],array("task" => "book-slider"));
+			foreach($data as $row){
+				$json[] = $row;
 			}
+			echo $json = \Zend\Json\Json::encode($json);
+		}else{
+			echo "";
 		}
-		$this->flashMessenger()->addMessage($message);
-		return $this->toAction();
+		return $this->response;
 	}
+
 
 
 }

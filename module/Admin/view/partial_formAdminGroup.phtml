@@ -28,6 +28,26 @@ switch ($type) {
 			$xhtml = "";
 		}
 		break;
+	case 'slider':
+		$path = URL_FILES."sliders/".$element->getValue();
+		$xhtml = sprintf('<div class="form-group">
+								<label for="avatar" class="col-sm-3 control-label">
+									Current label
+								</label><div class="col-sm-6">
+								<img width ="500" src="%s"/></div></div>',$path);
+		if(empty($element->getValue())){
+			$xhtml = "";
+		}
+		break;
+
+	case 'book_id':
+		$xhtml = sprintf('
+							  <div class="form-group">%s<div class="col-sm-6">%s
+							  	 <div id="result"class="form-group"></div>
+							  </div></div>
+						 ',
+							$this->formLabel($element),$this->formElement($element));
+		break;
 	
 	default:
 		$xhtml = sprintf('<div class="form-group">%s<div class="col-sm-6">%s</div></div>',

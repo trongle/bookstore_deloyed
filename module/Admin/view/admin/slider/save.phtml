@@ -1,0 +1,45 @@
+	<!-- script -->
+<?php
+
+	echo $this->headScript()->appendFile(URL_SCRIPT."ckeditor/ckeditor.js","text/javascript");
+?>
+
+<!-- BUTTON-TOOL -->
+<?php echo $this->render("area_button.phtml") ?>
+
+<?php 
+	$myForm = $this->myForm;
+	$myForm->prepare();	
+?>
+
+<!-- ALERT -->
+<?php  echo $this->flashMessenger()->render(); ?>
+<div class="box box-info">
+	<?php echo $myForm->showError() ?>
+    <div class="box-body">
+    	<?php 
+    		echo $this->form()->openTag($myForm);
+	    		echo $this->partialLoop("partial_formAdminGroup.phtml",array(
+	    				array("elm" =>$myForm->get("name")),
+	    				array("elm" =>$myForm->get("image")),
+	    				array("elm" =>$myForm->get("picture"),"type"=>"slider"),
+	    				array("elm" =>$myForm->get("status")),
+	    				array("elm" =>$myForm->get("book_name"),"type" => "book_id"),
+	    				array("elm" =>$myForm->get("price")),
+	    				array("elm" =>$myForm->get("ordering")),
+	    				array("elm" =>$myForm->get("description")),
+	    				array("elm" =>$myForm->get("id"),"type"=>"hidden"),
+	    				array("elm" =>$myForm->get("book_id"),"type"=>"hidden"),
+	    				array("elm" =>$myForm->get("action"),"type"=>"hidden"),
+	    				array("elm" =>$myForm->get("picture"),"type"=>"hidden"),    				
+	    			));
+    		echo $this->form()->closeTag();
+    	?>
+    </div>
+</div>
+
+<script type="text/javascript">
+	CKEDITOR.replace('description',{ 
+        	customConfig : "custom/config_2_book.js",
+    });
+</script>

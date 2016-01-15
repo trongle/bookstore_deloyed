@@ -11,6 +11,7 @@ return array(
 			"Admin\Controller\Order"    => "Admin\Controller\OrderController",
 			"Admin\Controller\Category" => "Admin\Controller\CategoryController",
 			"Admin\Controller\Nested"   => "Admin\Controller\NestedController",
+			"Admin\Controller\Slider"   => "Admin\Controller\SliderController",
 		)
 	),
 	"view_manager" => array(

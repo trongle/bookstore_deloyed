@@ -8,6 +8,7 @@
     array("class" => "category","link" => $this->basePath("admin/category/index"), "icon" => "suitcase", "text" => "Category" ,      "child" => false),
     array("class" => "book",    "link" => $this->basePath("admin/book/index"),     "icon" => "book",     "text" => "Book" ,          "child" => false),
     array("class" => "order",   "link" => $this->basePath("admin/order/index"),    "icon" => "cart-plus","text" => "Order" ,         "child" => false),
+    array("class" => "slider",  "link" => $this->basePath("admin/slider/index"),    "icon" => "cart-plus","text" => "Slider" ,         "child" => false),
     array("class" => "config",  "link" => $this->basePath("#"),                    "icon" => "cog",      "text" => "Config" ,        "child" => true),
   );
   $contentSidebarChild = array(

@@ -11,6 +11,7 @@
 		"cart"     => "Manage Cart",
 		"config"   => "Config",
 		"order"    => "Order",
+		"slider"   => "Slider",
 	];
 	$prettyNameParent = $listControllerTitle[$this->params["controller"]];
 	$prettyNameChild  = ($this->params["action"]=="index")? "List" : ucfirst($this->params['action']);

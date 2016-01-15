@@ -54,6 +54,10 @@ class Module {
                    $tableGateway = $sm->get("BookTableGateway");
                    return  new \Shop\Model\BookTable($tableGateway);
                 },
+                "Shop\Model\Slider" => function($sm){
+                   $tableGateway = $sm->get("SliderTableGateway");
+                   return  new \Shop\Model\SliderTable($tableGateway);
+                },
             ),
             "aliases" => array(
                 "shopBookTable" => "Shop\Model\Book" 
@@ -73,8 +77,16 @@ class Module {
                     $helper = new \Block\BlockSpecial();
                     $helper->setData($sm->getServiceLocator()->get( "Shop\Model\Book"));
                     return $helper;
+                },
+                "blockSlider"   => function($sm){
+                    $helper = new \Block\BlockSlider();
+                    $helper->setData($sm->getServiceLocator()->get( "Shop\Model\Slider"));
+                    return $helper;
                 }
-    		)
+    		),
+            "invokables" => array(
+                "blockFacebook" => "Block\BlockFacebook"
+            )
     	);
     }
 

@@ -1,0 +1,131 @@
+<?php
+
+$currentController = $this->paramSetting["controller"];
+//DATA LIST-ITEM
+  $xhtmlTable = 'Không có dữ liệu ';
+  if(isset($this->items) && !empty($this->items)){
+  
+    $xhtmlTable = "";
+    foreach($items as $item){
+        $class         = $this->cycle(array("odd","even"))->next();
+        $id            = $item->id;
+        $name          = $item->name;
+        $book_name     = $item->book_name;
+        $created       = date("H:i:s d-m-Y",strtotime($item->created));
+        $modified      = date("H:i:s d-m-Y",strtotime($item->modified));
+        $modified_by   = $item->modified_by;
+        $created_by    = $item->created_by;  
+        $ordering      = $this->zvnFormText("ordering[{$id}]",$item->ordering,array("class"=>"input-order","size"=>"4"));
+        $status        = $this->changeStatusLink($id,$item->status);
+        $price         = number_format($item->price,0,",",".");
+        
+        $linkEdit        = $this->linkToGo("adminRoute/default",array("controller"=>"slider",
+                                                            "action"    =>"save",
+                                                            "id"        =>$id         
+                                                      ));
+        $xhtmlTable .= '<tr class="'.$class.'">
+                              <td class="sorting_1"><input type="checkbox" class="check-box" name="id[]" value="'.$id.'" /></td>
+                              <td><a href="'.$linkEdit.'">'.$name.'</a></td>
+                              <td>'.$price.'</td>
+                              <td>'.$book_name.'</td>'
+                              .$this->createTd($created,$created_by,"fa-fw fa-user")
+                              .$this->createTd($modified,$modified_by,"fa-fw fa-user").'
+                              <td>'.$ordering.'</td>
+                              '.$status.' 
+                              <td>'.$id.'</td>
+                        </tr>'; 
+    }
+  }
+// LINK FORM
+$linkForm = $this->basePath("admin/slider/filter");
+// SEARCH FUNC [SELECT-BOX]
+$value = array(
+    "name"     => "Search by name",
+    "id"       => "Search by ID",
+    "all"      => "Search All"
+);
+$search       = $this->paramSetting['search'];
+$keyword_type = $this->zvnFormSelectBox("search_key",null,$value,$search['search_key']);
+$keyword_text = $this->zvnFormText("search_value",$search['search_value'],array("class"=>"form-control input-sm "));
+$btn_clear    = $this->zvnFormButton("btn_clear","clear","Clear",array("type"=>"submit"));
+$btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-primary","type"=>"submit"));
+
+?>
+
+<div class="row">
+          <!-- BUTTON-TOOL -->
+            <?php  echo $this->render("area_button.phtml"); ?>
+          <!-- /.box-body -->
+<!-- ALERT -->
+            <?php  echo $this->flashMessenger()->render(); ?>
+<!-- END_ALERT -->
+
+<!-- TABLE -->
+<form name="adminForm" id="adminForm" action="<?php echo $linkForm ?>" method="post">
+      <div class="box box-info">
+          <div class="box-body">
+            <div class="box-header" style="padding-top: 10px;">
+                  <!-- SEARCH BOX -->
+                    <?php 
+                      echo $this->partial("partial_search.phtml",array(
+                          "keyword_type" => $keyword_type,
+                          "keyword_text" => $keyword_text,
+                          "button"       => $btn_clear.$btn_go
+                      ))
+                    ?>
+                  <!-- SELECT BOX -->
+                  <div class="col-xs-8 ">
+                    <div class="dataTables_filter pull-right">
+                      <?php
+                        //SELECT-STATUS
+                        $filter_status = $this->paramSetting['filter_status'];
+                        echo $this->zvnFormSelectBox("filter_status","-- Select a status --",array("active"=>"Active","inactive"=>"InActive"),$filter_status);
+                      ?>
+                    </div>
+                  </div>
+            </div>
+
+            <div class="row"><div class="col-sm-12">
+                <!-- ORDER -->
+                <table id="example2" class="table table-bordered table-hover dataTable text-center" >
+                    <thead>
+                      <tr role="row">
+                        <th class="text-center">
+                           <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+                        </th>
+                        <?php 
+                            //-----order---
+                            $order = $this->paramSetting['order'];
+                          echo   $this->changeSortLink($order,"name","Name").
+                                 $this->changeSortLink($order,"price","Price").
+                                 $this->changeSortLink($order,"book_name","Book name").
+                                 $this->changeSortLink($order,"created","Created").
+                                 $this->changeSortLink($order,"modified","Modified").
+                                 $this->changeSortLink($order,"ordering","Ordering").
+                                 $this->changeSortLink($order,"status","Status").
+                                 $this->changeSortLink($order,"id","ID");   
+                        ?>
+                      </tr>
+                      <?php
+                      //----hidden---
+                            echo $this->zvnFormHidden("order","ASC").
+                                 $this->zvnFormHidden("order_by","id").
+                                 $this->zvnFormHidden("status","").
+                                 $this->zvnFormHidden("id","");
+                      ?>
+                    </thead>
+                    <tbody>
+                     <?php echo $xhtmlTable ?>
+                    </tbody>
+                </table>
+            </div></div>
+            <div class="row">
+            <?php
+              $realURL = $this->linkToGo("adminRoute/paginator",array("controller"=>"book"));
+              echo $this->paginationControl($this->paginator,null,"paginator.phtml",array("realURL"=>$realURL));
+            ?>
+            </div>
+          </div>
+      </div>
+</form>
+</div>

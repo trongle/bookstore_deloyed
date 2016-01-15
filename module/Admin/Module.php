@@ -110,6 +110,18 @@ class Module {
                     $tableGateway = $sm->get("BookTableGateway");
                     return  new \Admin\Model\BookTable($tableGateway);
                 },
+                "SliderTableGateway" => function($sm){
+                    $adapter = $sm->get("dbConfig");
+                    //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
+                    $resultSetPrototype = new HydratingResultSet();
+                    $resultSetPrototype->setHydrator(new ObjectProperty());
+                    $resultSetPrototype->setObjectPrototype(new \ZendVN\Model\Entity\Slider());
+                    return $tableGateway = new TableGateway("slider",$adapter,null,$resultSetPrototype);
+                },
+                "Admin\Model\Slider" => function($sm){
+                    $tableGateway = $sm->get("SliderTableGateway");
+                    return  new \Admin\Model\SliderTable($tableGateway);
+                },
             ),
             "aliases" => array(
                 "GroupTable"    => "Admin\Model\Group",
@@ -117,6 +129,7 @@ class Module {
                 "NestedTable"   => "Admin\Model\Nested",
                 "CategoryTable" => "Admin\Model\Category",
                 "BookTable"     => "Admin\Model\Book",
+                "SliderTable"   => "Admin\Model\Slider",
             ),
         );
     }
@@ -165,6 +178,13 @@ class Module {
                     $categoryTable = $sm->getServiceLocator()->get("CategoryTable");
                     $form = new \Admin\Form\FormBook($categoryTable);
                     $form->setInputFilter(new \Admin\Form\FormBookFilter());
+                    return $form;
+                },
+                "formAdminSlider" => function($sm){
+                    $bookTable = $sm->getServiceLocator()->get("BookTable");
+                    $sliderTable = $sm->getServiceLocator()->get("SliderTable");
+                    $form = new \Admin\Form\FormSlider($bookTable,$sliderTable);
+                    $form->setInputFilter(new \Admin\Form\FormSliderFilter());
                     return $form;
                 },
     		)

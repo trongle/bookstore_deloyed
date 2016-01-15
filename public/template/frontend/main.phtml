@@ -1,4 +1,5 @@
-﻿<?php echo  $this->doctype() ?>
+﻿
+<?php echo  $this->doctype() ?>
 <html>
   <head>
     <?php 
@@ -75,12 +76,12 @@
 								<?php echo $this->blockSpecial(); ?>
 								
 								<!-- ASIDE INFO -->
-								<?php include_once 'html/aside_info.php';?>
+								<?php echo $this->blockFacebook();?>
 							
 							</aside>
 							<div class="col-sm-9" id="content">
 								<!-- SLIDER -->
-								<?php include_once 'html/slide.php';?>
+								<?php if($this->params['controller'] == 'index') echo $this->blockSlider();?>
 
 								<!-- CONTENT -->
 								<?php echo $this->content ?>

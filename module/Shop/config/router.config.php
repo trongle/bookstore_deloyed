@@ -58,7 +58,7 @@ $shopRoute = array(
 return array(
 	"router"       => array(
 		"routes" => array(
-			"home" => $home,
+			"homeShop" => $home,
 			"shopRoute" => $shopRoute
 		)
 	)

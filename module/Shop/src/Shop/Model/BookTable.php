@@ -81,6 +81,14 @@ class BookTable extends AbstractTableGateway{
 					   ->where->equalTo("id",$arrParam['id']);
 			})->current();
 		}	
+
+		if($options["task"] == "book-slider"){
+			return 	$this->_tableGateway->select(function(select $select) use($arrParam){
+					$select->columns(array("id","name"))
+						   ->where->like("name","%".$arrParam['keyword']."%");
+					
+			});
+		}	
 	}
 
 

@@ -38,6 +38,11 @@ class Image
 			$layer->save( PATH_FILES."books/thumb/80x120", $fileName, true);
 		}
 
+		if($options["task"] == "slider"){
+			$directory = PATH_FILES."sliders";
+			$fileName  = $uploadObj->UploadFile($fileInput,$directory,array("task"=>"rename"),$prefix);
+		}
+
 		return $fileName;
 	}
 
@@ -46,6 +51,10 @@ class Image
 			$avatarRoot   = PATH_FILES."users/".$fileName;
 			$avatarResize = PATH_FILES."users/thumb/".$fileName;
 			@unlink($avatarRoot);@unlink($avatarResize);
+		}
+		if($options['task'] == 'slider'){
+			$avatarRoot   = PATH_FILES."sliders/".$fileName;
+			@unlink($avatarRoot);
 		}
 		if($options["task"] == "book"){
 			$avatarRoot   = PATH_FILES."books/".$fileName;
