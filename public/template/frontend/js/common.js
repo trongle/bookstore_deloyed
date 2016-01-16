@@ -15,7 +15,28 @@ if ($('body').width() > 767) {
 };
 
 $(document).ready(function() {
-	
+
+	// SHOW POPUP
+	$("a.colorbox").click(function(){
+		var url  = $(this).attr("href");
+		var o_id = $(this).data("id");
+		$(".quick-view").load(url,{id:o_id});
+		$("a.colorbox").colorbox({
+			rel: 'colorbox1',
+			inline:true,
+			html: true,
+			width:'58%',
+			maxWidth:'780px',
+			height:'70%',
+			open:false,
+			returnFocus:false,
+			fixed: true,
+			title: false,
+			href:'.quick-view',
+		});	
+	})
+
+
 
 	$('#camera_wrap_0').camera({
 		fx: 'stampede',

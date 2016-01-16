@@ -82,6 +82,11 @@ class Module {
                     $helper = new \Block\BlockSlider();
                     $helper->setData($sm->getServiceLocator()->get( "Shop\Model\Slider"));
                     return $helper;
+                },
+                "blockNewBook"   => function($sm){
+                    $helper = new \Block\BlockNewBook();
+                    $helper->setData($sm->getServiceLocator()->get( "Shop\Model\Book"));
+                    return $helper;
                 }
     		),
             "invokables" => array(

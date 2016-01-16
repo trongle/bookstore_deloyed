@@ -1,0 +1,71 @@
+<?php 
+if(empty($this->_data)) return '';
+$xhtml = "";
+$i = 1;
+foreach($this->_data as $item){
+	$id          = $item->id; 
+	$name        = $item->name;
+	$picture     = URL_FILES . "books/thumb/140x210/".$item->picture;
+	$realPrice   = $realPrice = $this->view->createPrice($item->price,$item->sale_off,array("task"=>"book-special"));
+	$linkPopup   = $this->view->url("shopRoute/default",array("controller" => "book","action" => "popup"));
+	$description = $item->description;
+
+	$class = '';
+	if($i == 1 || $i == 4) $class = 'first-in-line ';
+	if($i == 3 || $i == 6) $class = 'last-in-line ';
+	if($i > 3) $class .= 'last-line';
+
+
+	$xhtml .= '<li class="'.$class.'  col-sm-4">
+					<div class="padding">
+						<div class="image2">
+							<a href="#"><img id="img_32"
+								src="'.$picture.'"
+								alt="'.$name.'" /></a>
+						</div>
+
+						<a href="'.$linkPopup.'" class="colorbox quick-view-button" data-id="'.$id.'"><i
+							class=" fa fa-search " ></i></a>
+						<div class="inner">
+							<div class="f-left">
+								<div class="price">'.$realPrice.'</div>
+								<div class="name maxheight-feat" style="height:300px;overflow:hidden">
+									<a href="#">'.$description.'</a>
+								</div>
+							</div>
+							<div class="cart-button">
+								<div class="cart">
+									<a title="Add to cart" data-id="32;" class="button addToCart"><span>Add
+											to cart</span></a>
+								</div>
+								<span class="clear"></span>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</li>';
+	$i++;
+}
+
+?>
+
+<!-- 
+	<li class="first-in-line col-sm-4">
+	<li class=" col-sm-4">
+	<li class="last-in-line col-sm-4">
+	<li class="first-in-line last_line col-sm-4">
+	<li class=" last_line col-sm-4">
+	<li class="last-in-line last_line col-sm-4">
+ -->
+<div class="box featured">
+	<div class="box-heading">Featured</div>
+	<div class="box-content">
+		<div class="box-product">
+			<ul class="row">
+				<?php echo $xhtml ?>
+			</ul>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
