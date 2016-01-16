@@ -43,8 +43,11 @@ class Book
 		$arr['status'] = ($arr['status']==1)? "active":"inactive";
 		$arr['special'] = ($arr['status']==1)? "special":"normal";
 		$sale_off = Json::decode($arr["sale_off"]);
-		$arr['sale_off_type']  = $sale_off->type;
-		$arr['sale_off_value'] = $sale_off->value;
+		if(!empty($sale_off)){
+			$arr['sale_off_type']  = $sale_off->type;
+			$arr['sale_off_value'] = $sale_off->value;
+		}
+
 		return $arr;
 	}
 

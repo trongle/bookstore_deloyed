@@ -26,6 +26,15 @@ class BookTable extends AbstractTableGateway{
 					   ->where->equalTo("status",1);
 			});	
 		}
+
+		if($options['task'] == 'list-book-by-category'){
+			$result = $this->_tableGateway->select(function(select $select) use($arrParam){
+				$select->columns(array("id","name","description","picture","price","sale_off"))
+					   ->order(array("id DESC"))
+					   ->where->in("category_id",$arrParam)
+					   ->where->equalTo("status",1);
+			});	
+		}
 		
 		return $result;
 	}

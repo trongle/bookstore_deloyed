@@ -54,12 +54,34 @@ class CategoryTable extends NestedTable{
 			});
 		}
 
+		if($options["task"] == "list-breadcrumb"){
+			$result = $this->_tableGateway->select(function(select $select) use($arrParam){
+						$select->columns(array("id","name","right","left","level","parent"))
+						       ->order(array("left ASC"))
+						       ->where->greaterThan("level",0)
+						       ->where->greaterThanOrEqualTo("right",$arrParam->right)
+						       ->where->lessThanOrEqualTo("left",$arrParam->left);
+			});
+		}
+
+		if($options["task"] == "list-id-category"){
+			$categories = $this->_tableGateway->select(function(select $select) use($arrParam){
+						$select->columns(array("id","name","right","left","level","parent"))
+						       ->order(array("left ASC"))
+						       ->where->greaterThan("level",0)
+						       ->where->between("left",$arrParam->left,$arrParam->right);
+			});
+			$result = array();
+			foreach($categories as $cat){
+				$result[] = $cat->id;
+			}
+		}
 		return $result;
 	}
 
 	public function getItem($arrParam,$options = null){
 		return 	$this->_tableGateway->select(function(select $select) use($arrParam){
-				$select->columns(array("id","name","parent","level","description"))
+				$select->columns(array("id","name","left","right","parent","level","description"))
 					   ->where(array("id"=>$arrParam['id']));
 			})->current();
 	}

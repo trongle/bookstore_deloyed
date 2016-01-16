@@ -41,6 +41,21 @@ $shopRoute = array(
                 ),
             ),
         ),
+        'category' => array(
+            'type'    => 'Segment',
+            'options' => array(
+                'route'    => '/category/index/:id[/display/:display[/]]',
+                'constraints' => array(
+                    'id'    	 => '[0-9]*',
+                    'display'    => 'list|grid'
+                ),
+                'defaults' => array(
+                    '__NAMESPACE__' => 'Shop\Controller',
+                    'controller'    => 'category',
+                    'action'        => 'index',
+                ),
+            ),
+        ),
         'paginator' => array(
             'type'    => 'Segment',
             'options' => array(

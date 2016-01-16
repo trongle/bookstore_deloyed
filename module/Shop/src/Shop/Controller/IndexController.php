@@ -15,7 +15,7 @@ class IndexController extends MyAbstractController{
 	}
 
 	public function indexAction(){
-		echo "<h3 style = 'color:purple'>".__METHOD__."</h3>";
+
 	}
 }
 ?>

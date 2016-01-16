@@ -54,7 +54,7 @@ class NestedTable extends AbstractTableGateway{
 			});
 		}
 
-		if($options["task"] == "list-breadcrumd"){
+		if($options["task"] == "list-breadcrumb"){
 			$nodeMain = $this->getInfoNode($arr["id"]);
 			$result = $this->_tableGateway->select(function(select $select) use($nodeMain){
 						$select->columns(array("id","name","right","left","level","parent"))

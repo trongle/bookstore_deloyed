@@ -3752,3 +3752,19 @@ table.radio {
 .zoomContainer {
 z-index:8;
 }
+
+a.display-active{
+	color: #96DC6C;
+}
+
+a.change-display{
+	vertical-align: top;
+	font-size: 28px;
+	float: left;
+	display: block;
+	width: 32px;
+	height: 32px;
+	margin-left: 6px;
+	font-weight: normal;
+	font-size: 28px;
+}

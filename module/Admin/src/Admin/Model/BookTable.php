@@ -222,7 +222,7 @@ class BookTable extends AbstractTableGateway{
 	}
 
 	public function getItem($arrParam,$options = null){
-		if($optiond == null){
+		if($options == null){
 			return 	$this->_tableGateway->select(function(select $select) use($arrParam){
 				$select->columns(array("id","name","description","ordering","status","picture","category_id","price","sale_off"))
 					   ->where(array("id"=>$arrParam["id"]));

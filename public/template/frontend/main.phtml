@@ -4,7 +4,7 @@
   <head>
     <?php 
     //title
-    echo $this->headTitle()->prepend("Bookstore") ;
+    echo $this->headTitle() ;
     //meta
     echo $this->headMeta()->appendName("viewport","width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
                           ->appendName("description","Trongle no1")
@@ -13,7 +13,7 @@
     echo $this->headLink()->appendStylesheet(array(
                             "rel" => "shortcut icon", 
                             "type" => "image/x-icon",
-                            "href" => URL_IMG_SHOP."Book_blue.ico"),"append")
+                            "href" => URL_IMG_LAYOUT."Book_blue.ico"),"append")
                           ->appendStylesheet(URL_CSS_SHOP."bootstrap.css")
                           ->appendStylesheet(URL_CSS_SHOP."stylesheet.css")
                           ->appendStylesheet(URL_CSS_SHOP."font-awesome.min.css")

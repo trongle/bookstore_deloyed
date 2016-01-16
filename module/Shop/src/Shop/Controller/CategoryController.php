@@ -16,12 +16,33 @@ class CategoryController extends MyAbstractController{
 	}
 
 	public function indexAction(){	
-		$this->_mainParam["data"]["id"] = $this->params("id");
-		$categoryItem = $this->getTable()->getItem($this->_mainParam["data"]);
+		$this->_mainParam["data"]["id"]      = $this->params("id");
+		$this->_mainParam["data"]["display"] = $this->params("display","grid");
+		$viewModel =  new ViewModel(); //view chính
+		$bookView  =  new ViewModel(); //view -hiện danh sách book
+		$bookView->setTemplate('shop/category/child_list_book');
+		//CATEGORY INFO
+		$categoryItem  = $this->getTable()->getItem($this->_mainParam["data"]);
 		if(empty($categoryItem)) $this->redirect()->toRoute("shopRoute/default",array("controller" => "notice","action" => "no-data"));
-		return new ViewModel(array(
-			"categoryItem" => $categoryItem,
+		
+		//BREADCRUMB
+		$listBreadcumb = $this->getTable()->listItem($categoryItem,array("task" => "list-breadcrumb"));
+
+		//LISTBOOK BY CATEGORY
+		$catIDs    = $this->getTable()->listItem($categoryItem,array("task" => "list-id-category"));
+		$bookTable = $this->getServiceLocator()->get("shopBookTable");
+		$listBook  = $bookTable->listItem($catIDs,array("task" => "list-book-by-category"));
+		
+
+		$viewModel->addChild($bookView,"list_book_category");
+		$bookView->setVariables(array(
+			"listBook"		=> $listBook
 		));
+		$viewModel->setVariables(array(
+			"categoryItem"  => $categoryItem,
+			"listBreadcumb" => $listBreadcumb,	
+		));
+		return $viewModel;
 	}
 }
 ?>
