@@ -36,7 +36,7 @@ $adminRoute = array(
                 ),
                 'defaults' => array(
                     '__NAMESPACE__' => 'Admin\Controller',
-                    'controller'    => 'index',
+                    'controller'    => 'Admin\Controller\index',
                     'action'        => 'index',
                 ),
             ),
