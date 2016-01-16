@@ -1,0 +1,73 @@
+<?php 
+$xhtmlList    = "";
+$i            = 1;
+$totalItem   = $listBook->count();
+if($totalItem > 0){
+	if($totalItem % 3 != 0)	$totalItem = $totalItem + (3 - $totalItem % 3);
+	foreach($listBook as $book){
+		$name        = $book->name;
+		$description = $book->description;
+		if(!empty($description)){
+			$config = array(
+				"HTML.AllowedAttributes" =>array("style"),
+				"HTML.AllowedElements" =>array("p","b","em","span","strong"),
+			);
+		
+			$filter      = new \ZendVN\Filter\Purifier($config);
+			$description = $filter->filter($description);
+			if(strlen($description) > 400){
+				$description = substr($description,0,397)." ...";
+			}
+		}
+		
+		$picture     = URL_FILES . "books/thumb/140x210/".$book->picture;
+		$realPrice   = $realPrice = $this->createPrice($book->price,$book->sale_off,array("task"=>"book-special"));
+		$class       = "";
+
+		if($i % 3 == 1) $class = 'first-in-line ';
+		if($i % 3 == 0) $class = 'last-in-line ';
+		if(in_array($i,array($totalItem,$totalItem -1,$totalItem-2))) $class .= 'last_line';
+		$xhtmlList .= ' <li class="first-in-line">
+							<div class="row">
+								<div class="image col-sm-3">
+									<a href="#">
+										<img id="img_44" src="'.$picture.'" title="'.$name.'" alt="'.$name.'">
+									</a>
+								</div>
+								
+								<div class="left col-sm-9">
+									<div class="name">
+										<a href="#">'.$name.'</a>
+									</div>
+									<div class="description">'.$description.'</div>
+									<div class="price">
+										'.$realPrice.'
+									</div>
+									<div class="cart-button">
+										<div class="cart">
+											<a onclick="addToCart(44);" class="button" title="Add to Cart"><span>Add to Cart</span></a>
+										</div>
+										<div class="clear"></div>
+									</div>
+								</div>
+							</div>
+						</li>';
+		$i++;
+	}
+}else{
+	$xhtmlList = "<li class='col-sm-4'><h3>Nội dung đang cập nhật</h3></li>";
+}
+
+
+/*
+<li class="col-sm-4 first-in-line">
+<li class="col-sm-4">
+<li class="col-sm-4 last-in-line">
+ */
+?>
+
+<div class="list-product product-list" style="display:block">
+	<ul class="row">
+		<?php echo $xhtmlList ?>
+	</ul>
+</div>

@@ -29,47 +29,24 @@ if($totalItem > 0){
 		if($i % 3 == 0) $class = 'last-in-line ';
 		if(in_array($i,array($totalItem,$totalItem -1,$totalItem-2))) $class .= 'last_line';
 		$xhtmlGrid .= ' <li class="col-sm-4 '.$class.'">
-						<div class="padding">
-							<div class="image">
-								<a href="#"> <img id="img_44"
-									src="'.$picture.'"
-									title="'.$name.'" alt="'.$name.'">
-								</a>
-							</div>
-							<div class="left">
-								<div class="name">
-									<a href="#">'.$name.'</a>
-								</div>
-								<div class="price">
-									'.$realPrice.'
-								</div>
-								<div class="cart-button">
-									<div class="cart">
-										<a onclick="addToCart();" class="button" title="Add to Cart"><span>Add
-												to Cart</span></a>
-									</div>
-									<div class="clear"></div>
-								</div>
-							</div>
-						</div>
-					</li>';
-		$xhtmlList .= '	<li class="first-in-line  '.$class.'">
-							<div class="row">
-								<div class="image col-sm-3">
-									<a href="#">
-										<img id="img_44" src="'.$picture.'" title="'.$name.'" alt="'.$name.'">
+							<div class="padding">
+								<div class="image">
+									<a href="#"> <img id="img_44"
+										src="'.$picture.'"
+										title="'.$name.'" alt="'.$name.'">
 									</a>
 								</div>
-								
-								<div class="left col-sm-9">
+								<div class="left">
 									<div class="name">
 										<a href="#">'.$name.'</a>
 									</div>
-									<div class="description">'.$description.'</div>
-									<div class="price">'.$realPrice.'</div>
+									<div class="price">
+										'.$realPrice.'
+									</div>
 									<div class="cart-button">
 										<div class="cart">
-											<a onclick="addToCart(44);" class="button" title="Add to Cart"><span>Add to Cart</span></a>
+											<a onclick="addToCart();" class="button" title="Add to Cart"><span>Add
+													to Cart</span></a>
 										</div>
 										<div class="clear"></div>
 									</div>
@@ -80,7 +57,6 @@ if($totalItem > 0){
 	}
 }else{
 	$xhtmlGrid = "<li class='col-sm-4'><h3>Nội dung đang cập nhật</h3></li>";
-	$xhtmlList = "<li class='col-sm-4'><h3>Nội dung đang cập nhật</h3></li>";
 }
 
 

@@ -16,11 +16,11 @@ class CategoryController extends MyAbstractController{
 	}
 
 	public function indexAction(){	
-		$this->_mainParam["data"]["id"]      = $this->params("id");
-		$this->_mainParam["data"]["display"] = $this->params("display","grid");
+		$this->_mainParam["data"]["id"] = $this->params("id");
+		$display                        = $this->params("display","list");
 		$viewModel =  new ViewModel(); //view chính
 		$bookView  =  new ViewModel(); //view -hiện danh sách book
-		$bookView->setTemplate('shop/category/child_list_book');
+		$bookView->setTemplate('shop/category/'.$display);
 		//CATEGORY INFO
 		$categoryItem  = $this->getTable()->getItem($this->_mainParam["data"]);
 		if(empty($categoryItem)) $this->redirect()->toRoute("shopRoute/default",array("controller" => "notice","action" => "no-data"));
@@ -41,7 +41,8 @@ class CategoryController extends MyAbstractController{
 		$viewModel->setVariables(array(
 			"categoryItem"  => $categoryItem,
 			"listBreadcumb" => $listBreadcumb,	
-		));
+			"displayType"   => $display
+ 		));
 		return $viewModel;
 	}
 }

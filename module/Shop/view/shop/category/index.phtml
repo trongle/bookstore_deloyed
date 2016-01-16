@@ -2,6 +2,8 @@
 
 	$categoryItem = $this->categoryItem;
 	$this->headTitle($categoryItem->name);
+	$linkGrid = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>"grid"));
+	$linkList = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>"list"));
 	
 ?>
 <!-- BREADCRUMB -->
@@ -35,13 +37,15 @@
 	</div>
 
 	<div class="display">
-	 	<a class="change-display" data-type="list"><i class="active fa fa-list"></i></a>
-		<a class="display-active change-display" data-type="grid"><i class="fa fa-th"></i></a>
+	 	<a href="<?php echo $linkList ?>" class="change-display" data-type="list"><i class="active fa fa-list"></i></a>
+		<a href="<?php echo $linkGrid ?>" class="change-display" data-type="grid"><i class="fa fa-th"></i></a>
 	</div>
 </div>
 
 <!-- PRODUCT GRID -->
-<?php echo $this->list_book_category ?>
+<div class="area-content">
+	<?php echo $this->list_book_category ?>
+</div>
 
 <!-- PAGINATION -->
 <div class="pagination">
@@ -50,13 +54,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$(".change-display").click(function(){
-			$(".change-display").removeClass("display-active");
-			$(this).addClass("display-active");
-			var type = $(this).data('type');
-			$(".list-product").css("display","none");
-			$(".product-"+type).css("display","block");
-			return false;
-		})
+		$(".change-display").removeClass("display-active");
+		$(".display [data-type=<?php echo $this->displayType ?>]").addClass("display-active");
 	})
 </script>
