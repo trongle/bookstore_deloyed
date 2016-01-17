@@ -50,8 +50,8 @@ class GroupController extends MyAbstractController{
 		$items = $this->getTable()->listItem($this->_mainParam,array("task"=>"list-item"));
 		$totalItem = $this->getTable()->countItem($this->_mainParam);
 		return new ViewModel(array(
-				"items"     => $items,
-				"paginator" => \ZendVN\Paginator\Paginator::createPagination($totalItem,$this->_configPaginator),
+				"items"        => $items,
+				"paginator"    => \ZendVN\Paginator\Paginator::createPagination($totalItem,$this->_configPaginator),
 				"paramSetting" => $this->_mainParam
 		));
 	}

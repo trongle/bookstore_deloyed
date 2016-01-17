@@ -10,9 +10,17 @@ class CategoryController extends MyAbstractController{
 		$this->_options['tableName'] = "Shop\Model\Category";
 		$this->_options['formName'] = "";
 
+		//SET PAGINATOR
+		$this->_configPaginator['pageRange']   = 3;
+		$this->_configPaginator['itemPerPage'] = 3;
+		$this->_configPaginator['curentPage']  = $this->params()->fromRoute("page",1);
+		$this->_mainParam['filter']['order']   = $this->params()->fromRoute("order","id");
+		$this->_mainParam['filter']['dir']     = $this->params()->fromRoute("dir","desc");
+
 		//nhân các tham so trả về từ request của các Action
-		$this->_mainParam["data"] = array_merge($this->request->getPost()->toArray(),
-			 									$this->request->getFiles()->toArray());
+		$this->_mainParam["pagination"] =  $this->_configPaginator;
+		$this->_mainParam["data"]       = array_merge($this->request->getPost()->toArray(),
+													  $this->request->getFiles()->toArray());
 	}
 
 	public function indexAction(){	
@@ -29,10 +37,11 @@ class CategoryController extends MyAbstractController{
 		$listBreadcumb = $this->getTable()->listItem($categoryItem,array("task" => "list-breadcrumb"));
 
 		//LISTBOOK BY CATEGORY
-		$catIDs    = $this->getTable()->listItem($categoryItem,array("task" => "list-id-category"));
+		$catIDs                     = $this->getTable()->listItem($categoryItem,array("task" => "list-id-category"));
+		$this->_mainParam["catIDs"] = $catIDs; 
 		$bookTable = $this->getServiceLocator()->get("shopBookTable");
-		$listBook  = $bookTable->listItem($catIDs,array("task" => "list-book-by-category"));
-		
+		$listBook  = $bookTable->listItem($this->_mainParam,array("task" => "list-book-by-category"));
+		$totalItem = $bookTable->countItem($catIDs,array("task"=>"count-book"));
 
 		$viewModel->addChild($bookView,"list_book_category");
 		$bookView->setVariables(array(
@@ -41,7 +50,9 @@ class CategoryController extends MyAbstractController{
 		$viewModel->setVariables(array(
 			"categoryItem"  => $categoryItem,
 			"listBreadcumb" => $listBreadcumb,	
-			"displayType"   => $display
+			"paginator"     => \ZendVN\Paginator\Paginator::createPagination($totalItem,$this->_configPaginator),
+			"displayType"   => $display, 
+			"paramSetting"  => $this->_mainParam
  		));
 		return $viewModel;
 	}

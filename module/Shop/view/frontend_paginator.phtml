@@ -1,0 +1,48 @@
+
+<?php 
+if($this->pageCount <= 1) return "";
+$linkStart    = $this->realURL."page/".$this->first;
+$linkPrevious = $this->realURL."page/".$this->previous;
+$linkEnd      = $this->realURL."page/".$this->last;
+$linkNext     = $this->realURL."page/".$this->next;
+
+$xhtmlStart = '';
+$xhtmlPrevious = '';
+if($this->current != 1){
+    $xhtmlStart = sprintf('<a href="%s">|&lt;</a>',$linkStart);
+    $xhtmlPrevious = sprintf('<a href="%s">&lt;</a>',$linkPrevious);
+}
+
+$xhtmlEnd = '';
+$xhtmlNext = '';
+if($this->current != $this->last ){
+    $xhtmlEnd = sprintf('<a href="%s">&gt;|</a>',$linkEnd);
+    $xhtmlNext = sprintf('<a href="%s">&gt;</a>',$linkNext);
+}
+
+//class="paginate_button active"
+$xhtmlListPage = "";
+foreach($this->pagesInRange as $page){
+  if($this->current != $page){
+      $linkPage = $this->realURL."page/".$page;
+      $xhtmlListPage .= sprintf('<a href="%s">%s</a>',$linkPage,$page);
+  }else{
+      $xhtmlListPage .= sprintf('<b>%s</b>',$page);
+  }
+}
+
+//-------INFO PAge------
+
+$xhtmlInfoPage = sprintf('Showing %s to %s of %s (%spage)',$this->firstItemNumber,$this->lastItemNumber,$this->totalItemCount,$this->pageCount);
+
+?>
+<div class="pagination">
+  <div class="links">
+     <?php  
+        echo $xhtmlStart.$xhtmlPrevious.$xhtmlListPage.$xhtmlNext.$xhtmlEnd;
+     ?>
+  </div>
+  <div class="results">
+    <?php echo $xhtmlInfoPage ?>
+  </div>
+</div>

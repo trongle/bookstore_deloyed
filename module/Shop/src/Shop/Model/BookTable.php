@@ -29,14 +29,29 @@ class BookTable extends AbstractTableGateway{
 
 		if($options['task'] == 'list-book-by-category'){
 			$result = $this->_tableGateway->select(function(select $select) use($arrParam){
+				$filter = $arrParam['filter'] ;
+				$select->columns(array("id","name","description","picture","price","sale_off"))
+					   ->order(array($filter['order'] ." ". $filter['dir']))
+					   ->limit($arrParam['pagination']['itemPerPage'])
+					   ->offset(($arrParam['pagination']['curentPage']-1) * $arrParam['pagination']['itemPerPage'])
+					   ->where->in("category_id",$arrParam['catIDs'])
+					   ->where->equalTo("status",1);
+			});	
+		}
+		
+		return $result;
+	}
+
+	public function countItem($arrParam = null,$options = null){
+		if($options['task'] == 'count-book'){
+			$result = $this->_tableGateway->select(function(select $select) use($arrParam){
 				$select->columns(array("id","name","description","picture","price","sale_off"))
 					   ->order(array("id DESC"))
 					   ->where->in("category_id",$arrParam)
 					   ->where->equalTo("status",1);
 			});	
 		}
-		
-		return $result;
+		return $result->count();
 	}
 
 	public function getItem($arrParam,$options = null){

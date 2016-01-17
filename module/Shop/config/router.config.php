@@ -44,10 +44,13 @@ $shopRoute = array(
         'category' => array(
             'type'    => 'Segment',
             'options' => array(
-                'route'    => '/category/index/:id[/display/:display[/]]',
+                'route'    => '/category/index/:id[/display/:display][/order/:order][/dir/:dir][/page/:page][/]',
                 'constraints' => array(
-                    'id'    	 => '[0-9]*',
-                    'display'    => 'list|grid'
+                    'id'      => '[0-9]*',
+                    'page'    => '[0-9]*',
+                    'order'   => 'name|id|price',
+                    'dir'     => 'asc|desc',
+                    'display' => 'list|grid'
                 ),
                 'defaults' => array(
                     '__NAMESPACE__' => 'Shop\Controller',

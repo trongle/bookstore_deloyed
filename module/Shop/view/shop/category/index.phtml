@@ -1,9 +1,19 @@
 <?php 
+	$pagination   = $this->paramSetting['pagination'];
+	$filter       = $this->paramSetting['filter'];
 
 	$categoryItem = $this->categoryItem;
 	$this->headTitle($categoryItem->name);
-	$linkGrid = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>"grid"));
-	$linkList = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>"list"));
+	//LINK - LAYOUT
+	$linkGrid     = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>"grid","page" => $pagination['curentPage'],"order" => $filter['order'],"dir" => $filter['dir']));
+	$linkList     = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>"list","page" => $pagination['curentPage'],"order" => $filter['order'],"dir" => $filter['dir']));
+	//LINK -FILTER - SORT
+	$linkSortCurent  = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => $filter['order'],"dir" => $filter['dir']));
+	$linkIdDesc      = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "id","dir" => "desc"));
+	$linkNameAsc     = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "name","dir" => "asc"));
+	$linkNameDesc    = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "name","dir" => "desc"));
+	$linkPriceAsc    = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "price","dir" => "asc"));
+	$linkPriceDesc   = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "price","dir" => "desc"));
 	
 ?>
 <!-- BREADCRUMB -->
@@ -22,11 +32,16 @@
 <!-- PRODUCT FILTER -->
 <div class="product-filter">
 	<div class="sort">
-		<b>Sort By:</b> <select onchange="location = this.value;">
-			<option value="1" selected="selected">Default</option>
-			<option value="1">Name (A - Z)</option>
-			<option value="1">Name (Z - A)</option>
-		</select>
+		<b>Sort By:</b> 
+		
+			<?php 
+				echo $this->zvnFormSelectBox("filter_sort",null,array(
+							$linkIdDesc    => "Mới nhất ",
+							$linkNameAsc   => "Name (A - Z)",
+							$linkNameDesc  => "Name (Z - A)",
+							$linkPriceAsc  => "Price (A - Z)",
+							$linkPriceDesc => "Price (Z - A)",						
+					),$linkSortCurent); ?>
 	</div>
 
 	<div class="limit">
@@ -49,12 +64,20 @@
 
 <!-- PAGINATION -->
 <div class="pagination">
-	<div class="results">Showing 1 to 3 of 3 (1 Pages)</div>
+	 	<?php
+	     	$realURL = $this->linkToGo("shopRoute/category",array("display"=>$displayType,"id" => $categoryItem->id,"order" => $filter['order'],"dir" => $filter['dir']));
+	      	echo $this->paginationControl($this->paginator,null,"frontend_paginator.phtml",array("realURL"=>$realURL));
+	    ?>
 </div>
 
 <script type="text/javascript">
 	$(document).ready(function(){
 		$(".change-display").removeClass("display-active");
 		$(".display [data-type=<?php echo $this->displayType ?>]").addClass("display-active");
+
+		$("select[name=filter_sort]").on("change",function(){
+			var url = $(this).val();
+			window.location = url;
+		})
 	})
 </script>
