@@ -92,6 +92,7 @@ class Module {
             "invokables" => array(
                 "blockFacebook"    => "Block\BlockFacebook",
                 "createBreadcrumb" => "ZendVN\View\Helper\CreateBreadcrumb",
+                "createLinkDetail" => "ZendVN\View\Helper\CreateLinkDetail",
             )
     	);
     }

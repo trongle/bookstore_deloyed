@@ -6,7 +6,10 @@ if($totalItem > 0){
 	if($totalItem % 3 != 0)	$totalItem = $totalItem + (3 - $totalItem % 3);
 	foreach($listBook as $book){
 		$name        = $book->name;
+		$picture     = URL_FILES . "books/thumb/140x210/".$book->picture;
+		$realPrice   = $realPrice = $this->createPrice($book->price,$book->sale_off,array("task"=>"book-special"));
 		$description = $book->description;
+		$linkDetail  = $this->createLinkDetail($book->id);
 		if(!empty($description)){
 			$config = array(
 				"HTML.AllowedAttributes" =>array("style"),
@@ -18,26 +21,22 @@ if($totalItem > 0){
 			if(strlen($description) > 400){
 				$description = substr($description,0,397)." ...";
 			}
-		}
-		
-		$picture     = URL_FILES . "books/thumb/140x210/".$book->picture;
-		$realPrice   = $realPrice = $this->createPrice($book->price,$book->sale_off,array("task"=>"book-special"));
+		}			
 		$class       = "";
-
 		if($i % 3 == 1) $class = 'first-in-line ';
 		if($i % 3 == 0) $class = 'last-in-line ';
 		if(in_array($i,array($totalItem,$totalItem -1,$totalItem-2))) $class .= 'last_line';
 		$xhtmlList .= ' <li class="first-in-line">
 							<div class="row">
 								<div class="image col-sm-3">
-									<a href="#">
+									<a href="'.$linkDetail.'">
 										<img id="img_44" src="'.$picture.'" title="'.$name.'" alt="'.$name.'">
 									</a>
 								</div>
 								
 								<div class="left col-sm-9">
 									<div class="name">
-										<a href="#">'.$name.'</a>
+										<a href="'.$linkDetail.'">'.$name.'</a>
 									</div>
 									<div class="description">'.$description.'</div>
 									<div class="price">

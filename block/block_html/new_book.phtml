@@ -9,6 +9,7 @@ foreach($this->_data as $item){
 	$realPrice   = $realPrice = $this->view->createPrice($item->price,$item->sale_off,array("task"=>"book-special"));
 	$linkPopup   = $this->view->url("shopRoute/default",array("controller" => "book","action" => "popup"));
 	$description = $item->description;
+	$linkDetail  = $this->view->createLinkDetail($id);
 
 	$class = '';
 	if($i == 1 || $i == 4) $class = 'first-in-line ';
@@ -19,7 +20,7 @@ foreach($this->_data as $item){
 	$xhtml .= '<li class="'.$class.'  col-sm-4">
 					<div class="padding">
 						<div class="image2">
-							<a href="#"><img id="img_32"
+							<a href="'.$linkDetail.'"><img id="img_32"
 								src="'.$picture.'"
 								alt="'.$name.'" /></a>
 						</div>
@@ -30,7 +31,7 @@ foreach($this->_data as $item){
 							<div class="f-left">
 								<div class="price">'.$realPrice.'</div>
 								<div class="name maxheight-feat" style="height:300px;overflow:hidden">
-									<a href="#">'.$description.'</a>
+									<a href="'.$linkDetail.'">'.$description.'</a>
 								</div>
 							</div>
 							<div class="cart-button">

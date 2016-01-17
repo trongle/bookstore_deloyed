@@ -1,9 +1,10 @@
 <?php 
 	if(!empty($this->_data)){
-		$img       =  URL_FILES."books/thumb/140x210/" . $this->_data->picture;
-		$name      = $this->_data->name;
-		$realPrice = $this->view->createPrice($this->_data->price,$this->_data->sale_off,array("task"=>"book-special"));
-		$link      = $this->view->url("shopRoute/default",array("controller" => "book","action" => "popup"));
+		$img        =  URL_FILES."books/thumb/140x210/" . $this->_data->picture;
+		$name       = $this->_data->name;
+		$realPrice  = $this->view->createPrice($this->_data->price,$this->_data->sale_off,array("task"=>"book-special"));
+		$link       = $this->view->url("shopRoute/default",array("controller" => "book","action" => "popup"));
+		$linkDetail = $this->view->createLinkDetail($this->_data->id);
 	}
  ?>
 
@@ -15,7 +16,7 @@
 				<li class="first-in-line col-sm-4">
 					<div class="padding">
 						<div class="image2">
-							<a href="#">
+							<a href="<?php echo $linkDetail ?>">
 								<img id="img_43" src="<?php echo $img ?>"alt="<?php echo $name ?> " />
 							</a>
 						</div>
@@ -29,7 +30,7 @@
 									<?php echo $realPrice ?>
 								</div>
 								<div class="name maxheight-spec">
-									<a href="#"><?php echo $name ?></a>
+									<a href="<?php echo $linkDetail ?>"><?php echo $name ?></a>
 								</div>
 							</div>
 							

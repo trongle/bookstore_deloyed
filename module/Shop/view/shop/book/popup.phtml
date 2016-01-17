@@ -1,14 +1,15 @@
 <?php 
 $xhtml = "<h3>Access Denied</h3>";
 if($this->isXmlHttpRequest){
-	$name = $this->data->name;
+	$name        = $this->data->name;
 	$description = $this->data->description;
-	$img = URL_FILES."books/thumb/140x210/".$this->data->picture;
-	$realPrice = $this->createPrice($this->data->price,$this->data->sale_off,array("task"=>"book-special")); 
+	$img         = URL_FILES."books/thumb/140x210/".$this->data->picture;
+	$realPrice   = $this->createPrice($this->data->price,$this->data->sale_off,array("task"=>"book-special")); 
+	$linkDetail  = $this->createLinkDetail($this->data->id);
 	$xhtml = '<div class="wrapper marg row">
 			<div class="left col-sm-4">
 				<div class="image3">
-					<a href="#">
+					<a href="'.$linkDetail.'">
 						<img src="'.$img.'" alt="Acicte magna ipsum dolor sed do eiusmod tempor" /></a>
 				</div>
 			</div>
