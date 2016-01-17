@@ -11,12 +11,12 @@ if(!empty($this->_data)){
 		
 		//if category->level == 3 de tranh level 3 co child là lv 4 nhưng khong hiển thị được con lv 4
 		if($category->right - $category->left == 1 || $category->level == 3){
-			$xhtml		.= sprintf('<li class="%s"><a href="%s">%s</a></li>', $classLI, $link, $name);
+			$xhtml		.= sprintf('<li class="%s"><a data-id="%s" href="%s">%s</a></li>',$classLI,$id, $link, $name);
 			if(in_array($category->right + 1, $parentRight)) $xhtml		.= '</ul></li>';
 			//trường hợp vừa là con cuối vùa có con nên khọng đóng <ul><li> được 
 			if(in_array($category->right + 2, $parentRight)) $xhtml		.= '</ul></li>';		
 		}else{
-			$xhtml		.= sprintf('<li class="parent %s"><a href="%s">%s</a><ul>', $classLI, $link, $name);
+			$xhtml		.= sprintf('<li class="parent %s"><a data-id="%s"  href="%s">%s</a><ul>',$classLI,$id, $link, $name);
 			$parentRight[]	= $category->right;
 		}
 	}
@@ -37,9 +37,8 @@ if(!empty($this->_data)){
 </div>
 <script type="text/javascript">
 	$(document).ready(function(){
-		var url = window.location.pathname;
-		$("div.box-category a[href='"+url+"']").parent("li").addClass("active");	
-		$("div.box-category a[href='"+url+"'] ").parent("li").parent().parent("li").addClass("active");	
-		$("div.box-category a[href='"+url+"'] ").parentsUntil(".box-category").css("display","block")
+		var id = $("input[name=cat_id]").val();
+		$("div.box-category [data-id="+id+"]").parentsUntil(".box-category").addClass("active");	
+		$("div.box-category [data-id="+id+"]").parentsUntil(".box-category").css("display","block")
 	})
 </script>

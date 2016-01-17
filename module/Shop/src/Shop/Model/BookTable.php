@@ -32,7 +32,7 @@ class BookTable extends AbstractTableGateway{
 				$filter = $arrParam['filter'] ;
 				$select->columns(array("id","name","description","picture","price","sale_off"))
 					   ->order(array($filter['order'] ." ". $filter['dir']))
-					   ->limit($arrParam['pagination']['itemPerPage'])
+					   ->limit((int)$arrParam['pagination']['itemPerPage'])
 					   ->offset(($arrParam['pagination']['curentPage']-1) * $arrParam['pagination']['itemPerPage'])
 					   ->where->in("category_id",$arrParam['catIDs'])
 					   ->where->equalTo("status",1);

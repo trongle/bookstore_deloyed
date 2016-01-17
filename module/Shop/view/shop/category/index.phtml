@@ -1,19 +1,26 @@
 <?php 
-	$pagination   = $this->paramSetting['pagination'];
-	$filter       = $this->paramSetting['filter'];
+	$pagination = $this->paramSetting['pagination'];
+	$filter     = $this->paramSetting['filter'];
+	$limit      = $this->paramSetting['pagination']['itemPerPage'];
 
 	$categoryItem = $this->categoryItem;
 	$this->headTitle($categoryItem->name);
 	//LINK - LAYOUT
-	$linkGrid     = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>"grid","page" => $pagination['curentPage'],"order" => $filter['order'],"dir" => $filter['dir']));
-	$linkList     = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>"list","page" => $pagination['curentPage'],"order" => $filter['order'],"dir" => $filter['dir']));
+	$linkGrid     = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>"grid","page" => $pagination['curentPage'],"order" => $filter['order'],"dir" => $filter['dir'],"limit" => $limit));
+	$linkList     = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>"list","page" => $pagination['curentPage'],"order" => $filter['order'],"dir" => $filter['dir'],"limit" => $limit));
 	//LINK -FILTER - SORT
-	$linkSortCurent  = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => $filter['order'],"dir" => $filter['dir']));
-	$linkIdDesc      = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "id","dir" => "desc"));
-	$linkNameAsc     = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "name","dir" => "asc"));
-	$linkNameDesc    = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "name","dir" => "desc"));
-	$linkPriceAsc    = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "price","dir" => "asc"));
-	$linkPriceDesc   = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "price","dir" => "desc"));
+	$linkSortCurent  = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => $filter['order'],"dir" => $filter['dir'],"limit" => $limit));
+	$linkIdDesc      = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "id","dir" => "desc","limit" => $limit));
+	$linkNameAsc     = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "name","dir" => "asc","limit" => $limit));
+	$linkNameDesc    = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "name","dir" => "desc","limit" => $limit));
+	$linkPriceAsc    = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "price","dir" => "asc","limit" => $limit));
+	$linkPriceDesc   = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => "price","dir" => "desc","limit" => $limit));
+	//LINK -FILTER - SORT
+	$linkLimitCurrent = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => $filter['order'],"dir" => $filter['dir'],"limit" => $limit));
+	$linkLimit3       = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => $filter['order'],"dir" => $filter['dir'],"limit" => 3));
+	$linkLimit6       = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => $filter['order'],"dir" => $filter['dir'],"limit" => 6));
+	$linkLimit9       = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => $filter['order'],"dir" => $filter['dir'],"limit" => 9));
+	$linkLimit12      = $this->url("shopRoute/category",array("id"=>$categoryItem->id,"display"=>$displayType,"page" => 1,"order" => $filter['order'],"dir" => $filter['dir'],"limit" => 12));
 	
 ?>
 <!-- BREADCRUMB -->
@@ -33,7 +40,6 @@
 <div class="product-filter">
 	<div class="sort">
 		<b>Sort By:</b> 
-		
 			<?php 
 				echo $this->zvnFormSelectBox("filter_sort",null,array(
 							$linkIdDesc    => "Mới nhất ",
@@ -41,14 +47,20 @@
 							$linkNameDesc  => "Name (Z - A)",
 							$linkPriceAsc  => "Price (A - Z)",
 							$linkPriceDesc => "Price (Z - A)",						
-					),$linkSortCurent); ?>
+					),$linkSortCurent); 
+			?>
 	</div>
 
 	<div class="limit">
-		<b>Show:</b> <select onchange="location = this.value;">
-			<option value="1" selected="selected">6</option>
-			<option value="1">25</option>
-		</select>
+		<b>Show:</b>
+		<?php 
+			echo $this->zvnFormSelectBox("filter_limit",null,array(
+						$linkLimit3  => 3,
+						$linkLimit6  => 6,
+						$linkLimit9  => 9,
+						$linkLimit12 => 12,						
+				),$linkLimitCurrent); 
+		?>
 	</div>
 
 	<div class="display">
@@ -65,8 +77,10 @@
 <!-- PAGINATION -->
 <div class="pagination">
 	 	<?php
-	     	$realURL = $this->linkToGo("shopRoute/category",array("display"=>$displayType,"id" => $categoryItem->id,"order" => $filter['order'],"dir" => $filter['dir']));
+	     	$realURL = $this->linkToGo("shopRoute/category",array("display"=>$displayType,"id" => $categoryItem->id,"order" => $filter['order'],"dir" => $filter['dir'],"limit" => $limit));
 	      	echo $this->paginationControl($this->paginator,null,"frontend_paginator.phtml",array("realURL"=>$realURL));
+	      	//hidden - active category
+	      	echo $this->zvnFormHidden("cat_id",$categoryItem->id);
 	    ?>
 </div>
 
@@ -76,6 +90,10 @@
 		$(".display [data-type=<?php echo $this->displayType ?>]").addClass("display-active");
 
 		$("select[name=filter_sort]").on("change",function(){
+			var url = $(this).val();
+			window.location = url;
+		})
+		$("select[name=filter_limit]").on("change",function(){
 			var url = $(this).val();
 			window.location = url;
 		})

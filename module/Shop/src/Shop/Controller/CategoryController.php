@@ -8,17 +8,17 @@ class CategoryController extends MyAbstractController{
 
 	public function init(){
 		$this->_options['tableName'] = "Shop\Model\Category";
-		$this->_options['formName'] = "";
+		$this->_options['formName']  = "";
 
 		//SET PAGINATOR
 		$this->_configPaginator['pageRange']   = 3;
-		$this->_configPaginator['itemPerPage'] = 3;
+		$this->_configPaginator['itemPerPage'] = $this->params()->fromRoute("limit",3);
 		$this->_configPaginator['curentPage']  = $this->params()->fromRoute("page",1);
 		$this->_mainParam['filter']['order']   = $this->params()->fromRoute("order","id");
 		$this->_mainParam['filter']['dir']     = $this->params()->fromRoute("dir","desc");
 
 		//nhân các tham so trả về từ request của các Action
-		$this->_mainParam["pagination"] =  $this->_configPaginator;
+		$this->_mainParam["pagination"] = $this->_configPaginator; 
 		$this->_mainParam["data"]       = array_merge($this->request->getPost()->toArray(),
 													  $this->request->getFiles()->toArray());
 	}
