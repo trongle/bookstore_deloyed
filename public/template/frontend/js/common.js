@@ -20,7 +20,7 @@ $(document).ready(function() {
 	$("a.colorbox").click(function(){
 		var url  = $(this).attr("href");
 		var o_id = $(this).data("id");
-		$(".quick-view").load(url,{id:o_id});
+		$(".quick-view").load(url,{o_id:o_id});
 		$("a.colorbox").colorbox({
 			rel: 'colorbox1',
 			inline:true,

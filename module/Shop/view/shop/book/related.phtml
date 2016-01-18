@@ -1,0 +1,55 @@
+<?php 
+if(!$this->isXmlHttpRequest) return "<h3>Access Denied</h3>";
+$xhtml = "";
+if($bookRelated->count() > 0){
+	foreach ($bookRelated as $book) {
+		$name        = $book->name;
+		$picture     = URL_FILES . "books/thumb/140x210/".$book->picture;
+		$realPrice   = $realPrice = $this->createPrice($book->price,$book->sale_off,array("task"=>"book-special"));
+		$description = $book->description;
+		$linkDetail  = $this->createLinkDetail($book->id);
+		$xhtml .= '<li class="col-sm-4">
+						<div class="padding">
+							<div class="image2">
+								<a href="'.$linkDetail.'">
+									<img src="'.$picture.'"alt="'.$name.'" />
+								</a>
+							</div>
+							<div class="inner">
+								<div class="f-left">
+									<div class="price">
+										'.$realPrice.'
+									</div>
+									<div class="name maxheight-spec">
+										<a href="'.$linkDetail.'">'.$name.'</a>
+									</div>
+								</div>
+								
+								<div class="cart-button">
+									<div class="cart">
+										<a title="Add to cart" class="button addToCart">
+											<span>Add to cart</span>
+										</a>
+									</div>
+									<span class="clear"></span>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</li>';
+	}
+}else{
+	return "";
+}
+
+
+?>
+<div class="box-heading">Related products</div>
+<div class="box-content">
+	<div class="box-product">
+		<ul class="row">
+			<?php echo $xhtml ?>		
+		</ul>
+	</div>
+</div>

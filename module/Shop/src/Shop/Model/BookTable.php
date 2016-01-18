@@ -66,25 +66,38 @@ class BookTable extends AbstractTableGateway{
 
 		if($options["task"] == "book-info"){
 			return 	$this->_tableGateway->select(function(select $select) use($arrParam){
-				$select->columns(array("id","name","description","picture","price","sale_off"))
-					   ->where->equalTo("id",$arrParam['id']);
+				$select->columns(array("id","name","description","picture","price","sale_off","category_id"))
+					   ->join(array("c"=>"category"),
+					   		  "c.id = book.category_id",
+					   		  array("cat_name"=>"name"),
+					   		  "left"
+					   	)
+					   ->where->equalTo("book.id",$arrParam['id']);
 			})->current();
 		}		
 
 		if($options["task"] == "book-popup"){
 			return 	$this->_tableGateway->select(function(select $select) use($arrParam){
 				$select->columns(array("id","name","description","picture","price","sale_off"))
-					   ->where->equalTo("id",$arrParam['id']);
+					   ->where->equalTo("id",$arrParam['o_id']);
 			})->current();
 		}	
 
 		if($options["task"] == "book-slider"){
 			return 	$this->_tableGateway->select(function(select $select) use($arrParam){
 					$select->columns(array("id","name"))
-						   ->where->like("name","%".$arrParam['keyword']."%");
-					
+						   ->where->like("name","%".$arrParam['keyword']."%");					
 			});
 		}	
+
+		if($options["task"] == "book-related"){
+			return 	$this->_tableGateway->select(function(select $select) use($arrParam){
+					$select->columns(array("id","name","price","sale_off","picture","description"))
+						   ->where->notEqualTo("id",$arrParam['book_id'])					
+						   ->where->in("category_id",$arrParam['catIDs'])					
+						   ->where->equalTo("status",1);					
+			});
+		}
 	}
 
 

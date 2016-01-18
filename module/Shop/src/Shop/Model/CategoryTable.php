@@ -81,7 +81,8 @@ class CategoryTable extends NestedTable{
 
 	public function getItem($arrParam,$options = null){
 		return 	$this->_tableGateway->select(function(select $select) use($arrParam){
-				$select->columns(array("id","name","left","right","parent","level","description"))
+			if(isset($arrParam['category_id'])) $arrParam['id'] = $arrParam['category_id'];	
+			$select->columns(array("id","name","left","right","parent","level","description"))
 					   ->where(array("id"=>$arrParam['id']));
 			})->current();
 	}
