@@ -1,0 +1,23 @@
+<?php 
+	$element   = $this->elm;	
+	$labelAttr = $element->getLabelAttributes(); 
+	
+	$req       = "";
+	if($this->required) $req = '<span class="required">(*)</span>';
+	$xhtml = sprintf('	<tr><td>
+							<div class="form-group">
+								<label class="%s">%s %s:</label>
+								<div class="controls col-sm-7">
+									%s
+									%s
+								</div>
+							</div>
+						</td></tr>',$labelAttr['class'],
+									$element->getLabel(),
+									$req,
+									$this->formElement($element),
+									$this->createFormError($element)
+					);
+	echo $xhtml
+?>
+

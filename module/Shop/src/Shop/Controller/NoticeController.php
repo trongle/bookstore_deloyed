@@ -18,5 +18,8 @@ class NoticeController extends MyAbstractController{
 	public function noDataAction(){	
 	
 	}
+	public function registerSuccessAction(){	
+	
+	}
 }
 ?>

@@ -1,22 +1,18 @@
 <?php 
 namespace ZendVN\View\Helper;
 
+use Zend\Form\ElementInterface;
 use Zend\Form\View\Helper\FormElementErrors;
 
 class ElementErrors extends FormElementErrors{
-	public function __invoke(array $elements = null)
+	public function __invoke(ElementInterface $elements = null)
     {
-		$xhtml  = "";
-		$string = "";
-        if(!empty($elements)){ 	
-	       	foreach ($elements as $key => $element){
-	       		$message = $element->getMessages();
-	       		if(empty($message)) continue;
-	       		$string .= sprintf("<p><b>%s: </b>%s</p>",ucfirst($key),current($message));
-	       	}
-	     	if(!empty($string)) $xhtml = sprintf('<div class="alert alert-danger" role="alert">%s</div>',$string);
-        }
-       return $xhtml ;
+        if(empty($elements)) return "" ;
+
+        $message = $elements->getMessages();
+      	return sprintf('<span class="error help-inline">
+      						%s
+      					</span>',current($message));
     }
 }
 ?>

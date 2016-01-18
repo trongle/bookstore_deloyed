@@ -58,9 +58,14 @@ class Module {
                    $tableGateway = $sm->get("SliderTableGateway");
                    return  new \Shop\Model\SliderTable($tableGateway);
                 },
+                "Shop\Model\User" => function($sm){
+                   $tableGateway = $sm->get("UserTableGateway");
+                   return  new \Shop\Model\UserTable($tableGateway);
+                },
             ),
             "aliases" => array(
-                "shopBookTable" => "Shop\Model\Book" 
+                "shopBookTable" => "Shop\Model\Book" ,
+                "shopUserTable" => "Shop\Model\User" ,
             )
         );
     }
@@ -93,38 +98,21 @@ class Module {
                 "blockFacebook"    => "Block\BlockFacebook",
                 "createBreadcrumb" => "ZendVN\View\Helper\CreateBreadcrumb",
                 "createLinkDetail" => "ZendVN\View\Helper\CreateLinkDetail",
+                "createFormError"  => "ZendVN\View\Helper\ElementErrors",
             )
     	);
     }
 
-    // public function getFormElementConfig(){
-    // 	return array(
-    // 		"factories" => array(
-    // 			"formAdminGroup" => function($sm){
-    // 				$form = new \Admin\Form\FormGroup();
-    //                 $form->setInputFilter(new \Admin\Form\FormGroupFilter());
-    //                 return $form;
-    // 			},
-    // 			"formAdminUser" => function($sm){
-    // 				$groupTable = $sm->getServiceLocator()->get("GroupTable");
-    // 				$form = new \Admin\Form\FormUser($groupTable);
-    //                 $form->setInputFilter(new \Admin\Form\FormUserFilter());
-    //                 return $form;
-    // 			},
-    //             "formAdminCategory" => function($sm){
-    //                 $categoryTable = $sm->getServiceLocator()->get("CategoryTable");
-    //                 $form = new \Admin\Form\FormCategory($categoryTable);
-    //                 $form->setInputFilter(new \Admin\Form\FormCategoryFilter());
-    //                 return $form;
-    //             },
-    //             "formAdminBook" => function($sm){
-    //                 $categoryTable = $sm->getServiceLocator()->get("CategoryTable");
-    //                 $form = new \Admin\Form\FormBook($categoryTable);
-    //                 $form->setInputFilter(new \Admin\Form\FormBookFilter());
-    //                 return $form;
-    //             },
-    // 		)
-    // 	);
-    // }
+    public function getFormElementConfig(){
+    	return array(
+    		"factories" => array(
+    			"formRegisterShop" => function($sm){
+    				$form = new \Shop\Form\FormRegister();
+                    $form->setInputFilter(new \Shop\Form\FormRegisterFilter());
+                    return $form;
+    			},
+    		)
+    	);
+    }
 }
 ?>

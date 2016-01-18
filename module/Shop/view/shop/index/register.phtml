@@ -1,0 +1,56 @@
+<?php 
+	$formRegister = $this->formRegister?>
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+	<a href="/shop/index/index">Home</a> &raquo;<a href="#" class="last">Register</a>
+</div>
+
+<!-- NAME -->
+<h1 class="style-1">Register</h1>
+
+<div class="box-container">
+	<p> If you already have an account with us, please login at the <a href="#">login page</a>.</p>	
+	<?php 
+		echo $this->form()->openTag($formRegister);
+	?>
+		<div class="content">
+			<table class="form">
+				<tbody>
+	<?php
+			echo $this->partialLoop("partial_formRegisterShop.phtml",array(
+	    				array("elm" => $formRegister->get("username")     , "required" => true),
+	    				array("elm" => $formRegister->get("fullname") , "required" => false),
+	    				array("elm" => $formRegister->get("password") , "required" => true),
+	    				array("elm" => $formRegister->get("email")    , "required" => true),
+	    			)); 
+	?>
+				</tbody>
+			</table>
+		</div>
+	<?php
+		echo $this->form()->closeTag();
+	?>
+	
+				
+				<!-- <tr>
+					<td>
+						<div class="form-group">
+							<label class="control-label col-sm-5"><span class="required">*</span>First Name:</label>
+							<div class="controls col-sm-7">
+								<input class="q1" type="text" name="firstname" value="">
+								<span class="error help-inline">First Name must be between 1 and 32 characters!</span>
+							</div>
+						</div>
+					</td>
+				</tr> -->
+
+	
+</div>
+
+		<div class="buttons">
+			<div class="right">
+				<a onclick="$('#register').submit();" class="button"><span>Continue</span></a>
+			</div>
+		</div>
+	</form>
+</div>

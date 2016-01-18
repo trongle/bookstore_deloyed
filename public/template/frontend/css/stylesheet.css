@@ -3768,3 +3768,8 @@ a.change-display{
 	font-weight: normal;
 	font-size: 28px;
 }
+.my-notice{
+	background: #EAF7D9 url('../image/success.png') 10px center no-repeat;
+	border: 1px solid #dbdbdb;
+	padding: 10px 10px 10px 30px;
+}

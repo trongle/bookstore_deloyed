@@ -25,13 +25,6 @@
 					<a href="//www.twitter.com/"><i class="fa fa-twitter"></i></a>
 				</div>
 				<ul class="links">
-					<!-- <li><a class="active" href="#"><i class="fa fa-home"></i>Home</a></li>
-					<li><a class="" href="#" id="wishlist-total"><i class="fa fa-star"></i>Wish	List (0)</a></li>
-					<li><a class="" href="#"><i class="fa fa-user"></i>My Account</a></li>
-					<li><a class="" href="#"><i class="fa fa-shopping-cart"></i>Shopping Cart</a></li>
-					<li><a class="" href="#"><i class="fa fa-check"></i>Checkout</a></li>
-					<li><a href="#"><i class="fa fa-lock"></i>Login</a></li>
-					<li><a href="#"><i class="fa fa-user"></i>Create an account</a></li> -->
 					<?php echo $xhtml;?>
 				</ul>
 				<div class="clear"></div>
