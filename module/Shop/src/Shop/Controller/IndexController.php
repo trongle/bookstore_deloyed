@@ -17,5 +17,13 @@ class IndexController extends MyAbstractController{
 	public function indexAction(){
 
 	}
+
+	public function loginAction(){
+		
+	}
+
+	public function registerAction(){
+		
+	}
 }
 ?>

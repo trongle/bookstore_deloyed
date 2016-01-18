@@ -1,3 +1,21 @@
+<?php 
+	$linkHome     = $this->url("shopRoute/default");
+	$linkLogin    = $this->url("shopRoute/default",array("controller"=>"index","action"=>"login"));
+	$linkRegister = $this->url("shopRoute/default",array("controller"=>"index","action"=>"register"));
+	$arrContent = array(
+		array("link" => $linkHome,    "name" => "Home" ,    "icon" => "fa-home" ,"action" => "index"),
+		array("link" => $linkLogin,   "name" => "Login" ,   "icon" => "fa-lock" ,"action" => "login"),
+		array("link" => $linkRegister,"name" => "Register" ,"icon" => "fa-user" ,"action" => "register"),
+	);
+	$xhtml = "";
+	foreach($arrContent as $content){
+		$class = "";
+		if($this->params['action'] == $content['action']) $class = "class='active'";
+		$xhtml .= sprintf('<li><a %s href="%s"><i class="fa %s"></i>%s</a></li>'
+							,$class,$content['link'],$content['icon'],$content['name']
+						);
+	}
+?>
 <div class="toprow">
 	<div class="container">
 		<div class="row">
@@ -7,13 +25,14 @@
 					<a href="//www.twitter.com/"><i class="fa fa-twitter"></i></a>
 				</div>
 				<ul class="links">
-					<li class="first"><a class="active" href="#"><i class="fa fa-home"></i>Home</a></li>
+					<!-- <li><a class="active" href="#"><i class="fa fa-home"></i>Home</a></li>
 					<li><a class="" href="#" id="wishlist-total"><i class="fa fa-star"></i>Wish	List (0)</a></li>
 					<li><a class="" href="#"><i class="fa fa-user"></i>My Account</a></li>
 					<li><a class="" href="#"><i class="fa fa-shopping-cart"></i>Shopping Cart</a></li>
 					<li><a class="" href="#"><i class="fa fa-check"></i>Checkout</a></li>
-					<li class="login_h"><a href="#"><i class="fa fa-lock"></i>Login</a></li>
-					<li><a href="#"><i class="fa fa-user"></i>Create an account</a></li>
+					<li><a href="#"><i class="fa fa-lock"></i>Login</a></li>
+					<li><a href="#"><i class="fa fa-user"></i>Create an account</a></li> -->
+					<?php echo $xhtml;?>
 				</ul>
 				<div class="clear"></div>
 			</div>
