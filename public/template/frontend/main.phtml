@@ -81,7 +81,8 @@
 							</aside>
 							<div class="col-sm-9" id="content">
 								<!-- SLIDER -->
-								<?php if($this->params['controller'] == 'index') echo $this->blockSlider();?>
+								<?php if($this->params['controller'] == 'index' && 
+										 $this->params['action'] == 'index') echo $this->blockSlider();?>
 
 								<!-- CONTENT -->
 								<?php echo $this->content ?>

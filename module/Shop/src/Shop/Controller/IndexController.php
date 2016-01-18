@@ -28,10 +28,17 @@ class IndexController extends MyAbstractController{
 		$formRegister = $this->getForm();
 
 		if($this->request->isPost()){
+
 			$formRegister->setData($this->_mainParam['data']);
 			if($formRegister->isValid()){
 				$data = $formRegister->getData(FormInterface::VALUES_AS_ARRAY);
-				$id = $this->getTable()->saveItem($data,array("task" => "add-item"));
+				$id   = $this->getTable()->saveItem($data,array("task" => "add-item"));
+				//gui mail kich hoat cho user
+				$userInfo   = $this->getTable()->getItem(array("id"=>$id));
+				$linkActive = $this->url()->fromRoute("shopRoute/active",array("id"=>$id,"code"=>$userInfo->active_code),array("force_canonical"=>true));
+				$mailObj    = new \ZendVN\Mail\Mail();
+				$mailObj->sendMail($userInfo->email,$userInfo->fullname,$linkActive);
+				
 
 				$this->redirect()->toRoute("shopRoute/default",array("controller"=>"notice","action"=>"register-success"));
 

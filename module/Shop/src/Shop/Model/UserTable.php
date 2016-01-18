@@ -38,6 +38,15 @@ class UserTable extends AbstractTableGateway{
 		}
 	}
 
+	public function getItem($arrParam,$options = null){
+		if($options == null){
+			return 	$this->_tableGateway->select(function(select $select) use($arrParam){
+				$select->columns(array("id","fullname","active_code","email"))
+					   ->where(array("id"=>$arrParam["id"]));
+			})->current();
+		}
+	}
+
 
 }
 ?>

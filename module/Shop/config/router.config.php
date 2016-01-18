@@ -48,7 +48,7 @@ $shopRoute = array(
                 'constraints' => array(
                     'id'      => '[0-9]*',
                     'page'    => '[0-9]*',
-                    'limt'    => '[0-9]',
+                    'limit'   => '3|6|9|12',
                     'order'   => 'name|id|price',
                     'dir'     => 'asc|desc',
                     'display' => 'list|grid'
@@ -57,6 +57,21 @@ $shopRoute = array(
                     '__NAMESPACE__' => 'Shop\Controller',
                     'controller'    => 'category',
                     'action'        => 'index',
+                ),
+            ),
+        ),
+        'active' => array(
+            'type'    => 'Segment',
+            'options' => array(
+                'route'    => '/user/active/:id/code/:code[/]',
+                'constraints' => array(
+                    'id'      => '[0-9]*',
+                    'code'    => '[0-9]*',
+                ),
+                'defaults' => array(
+                    '__NAMESPACE__' => 'Shop\Controller',
+                    'controller'    => 'user',
+                    'action'        => 'active',
                 ),
             ),
         ),
