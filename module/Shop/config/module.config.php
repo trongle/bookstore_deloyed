@@ -6,6 +6,7 @@ return array(
 			"Shop\Controller\Category" => "Shop\Controller\CategoryController",
 			"Shop\Controller\Book"     => "Shop\Controller\BookController",
 			"Shop\Controller\Notice"   => "Shop\Controller\NoticeController",
+			"Shop\Controller\User"     => "Shop\Controller\UserController",
 		)
 	),
 	"view_manager" => array(

@@ -13,7 +13,7 @@ class IndexController extends MyAbstractController{
 
 		//nhân các tham so trả về từ request của các Action
 		$this->_mainParam["data"] = array_merge($this->request->getPost()->toArray(),
-			 									$this->request->getFiles()->toArray());
+			                                    $this->request->getFiles()->toArray());
 	}
 
 	public function indexAction(){
@@ -28,7 +28,6 @@ class IndexController extends MyAbstractController{
 		$formRegister = $this->getForm();
 
 		if($this->request->isPost()){
-
 			$formRegister->setData($this->_mainParam['data']);
 			if($formRegister->isValid()){
 				$data = $formRegister->getData(FormInterface::VALUES_AS_ARRAY);
@@ -39,7 +38,6 @@ class IndexController extends MyAbstractController{
 				$mailObj    = new \ZendVN\Mail\Mail();
 				$mailObj->sendMail($userInfo->email,$userInfo->fullname,$linkActive);
 				
-
 				$this->redirect()->toRoute("shopRoute/default",array("controller"=>"notice","action"=>"register-success"));
 
 			}

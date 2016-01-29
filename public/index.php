@@ -1,6 +1,6 @@
 <?php 
 include_once "define.php";
-include_once PATH_LIBRARY."Zend/Loader/AutoLoaderFactory.php";
+include_once PATH_LIBRARY."Zend/Loader/AutoloaderFactory.php";
 
 chdir(dirname(__DIR__));
 if(!class_exists("Zend\Loader\AutoloaderFactory")){
@@ -8,7 +8,7 @@ if(!class_exists("Zend\Loader\AutoloaderFactory")){
 }
 
 Zend\Loader\AutoLoaderFactory::Factory(array(
-	"Zend\Loader\StandardAutoLoader" => array(
+	"Zend\Loader\StandardAutoloader" => array(
 		"autoregister_zf" => true,
 		"namespaces" => array(
 			"ZendVN"           => PATH_LIBRARY."ZendVN",
@@ -21,6 +21,8 @@ Zend\Loader\AutoLoaderFactory::Factory(array(
 	)
 ));
 
-Zend\Mvc\Application::init(require "/config/application.config.php")->run();
+$config = require "config/application.config.php";
+
+Zend\Mvc\Application::init($config)->run();
 
 ?>

@@ -36,6 +36,16 @@ class UserTable extends AbstractTableGateway{
 			$this->_tableGateway->insert($data);
 			return $this->_tableGateway->getLastInsertValue();
 		}
+
+		if($options['task'] == "active-user"){
+			if(!empty($arrParam)){
+				$data['active_code']   = 1;
+				$data['group_id']      = 3;
+				$data['status']        = 1;
+			}			
+			$this->_tableGateway->update($data,array("id"=>$arrParam['id']));
+			return $this->_tableGateway->getLastInsertValue();
+		}
 	}
 
 	public function getItem($arrParam,$options = null){
@@ -44,6 +54,14 @@ class UserTable extends AbstractTableGateway{
 				$select->columns(array("id","fullname","active_code","email"))
 					   ->where(array("id"=>$arrParam["id"]));
 			})->current();
+		}
+		if($options['task'] == 'active-user'){
+			return $this->_tableGateway->select(function(select $select) use($arrParam){
+				$select->columns(array("id","fullname","active_code","email"))
+					   ->where->equalTo('id',$arrParam['id'])
+					          ->equalTo('active_code',$arrParam['active_code'])
+					          ->noEqualTo('active_code',$arrParam['active_code']);
+			})->count();
 		}
 	}
 

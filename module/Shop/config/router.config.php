@@ -66,7 +66,7 @@ $shopRoute = array(
                 'route'    => '/user/active/:id/code/:code[/]',
                 'constraints' => array(
                     'id'      => '[0-9]*',
-                    'code'    => '[0-9]*',
+                    'code'    => '[a-zA-Z0-9]*',
                 ),
                 'defaults' => array(
                     '__NAMESPACE__' => 'Shop\Controller',

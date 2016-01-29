@@ -4,7 +4,7 @@ return array(
 		"ZendDeveloperTools",
 		"Admin",
 		"Shop",
-		'RtHeadtitle',
+		'Rtheadtitle',
 	),
 	"module_listener_options" => array(
 		"module_paths" => array(
