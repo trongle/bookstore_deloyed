@@ -1,4 +1,5 @@
 <?php 
+if(empty($this->identity())){
 	$linkHome     = $this->url("shopRoute/default");
 	$linkLogin    = $this->url("shopRoute/default",array("controller"=>"index","action"=>"login"));
 	$linkRegister = $this->url("shopRoute/default",array("controller"=>"index","action"=>"register"));
@@ -7,6 +8,16 @@
 		array("link" => $linkLogin,   "name" => "Login" ,   "icon" => "fa-lock" ,"action" => "login"),
 		array("link" => $linkRegister,"name" => "Register" ,"icon" => "fa-user" ,"action" => "register"),
 	);
+}else{
+	$linkHome      = $this->url("shopRoute/default");
+	$linkMyAccount = $this->url("shopRoute/default",array("controller"=>"user","action"=>"index"));
+	$linkLogout    = $this->url("shopRoute/default",array("controller"=>"index","action"=>"logout"));
+	$arrContent = array(
+		array("link" => $linkHome       ,"name" => "Home"      ,"icon" => "fa-home" ,"action" => "index"),
+		array("link" => $linkMyAccount  ,"name" => "MyAccount" ,"icon" => "fa-lock" ,"action" => "login"),
+		array("link" => $linkLogout     ,"name" => "Logout"    ,"icon" => "fa-user" ,"action" => "register"),
+	);
+}
 	$xhtml = "";
 	foreach($arrContent as $content){
 		$class = "";

@@ -21,10 +21,31 @@ class IndexController extends MyAbstractController{
 	}
 
 	public function loginAction(){
-		
+		if($this->identity()) $this->redirect()->toRoute('homeShop');
+		$errorAuth                  = null;
+		$this->_options['formName'] = 'formLoginShop';
+		$authenticate               = $this->getServiceLocator()->get('MyAuth');
+		$form                       = $this->getForm();
+		if($this->request->isPost()){
+			$form->setdata($this->_mainParam['data']);
+			if($form->isValid()){
+				$data  = $form->getData();
+				$check = $authenticate->login($data);
+				if($check){
+					$this->redirect()->toRoute('homeShop');
+				}else{
+					$errorAuth = $authenticate->getMessages();
+				}
+			}
+		}
+		return array(
+			'formLogin' => $form,
+			'authError' => $errorAuth
+		);
 	}
 
 	public function registerAction(){
+		if($this->identity()) $this->redirect()->toRoute('homeShop');
 		$formRegister = $this->getForm();
 
 		if($this->request->isPost()){
@@ -43,9 +64,15 @@ class IndexController extends MyAbstractController{
 			}
 		}
 		
-		return new ViewModel(array(
+		return array(
 			"formRegister" => $formRegister
-		));
+		);
+	}
+
+	public function logoutAction(){
+		$authenticate = $this->getServiceLocator()->get('MyAuth');
+		$authenticate->logout();
+		$this->redirect()->toRoute('homeShop');
 	}
 }
 ?>

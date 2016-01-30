@@ -12,7 +12,7 @@ class Authenticate {
 
 	public function login($arrParams = null,$options = null){
 		$this->_authen->getAdapter()->setIdentity($arrParams["email"]);
-		$this->_authen->getAdapter()->setCredential(md5($arrParams["password"]));
+		$this->_authen->getAdapter()->setCredential($arrParams["password"]);
 
 		$result = $this->_authen->authenticate();
 		if(!$result->isValid()){
@@ -27,7 +27,7 @@ class Authenticate {
 	}
 
 	public function getMessages($arrParams = null ,$options = null){
-		if(!empty($this->_messageError)) return $this->_messageError;
+		if(!empty($this->_messageError)) return '<div class="warning">'.$this->_messageError."</div>";
 	} 
 
 	public function logout($arrParams = null ,$options = null){

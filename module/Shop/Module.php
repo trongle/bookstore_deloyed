@@ -62,10 +62,26 @@ class Module {
                    $tableGateway = $sm->get("UserTableGateway");
                    return  new \Shop\Model\UserTable($tableGateway);
                 },
+                "AuthenticateService" => function($sm){
+                    $adapter = $sm->get("dbConfig");
+                    $dbTableAdapter = new \Zend\Authentication\Adapter\DbTable($adapter,"user","email","password","MD5(?)");
+                    $dbTableAdapter->getDbSelect()
+                                   ->where->equalTo("status",1)
+                                   ->where->equalTo("active_code",1);
+                
+                    $authenticateObj = new \Zend\Authentication\AuthenticationService(null,$dbTableAdapter);
+                    return $authenticateObj;
+                },
+                "MyAuth" => function($sm){
+                    return new \ZendVN\System\Authenticate($sm->get("AuthenticateService"));
+                } 
             ),
             "aliases" => array(
                 "shopBookTable" => "Shop\Model\Book" ,
                 "shopUserTable" => "Shop\Model\User" ,
+            ),
+            "invokables" => array(
+                'Zend\Authentication\AuthenticationService' => 'Zend\Authentication\AuthenticationService'
             )
         );
     }
@@ -99,6 +115,8 @@ class Module {
                 "createBreadcrumb" => "ZendVN\View\Helper\CreateBreadcrumb",
                 "createLinkDetail" => "ZendVN\View\Helper\CreateLinkDetail",
                 "createFormError"  => "ZendVN\View\Helper\ElementErrors",
+                "loginNotRegister" => "Block\BlockLoginNotRegister",
+                "loginRegistered"  => "Block\BlockLoginRegistered",
             )
     	);
     }
@@ -111,6 +129,11 @@ class Module {
                     $form->setInputFilter(new \Shop\Form\FormRegisterFilter());
                     return $form;
     			},
+                "formLoginShop" => function($sm){
+                    $form = new \Shop\Form\FormLogin();
+                    $form->setInputFilter(new \Shop\Form\FormLoginFilter());
+                    return $form;
+                },
     		)
     	);
     }
