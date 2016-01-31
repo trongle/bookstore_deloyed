@@ -20,7 +20,7 @@ class Authenticate {
 			return false;
 		}else{
 			//lưu thông tin User vào Session
-			$userInfo = $this->_authen->getAdapter()->getResultRowObject(array("id","email","name"));
+			$userInfo = $this->_authen->getAdapter()->getResultRowObject(array("id","email","group_id"));
 			$this->_authen->getStorage()->write($userInfo);
 			return true;
 		}

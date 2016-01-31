@@ -63,6 +63,13 @@ class UserTable extends AbstractTableGateway{
 					          ->noEqualTo('active_code',$arrParam['active_code']);
 			})->count();
 		}
+
+		if($options['task'] == 'info-user'){
+			return 	$this->_tableGateway->select(function(select $select) use($arrParam){
+				$select->columns(array("id","fullname","avatar","username","group_id","created","email"))
+					   ->where(array("id"=>$arrParam["id"]));
+			})->current();
+		}
 	}
 
 

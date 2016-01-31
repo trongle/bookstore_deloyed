@@ -1,5 +1,5 @@
 <?php 
-
+	define("BOOKONLINE_KEY",'tronghandsome');
 	define("PATH_APPLICATION",realpath(dirname(__DIR__)));
 	define("PATH_LIBRARY",PATH_APPLICATION."/library/");
 	define("PATH_PUBLIC",PATH_APPLICATION."/public/");

@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace Shop\Controller;
 
 use ZendVN\Controller\MyAbstractController;
@@ -17,10 +18,10 @@ class IndexController extends MyAbstractController{
 	}
 
 	public function indexAction(){
-
 	}
 
 	public function loginAction(){
+
 		if($this->identity()) $this->redirect()->toRoute('homeShop');
 		$errorAuth                  = null;
 		$this->_options['formName'] = 'formLoginShop';
@@ -33,7 +34,19 @@ class IndexController extends MyAbstractController{
 				//kiem tra login
 				$check = $authenticate->login($data);
 				if($check){
+					$userTable     = $this->getServiceLocator()->get("shopUserTable");
+					$groupTable    = $this->getServiceLocator()->get("shopGroupTable");
+				
+					$idUser        = $this->identity()->id;
+					$groupId       = $this->identity()->group_id;
+					$info['user']  = $userTable->getItem(array('id'=>$idUser),array("task"=>"info-user"));
+					$info['group'] = $groupTable->getItem(array('group_id'=>$groupId));
+
+					$infoObj       = new \ZendVN\System\Info();
+					$infoObj->storeInfo($info);
+
 					$this->redirect()->toRoute('homeShop');
+
 				}else{
 					$errorAuth = $authenticate->getMessages();
 				}
@@ -73,6 +86,8 @@ class IndexController extends MyAbstractController{
 	public function logoutAction(){
 		$authenticate = $this->getServiceLocator()->get('MyAuth');
 		$authenticate->logout();
+		$infoObj = new \ZendVN\System\Info();
+		$infoObj->destroyInfo();
 		$this->redirect()->toRoute('homeShop');
 	}
 }

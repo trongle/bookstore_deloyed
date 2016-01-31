@@ -37,7 +37,9 @@
                                   <a href="%s"><i class="fa fa-%s"></i><span>%s</span></a>
                                 </li>',$content['class'],$content['link'],$content['icon'],$content['text']);
       }
-     
+
+  $infoObj = new \ZendVN\System\Info();
+  $userInfo = $infoObj->getUserInfo();
   }
  ?>
 
@@ -45,16 +47,16 @@
  <section class="sidebar" style="height: auto;">         
   <div class="user-panel">
     <div class="pull-left image">
-      <img src="<?php echo URL_IMG_LAYOUT ?>user2-160x160.jpg" class="img-circle" alt="User Image">
+      <img src="<?php echo URL_PUBLIC.'files/users/'.$userInfo->avatar ?>" class="img-circle" alt="User Image">
     </div>
     <div class="pull-left info">
-      <p>Alexander Pierce</p>
+      <p><?php echo $userInfo->fullname ?></p>
       <a href="#"><i class="fa fa-circle text-success"></i>Online</a>
     </div>
   </div>
   <ul class="sidebar-menu">
    <?php 
-      echo $xhtmlSidebar 
+      echo $xhtmlSidebar ;
    ?>
   </ul>
 </section>

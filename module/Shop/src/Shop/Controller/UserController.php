@@ -27,5 +27,9 @@ class UserController extends MyAbstractController{
 		$lastId = $this->getTable()->saveItem($this->_mainParam['data'],array('task' => 'active-user'));
 		return $this->redirect()->toRoute('shopRoute/default',array('controller' => 'notice','action' => 'active-success'));
 	}
+
+	public function adminAction(){
+		return $this->redirect()->toRoute('adminRoute/default');
+	}
 }
 ?>

@@ -70,6 +70,30 @@ class MyAbstractController extends AbstractActionController
 		//set layout
 		$this->layout($layout);
 
+		//KIEM TRA USER AuTH
+		if($this->_mainParam['module'] == 'admin'){
+			//chưa đăng nhập
+			if(empty($this->identity())){
+				return $this->redirect()->toRoute('homeShop');
+			}else{
+				//đăng nhập rồi mà không có quyền vào
+				$infoObj = new \ZendVN\System\Info();
+				$group_acp = $infoObj->getGroupInfo('group_acp');
+				if($group_acp != 1){
+					return $this->redirect()->toRoute('homeShop');
+				}
+			}			
+		}
+
+		//kiem tra controller user khong đăng nhập thi không được vào
+		if($this->_mainParam['controller'] == 'user' && $this->_mainParam['module'] == 'shop'){
+			//chưa đăng nhập
+			if(empty($this->identity())){
+				return $this->redirect()->toRoute('homeShop');
+			}			
+		}
+		// ------------------------------------------------------------
+
 		//func Init() giúp cho các controller extends có thể override onInit()
 		$this->init();
 	}

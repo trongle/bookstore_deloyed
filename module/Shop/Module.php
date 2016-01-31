@@ -62,6 +62,10 @@ class Module {
                    $tableGateway = $sm->get("UserTableGateway");
                    return  new \Shop\Model\UserTable($tableGateway);
                 },
+                "Shop\Model\Group" => function($sm){
+                   $tableGateway = $sm->get("GroupTableGateway");
+                   return  new \Shop\Model\GroupTable($tableGateway);
+                },
                 "AuthenticateService" => function($sm){
                     $adapter = $sm->get("dbConfig");
                     $dbTableAdapter = new \Zend\Authentication\Adapter\DbTable($adapter,"user","email","password","MD5(?)");
@@ -77,8 +81,9 @@ class Module {
                 } 
             ),
             "aliases" => array(
-                "shopBookTable" => "Shop\Model\Book" ,
-                "shopUserTable" => "Shop\Model\User" ,
+                "shopBookTable"  => "Shop\Model\Book" ,
+                "shopUserTable"  => "Shop\Model\User" ,
+                "shopGroupTable" => "Shop\Model\Group" ,
             ),
             "invokables" => array(
                 'Zend\Authentication\AuthenticationService' => 'Zend\Authentication\AuthenticationService'

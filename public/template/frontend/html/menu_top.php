@@ -9,6 +9,7 @@ if(empty($this->identity())){
 		array("link" => $linkRegister,"name" => "Register" ,"icon" => "fa-user" ,"action" => "register"),
 	);
 }else{
+
 	$linkHome      = $this->url("shopRoute/default");
 	$linkMyAccount = $this->url("shopRoute/default",array("controller"=>"user","action"=>"index"));
 	$linkLogout    = $this->url("shopRoute/default",array("controller"=>"index","action"=>"logout"));
@@ -17,6 +18,13 @@ if(empty($this->identity())){
 		array("link" => $linkMyAccount  ,"name" => "MyAccount" ,"icon" => "fa-lock" ,"action" => "login"),
 		array("link" => $linkLogout     ,"name" => "Logout"    ,"icon" => "fa-user" ,"action" => "register"),
 	);
+	//them shortcut cpanel
+	$infoObj = new \ZendVN\System\Info();
+	$group_acp = $infoObj->getGroupInfo('group_acp');
+	if($group_acp == 1){
+		$linkAdmin      = $this->url("shopRoute/default",array("controller"=>"user","action"=>"admin"));
+		$arrContent[]  = array("link" => $linkAdmin     ,"name" => "ControlPanel"    ,"icon" => "fa-user" ,"action" => "");
+	} 
 }
 	$xhtml = "";
 	foreach($arrContent as $content){
