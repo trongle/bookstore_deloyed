@@ -17,6 +17,7 @@ class GroupController extends MyAbstractController{
 	];
 
 	protected $_filter_status;
+	protected $_filter_group_acp;
 
 	public function init(){
 		$ssOrder = new Container(__CLASS__);
@@ -24,6 +25,7 @@ class GroupController extends MyAbstractController{
 		$this->_orderList['order']     = !empty($ssOrder->order)   ? $ssOrder->order    : $this->_orderList['order'] ;
 		$this->_orderList['order_by']  = !empty($ssOrder->order_by)? $ssOrder->order_by : $this->_orderList['order_by'];
 		$this->_filter_status          = $ssOrder->filter_status;
+		$this->_filter_group_acp       = $ssOrder->filter_group_acp;
 		$this->_search['search_key']   = $ssOrder->search_key;
 		$this->_search['search_value'] = $ssOrder->search_value;
 
@@ -36,10 +38,11 @@ class GroupController extends MyAbstractController{
 		$this->_options["tableName"] = "GroupTable";
 		$this->_options["formName"] = "formAdminGroup";
 		$this->_mainParam =array_merge($this->_mainParam,array(
-														"paginator"     => $this->_configPaginator,
-														"order"         => $this->_orderList,
-														"filter_status" => $this->_filter_status,
-														"search"        => $this->_search
+														"paginator"        => $this->_configPaginator,
+														"order"            => $this->_orderList,
+														"filter_status"    => $this->_filter_status,
+														"filter_group_acp" => $this->_filter_group_acp,
+														"search"           => $this->_search
 													));
 
 		//nhân các tham so trả về từ request của các Action
@@ -60,11 +63,12 @@ class GroupController extends MyAbstractController{
 		if($this->request->isPost()){
 			$ssOrder      = new Container(__CLASS__);
 			//$ssOrder->offsetSet("order",$order); 	default way 
-			$ssOrder->order         = $this->_mainParam['data']['order'];	//new Way	 
-			$ssOrder->order_by      = $this->_mainParam['data']['order_by'];		
-			$ssOrder->filter_status = $this->_mainParam['data']['filter_status'];		
-			$ssOrder->search_value  = $this->_mainParam['data']['search_value'];		
-			$ssOrder->search_key    = $this->_mainParam['data']['search_key'];	
+			$ssOrder->order            = $this->_mainParam['data']['order'];	//new Way	 
+			$ssOrder->order_by         = $this->_mainParam['data']['order_by'];		
+			$ssOrder->filter_status    = $this->_mainParam['data']['filter_status'];		
+			$ssOrder->search_value     = $this->_mainParam['data']['search_value'];		
+			$ssOrder->search_key       = $this->_mainParam['data']['search_key'];	
+			$ssOrder->filter_group_acp = $this->_mainParam['data']['filter_group_acp'];	
 
 			if(isset($this->_mainParam['data']['btn_clear'])){
 				$ssOrder->offsetUnset("search_value");
@@ -87,6 +91,18 @@ class GroupController extends MyAbstractController{
 					$message = "Trạng thái đã được cập nhật";	
 				}				
 			}
+		}
+		$this->flashMessenger()->addMessage($message);
+		return $this->toAction();
+	}
+
+	public function groupAcpAction(){
+		$task = "";
+		$message = "Vui lòng chọn phần tử muốn thay đổi Quyền";
+		if($this->request->isPost()){		
+			if($this->getTable()->changeGroupAcp($this->_mainParam["data"],array("task"=>"change-group-acp"))){
+				$message = "Quyền của group đã được cập nhật";	
+			}				
 		}
 		$this->flashMessenger()->addMessage($message);
 		return $this->toAction();

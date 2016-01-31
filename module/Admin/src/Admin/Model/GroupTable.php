@@ -54,7 +54,7 @@ class GroupTable extends AbstractTableGateway{
 	public function listItem($arrParam = null,$options = null){
 		if($options['task'] == "list-item"){
 			$result =   $this->_tableGateway->select(function(Select $select) use($arrParam){
-				$select->columns(array("id","name","ordering","created","created_by","status","modified","modified_by"))
+				$select->columns(array("id","name","ordering","created","created_by","status","modified","modified_by","group_acp"))
 				       ->order(array(sprintf("%s %s",$arrParam['order']['order_by'] , $arrParam['order']['order'])))
 				       ->offset(($arrParam['paginator']['curentPage']-1) * $arrParam['paginator']['itemPerPage'])
 				       ->limit($arrParam['paginator']['itemPerPage']);
@@ -62,6 +62,11 @@ class GroupTable extends AbstractTableGateway{
 				if(!empty($arrParam['filter_status'])){
 					$status = ($arrParam['filter_status']=="active")? 1:0;
 					$select->where->equalTo("status",$status);
+				} 
+
+				if(!empty($arrParam['filter_group_acp'])){
+					$status = ($arrParam['filter_group_acp']=="active")? 1:0;
+					$select->where->equalTo("group_acp",$status);
 				} 
 
 				if(!empty($arrParam['search']['search_value']) && !empty($arrParam['search']['search_key'])){
@@ -96,6 +101,18 @@ class GroupTable extends AbstractTableGateway{
 				"status" => $arrParam['status']
 			);
 			 $where = "id IN (".implode(",",$arrParam['id']).")";
+			$this->_tableGateway->update($data,$where);
+			return true;
+		}
+		return false;
+	}
+
+	public function changeGroupAcp($arrParam = null,$options = null){
+		if($options['task'] == "change-group-acp"){
+			$data = array(
+				"group_acp" => ($arrParam['status'] == 1)? 0 : 1
+			);
+			$where = array("id" => $arrParam['id']);
 			$this->_tableGateway->update($data,$where);
 			return true;
 		}

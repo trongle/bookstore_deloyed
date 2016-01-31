@@ -47,11 +47,10 @@ class Module {
         return array(
             "factories" => array(
                 "GroupTableGateway" => function($sm){
-                    $adapter = $sm->get("dbConfig");
-
-                    $resultSetPrototype = new ResultSet();
+                    $adapter             = $sm->get("dbConfig");                    
+                    $resultSetPrototype  = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new \ZendVN\Model\Entity\Group());
-
+                    
                     return $tableGateway = new TableGateway("groups",$adapter,null,$resultSetPrototype);
                 },
                 "Admin\Model\Group" => function($sm){

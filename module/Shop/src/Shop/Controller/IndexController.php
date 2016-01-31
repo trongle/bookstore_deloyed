@@ -30,6 +30,7 @@ class IndexController extends MyAbstractController{
 			$form->setdata($this->_mainParam['data']);
 			if($form->isValid()){
 				$data  = $form->getData();
+				//kiem tra login
 				$check = $authenticate->login($data);
 				if($check){
 					$this->redirect()->toRoute('homeShop');

@@ -17,6 +17,14 @@ function changeStatus(id,status){
   $("input[name=status]").val(status);  
   submitForm(linkSubmit);
 }
+
+function changeGroupAcp(id,status){
+  var linkSubmit = $("#adminForm").attr("action").replace(/filter/gi,"groupAcp")
+  $("input[name=id]").val(id);       
+  $("input[name=status]").val(status);  
+  submitForm(linkSubmit);
+}
+
 function changeMultiStatus(type){
   var linkSubmit = $("#adminForm").attr("action").replace(/filter/gi,"status")
   $("input[name=status]").val(type); 
@@ -92,6 +100,9 @@ $(document).ready(function(){
         $(".alert-dismissable").fadeOut(6000);
 
         $("select[name=filter_status]").on("change",function(){
+          submitForm();
+        })
+        $("select[name=filter_group_acp]").on("change",function(){
           submitForm();
         })
         $("select[name=filter_group]").on("change",function(){

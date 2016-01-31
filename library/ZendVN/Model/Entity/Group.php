@@ -12,6 +12,7 @@ class Group
 	public $created_by;
 	public $modified_by;
 	public $modified;
+	public $group_acp;
 
 	public function exchangeArray($data){
 	
@@ -23,6 +24,7 @@ class Group
 		$this->created_by  = (!empty($data['created_by'])) ? $data['created_by']  :"";
 		$this->modified_by = (!empty($data['modified_by']))? $data['modified_by'] :"";
 		$this->modified    = (!empty($data['modified']))   ? $data['modified']    :"";
+		$this->group_acp    = (!empty($data['group_acp'])) ? $data['group_acp']    :"";
 	}
 
 	public function getArrayCopy(){

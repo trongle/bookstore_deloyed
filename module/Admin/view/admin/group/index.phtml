@@ -17,6 +17,7 @@ $currentController = $this->paramSetting["controller"];
         $id          = $item->id;
         $ordering    = $this->zvnFormText("ordering[{$id}]",$item->ordering,array("class"=>"input-order","size"=>"4"));
         $status      = $this->changeStatusLink($id,$item->status);
+        $group_acp   = $this->changeStatusLink($id,$item->group_acp,"dummy-flag-for-you-know-its-not-null");
         $linkEdit    = $this->linkToGo("adminRoute/default",array("controller"=>"group",
                                                             "action"    =>"save",
                                                             "id"        =>$id         
@@ -29,7 +30,7 @@ $currentController = $this->paramSetting["controller"];
                               <td>'.$modified.'</td>
                               <td>'.$modified_by.'</td>
                               <td>'.$ordering.'</td>
-                              '.$status.' 
+                              '.$status.$group_acp.' 
                               <td>'.$id.'</td>
                         </tr>'; 
     }
@@ -76,8 +77,10 @@ $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-pri
                     <div class="dataTables_filter pull-right">
                       <?php
                         //SELECT-STATUS
-                        $filter_status = $this->paramSetting['filter_status'];
-                        echo $this->zvnFormSelectBox("filter_status","-- Select a status --",array("active"=>"Active","inactive"=>"InActive"),$filter_status);                      
+                        $filter_status    = $this->paramSetting['filter_status'];
+                        $filter_group_acp = $this->paramSetting['filter_group_acp'];
+                        echo $this->zvnFormSelectBox("filter_status","-- Select a status --",array("active"       =>"Active","inactive"=>"InActive"),$filter_status);                      
+                        echo $this->zvnFormSelectBox("filter_group_acp","-- Select a group_acp --",array("active" =>"Yes","inactive"=>"No"), $filter_group_acp);                      
                       ?>
                     </div>
                   </div>
@@ -101,6 +104,7 @@ $btn_go       = $this->zvnFormButton("btn_go",null,"Go!",array("class"=>"btn-pri
                                  $this->changeSortLink($order,"modified_by","Modified_by").
                                  $this->changeSortLink($order,"ordering","Ordering").
                                  $this->changeSortLink($order,"status","Status").
+                                 $this->changeSortLink($order,"group_acp","Group_acp").
                                  $this->changeSortLink($order,"id","ID");   
 
                          ?>
