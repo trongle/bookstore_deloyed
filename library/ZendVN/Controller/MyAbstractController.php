@@ -4,6 +4,7 @@ namespace ZendVN\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\Controller\PluginManager;
 use Zend\Mvc\MvcEvent;
+use Zend\Permissions\Acl\Acl;
 
 class MyAbstractController extends AbstractActionController
 {
@@ -70,17 +71,30 @@ class MyAbstractController extends AbstractActionController
 		//set layout
 		$this->layout($layout);
 
+		$infoObj = new \ZendVN\System\Info();
 		//KIEM TRA USER AuTH
 		if($this->_mainParam['module'] == 'admin'){
 			//chưa đăng nhập
 			if(empty($this->identity())){
 				return $this->redirect()->toRoute('homeShop');
 			}else{
-				//đăng nhập rồi mà không có quyền vào
-				$infoObj = new \ZendVN\System\Info();
+				//đăng nhập rồi mà không có quyền vào		
 				$group_acp = $infoObj->getGroupInfo('group_acp');
 				if($group_acp != 1){
 					return $this->redirect()->toRoute('homeShop');
+				}else{
+					// KIEM TRA PERMISSION
+					$aclObj           = new Acl();
+
+					$role             = $infoObj->getPermissionInfo()['role'];
+					$privilegesOfRole = $infoObj->getPermissionInfo()['privileges'];
+					$aclObj->addRole($role);
+					$aclObj->allow($role,null,$privilegesOfRole);
+
+					$privilegesOfArea = $this->_mainParam['module']."|".$this->_mainParam['controller']."|".$this->_mainParam['action'];
+					if($aclObj->isAllowed($role,null,$privilegesOfArea) == false){
+						return $this->goNoAccess();
+					}
 				}
 			}			
 		}
@@ -93,11 +107,21 @@ class MyAbstractController extends AbstractActionController
 			}			
 		}
 		// ------------------------------------------------------------
-
 		//func Init() giúp cho các controller extends có thể override onInit()
 		$this->init();
 	}
+
+	public function goNoAccess(){
+		$url = $this->url()->fromRoute('shopRoute/default',array('controller'=>'notice','action'=>'noAccess'));
+		$this->response->setStatusCode(302);
+		$this->response->getHeaders()->addHeaderLine('Location',$url);
+		$this->getEvent()->stopPropagation();
+
+		return $this->response;
+	}
+
 	public function init(){
+			
 	}
 
 	public function toAction(array $actionInfo = null){

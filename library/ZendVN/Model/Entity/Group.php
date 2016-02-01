@@ -13,18 +13,20 @@ class Group
 	public $modified_by;
 	public $modified;
 	public $group_acp;
+	public $permission_id;
 
 	public function exchangeArray($data){
 	
-		$this->id          = (!empty($data['id']))         ? $data['id']          :"";
-		$this->name        = (!empty($data['name']))       ? $data['name']        :"";
-		$this->ordering    = (!empty($data['ordering']))   ? $data['ordering']    :"";
-		$this->status      = (!empty($data['status']))     ? $data['status']      :"";
-		$this->created     = (!empty($data['created']))    ? $data['created']     :"";
-		$this->created_by  = (!empty($data['created_by'])) ? $data['created_by']  :"";
-		$this->modified_by = (!empty($data['modified_by']))? $data['modified_by'] :"";
-		$this->modified    = (!empty($data['modified']))   ? $data['modified']    :"";
-		$this->group_acp    = (!empty($data['group_acp'])) ? $data['group_acp']    :"";
+		$this->id            = (!empty($data['id']))         	? $data['id']          		:"";
+		$this->name          = (!empty($data['name']))       	? $data['name']        		:"";
+		$this->ordering      = (!empty($data['ordering']))   	? $data['ordering']    		:"";
+		$this->status        = (!empty($data['status']))     	? $data['status']      		:"";
+		$this->created       = (!empty($data['created']))    	? $data['created']     		:"";
+		$this->created_by    = (!empty($data['created_by'])) 	? $data['created_by']  		:"";
+		$this->modified_by   = (!empty($data['modified_by']))	? $data['modified_by'] 		:"";
+		$this->modified      = (!empty($data['modified']))   	? $data['modified']    		:"";
+		$this->group_acp     = (!empty($data['group_acp'])) 	? $data['group_acp']    	:"";
+		$this->permission_id = (!empty($data['permission_id'])) ? $data['permission_id']    :"";
 	}
 
 	public function getArrayCopy(){

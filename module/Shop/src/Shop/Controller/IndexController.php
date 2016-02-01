@@ -34,14 +34,20 @@ class IndexController extends MyAbstractController{
 				//kiem tra login
 				$check = $authenticate->login($data);
 				if($check){
-					$userTable     = $this->getServiceLocator()->get("shopUserTable");
-					$groupTable    = $this->getServiceLocator()->get("shopGroupTable");
+					$userTable       = $this->getServiceLocator()->get("shopUserTable");
+					$groupTable      = $this->getServiceLocator()->get("shopGroupTable");
+					$permissionTable = $this->getServiceLocator()->get("shopPermissionTable");
 				
-					$idUser        = $this->identity()->id;
-					$groupId       = $this->identity()->group_id;
-					$info['user']  = $userTable->getItem(array('id'=>$idUser),array("task"=>"info-user"));
-					$info['group'] = $groupTable->getItem(array('group_id'=>$groupId));
+					$idUser                           = $this->identity()->id;
+					$groupId                          = $this->identity()->group_id;
+					$info['user']                     = $userTable->getItem(array('id'=>$idUser),array("task"=>"info-user"));
+					$info['group']                    = $groupTable->getItem(array('group_id'=>$groupId));
+					$info['permission']['role']       = $info['group']->name;
+					$permission = $permissionTable->getItem($info['group']->permission_id);
 
+					foreach($permission as $p){
+						$info['permission']['privileges'][] = $p->module."|".$p->controller."|".$p->action;
+					}
 					$infoObj       = new \ZendVN\System\Info();
 					$infoObj->storeInfo($info);
 
@@ -51,6 +57,8 @@ class IndexController extends MyAbstractController{
 					$errorAuth = $authenticate->getMessages();
 				}
 			}
+
+		
 		}
 		return array(
 			'formLogin' => $form,

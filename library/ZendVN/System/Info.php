@@ -9,9 +9,11 @@ class Info {
 	}
 
 	public function storeInfo($data){
+		
 		$ssInfo        = new  Container(BOOKONLINE_KEY."_user");
-		$ssInfo->user  = $data['user'];
-		$ssInfo->group = $data['group'];
+		$ssInfo->user       = $data['user'];
+		$ssInfo->group      = $data['group'];
+		$ssInfo->permission = $data['permission'];
 	}
 
 	public function getUserInfo($element = null){
@@ -27,6 +29,18 @@ class Info {
 
 		if(!empty($element)) return $groupInfo->$element;
 		return $groupInfo;
+	}
+
+	public function getPermissionInfo($element = null){
+		$ssInfo          = new  Container(BOOKONLINE_KEY."_user");
+	
+		$permmissionInfo = $ssInfo->permission;
+		// echo "<pre>";
+		// print_r($permmissionInfo);
+		// echo "</pre>";exit();
+
+		if(!empty($element)) return $permmissionInfo[$element];
+		return $permmissionInfo;
 	}
 
 	public function destroyInfo(){

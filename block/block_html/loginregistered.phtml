@@ -17,15 +17,20 @@
 						<?php echo $formElement->showError(); ?>
 						<?php echo $authError ?>
 						<div class="form-group">
-							<?php echo $this->view->formLabel($formElement->get('email')) ?>
+							 <?php echo $this->view->formLabel($formElement->get('email')) ?>
+							
+
 							<div class="controls col-sm-7">
-								<?php echo $this->view->formInput($formElement->get('email')) ?>
+								<!-- echo $this->view->formInput($formElement->get('email')) -->
+								<input type="text" name="email" class="q1 margen-bottom" value="trongle1711@gmail.com">
 							</div>
 						</div>
 						<div class="form-group">
-							<?php echo $this->view->formLabel($formElement->get('password')) ?>
+							 <?php echo $this->view->formLabel($formElement->get('password'))  ?>
+							 
 							<div class="controls col-sm-7">
-								<?php echo $this->view->formInput($formElement->get('password')) ?>
+								 <!-- echo $this->view->formInput($formElement->get('password')) -->
+								<input type="password" name="password" class="q1 margen-bottom" value="Quenr@i3">
 							</div>
 									<!-- <span class="error help-inline">First Name must be between 1 and 32 characters!</span> -->
 						</div>

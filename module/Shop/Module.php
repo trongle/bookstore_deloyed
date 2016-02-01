@@ -66,8 +66,20 @@ class Module {
                    $tableGateway = $sm->get("GroupTableGateway");
                    return  new \Shop\Model\GroupTable($tableGateway);
                 },
-                "AuthenticateService" => function($sm){
+                "PermissionTableGateway" => function($sm){
                     $adapter = $sm->get("dbConfig");
+                    //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
+                    $resultSetPrototype  = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new \ZendVN\Model\Entity\Permission());
+
+                    return $tableGateway = new TableGateway("permission",$adapter,null,$resultSetPrototype);
+                },
+                "Shop\Model\Permission" => function($sm){
+                   $tableGateway = $sm->get("PermissionTableGateway");
+                   return  new \Shop\Model\PermissionTable($tableGateway);
+                },
+                "AuthenticateService" => function($sm){
+                    $adapter        = $sm->get("dbConfig");
                     $dbTableAdapter = new \Zend\Authentication\Adapter\DbTable($adapter,"user","email","password","MD5(?)");
                     $dbTableAdapter->getDbSelect()
                                    ->where->equalTo("status",1)
@@ -81,9 +93,10 @@ class Module {
                 } 
             ),
             "aliases" => array(
-                "shopBookTable"  => "Shop\Model\Book" ,
-                "shopUserTable"  => "Shop\Model\User" ,
-                "shopGroupTable" => "Shop\Model\Group" ,
+                "shopBookTable"       => "Shop\Model\Book" ,
+                "shopUserTable"       => "Shop\Model\User" ,
+                "shopGroupTable"      => "Shop\Model\Group" ,
+                "shopPermissionTable" => "Shop\Model\Permission" ,
             ),
             "invokables" => array(
                 'Zend\Authentication\AuthenticationService' => 'Zend\Authentication\AuthenticationService'

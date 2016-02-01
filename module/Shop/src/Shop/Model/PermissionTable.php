@@ -10,7 +10,7 @@ use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Json\Json;
 
-class GroupTable extends AbstractTableGateway{
+class PermissionTable extends AbstractTableGateway{
 	protected $_tableGateway;
 	public function __construct(TableGateway $tableGateway){
 		$this->_tableGateway = $tableGateway;
@@ -19,12 +19,12 @@ class GroupTable extends AbstractTableGateway{
 
 	public function getItem($arrParam,$options = null){
 		if($options == null){
+			$arrParam = explode(",",$arrParam);
 			return 	$this->_tableGateway->select(function(select $select) use($arrParam){
-				$select->columns(array("id","name","permission_id","group_acp"))
-					   ->where(array("id" => $arrParam["group_id"]));
-			})->current();
-		}
-		
+				$select->columns(array("id","name","controller","module","action"))
+					   ->where->in("id",$arrParam);
+			});
+		}	
 	}
 
 
