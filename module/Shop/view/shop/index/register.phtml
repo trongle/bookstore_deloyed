@@ -10,7 +10,7 @@
 <h1 class="style-1">Register</h1>
 
 <div class="box-container">
-	<p> If you already have an account with us, please login at the <a href="#">login page</a>.</p>	
+	<p> If you already have an account with us, please login at the <a href="<?php echo $this->url('shopRoute/default',array('controller'=>'index','action'=>'login')) ?>">login page</a>.</p>	
 	<?php 
 		echo $this->form()->openTag($formRegister);
 	?>

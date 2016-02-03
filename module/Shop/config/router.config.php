@@ -60,6 +60,23 @@ $shopRoute = array(
                 ),
             ),
         ),
+        'cart' => array(
+            'type'    => 'Segment',
+            'options' => array(
+                'route'    => '/user/order/:id/[price/:price/qty/:qty][/]',
+                'constraints' => array(
+                    'id'    => '[0-9]*',
+                    'price' => '[0-9]*',
+                    'qty'   => '[0-9]*'
+                ),
+                'defaults' => array(
+                    '__NAMESPACE__' => 'Shop\Controller',
+                    'controller'    => 'user',
+                    'action'        => 'order',
+                    'qty'           => 1
+                ),
+            ),
+        ),
         'active' => array(
             'type'    => 'Segment',
             'options' => array(
@@ -87,6 +104,8 @@ $shopRoute = array(
                 ),
             ),
         ),
+
+
 	)
 );
 return array(

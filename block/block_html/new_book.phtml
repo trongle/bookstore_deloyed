@@ -3,13 +3,17 @@ if(empty($this->_data)) return '';
 $xhtml = "";
 $i = 1;
 foreach($this->_data as $item){
-	$id          = $item->id; 
-	$name        = $item->name;
-	$picture     = URL_FILES . "books/thumb/140x210/".$item->picture;
-	$realPrice   = $realPrice = $this->view->createPrice($item->price,$item->sale_off,array("task"=>"book-special"));
-	$linkPopup   = $this->view->url("shopRoute/default",array("controller" => "book","action" => "popup"));
-	$description = $item->description;
-	$linkDetail  = $this->view->createLinkDetail($id);
+	$id                = $item->id; 
+	$name              = $item->name;
+	$picture           = URL_FILES . "books/thumb/140x210/".$item->picture;
+	$realPrice         = $realPrice = $this->view->createPrice($item->price,$item->sale_off,array("task"=>"book-special"));
+	$linkPopup         = $this->view->url("shopRoute/default",array("controller" => "book","action" => "popup"));
+	$description       = $item->description;
+	$linkDetail        = $this->view->createLinkDetail($id);
+
+
+	$realPriceForOrder = $this->view->createPriceForOrder($item->price,$item->sale_off);
+	$linkOrder         = $this->view->url("shopRoute/cart",array("id" => $id, "price" => $realPriceForOrder,"qty" => 1));
 
 	$class = '';
 	if($i == 1 || $i == 4) $class = 'first-in-line ';
@@ -36,7 +40,7 @@ foreach($this->_data as $item){
 							</div>
 							<div class="cart-button">
 								<div class="cart">
-									<a title="Add to cart" data-id="32;" class="button addToCart"><span>Add
+									<a href="'.$linkOrder.'" title="Add to cart" data-id="32;" class="button addToCart"><span>Add
 											to cart</span></a>
 								</div>
 								<span class="clear"></span>

@@ -75,7 +75,7 @@ class MyAbstractController extends AbstractActionController
 		//KIEM TRA USER AuTH
 		if($this->_mainParam['module'] == 'admin'){
 			//chưa đăng nhập
-			if(empty($this->identity())){
+			if(!$this->identity()){
 				return $this->redirect()->toRoute('homeShop');
 			}else{
 				//đăng nhập rồi mà không có quyền vào		
@@ -102,7 +102,7 @@ class MyAbstractController extends AbstractActionController
 		//kiem tra controller user khong đăng nhập thi không được vào
 		if($this->_mainParam['controller'] == 'user' && $this->_mainParam['module'] == 'shop'){
 			//chưa đăng nhập
-			if(empty($this->identity())){
+			if(!$this->identity()){
 				return $this->redirect()->toRoute('homeShop');
 			}			
 		}

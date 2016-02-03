@@ -6,6 +6,9 @@ if($this->isXmlHttpRequest){
 	$img         = URL_FILES."books/thumb/140x210/".$this->data->picture;
 	$realPrice   = $this->createPrice($this->data->price,$this->data->sale_off,array("task"=>"book-special")); 
 	$linkDetail  = $this->createLinkDetail($this->data->id);
+	
+	$realPriceForOrder = $this->createPriceForOrder($this->data->price,$this->data->sale_off);
+	$linkOrder         = $this->url("shopRoute/cart",array("id" => $this->data->id, "price" => $realPriceForOrder,"qty" => 1));
 	$xhtml = '<div class="wrapper marg row">
 			<div class="left col-sm-4">
 				<div class="image3">
@@ -23,7 +26,7 @@ if($this->isXmlHttpRequest){
 				</div>
 				<div class="cart-button">
 					<div class="cart">
-						<a title="Add to cart" data-id="43;" class="button addToCart-1 "> <span>Add to cart</span></a>
+						<a href="'.$linkOrder.'"title="Add to cart" data-id="43;" class="button addToCart-1 "> <span>Add to cart</span></a>
 					</div>
 					<span class="clear"></span>
 				</div>

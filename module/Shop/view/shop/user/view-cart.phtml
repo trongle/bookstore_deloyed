@@ -1,0 +1,99 @@
+<?php 
+
+use Zend\Session\Container;
+$xhtml = "";
+$superTotalPrice = "";
+$linkHome = $this->url("homeShop");
+$linkCheckOut = $this->url("shopRoute/default",array("controller" => "user","action" => "checkout"));
+if(!empty($books)){
+	$ssOrder         = new Container(BOOKONLINE_KEY."_order");
+	$superTotalPrice = number_format(array_sum($ssOrder->price),0,",",".");
+	foreach ($books as $book) {
+		$picture           = URL_FILES ."books/thumb/80x120/".$book->picture;
+		$name              = $book->name;
+		$qty               = $ssOrder->qty[$book->id];
+		$totalPrice        = $ssOrder->price[$book->id];
+		$unitPrice         = $ssOrder->price[$book->id] / $qty;
+		$formHiddenBookId  = $this->zvnFormHidden("books[]",$book->id);
+		$formHiddenPrice   = $this->zvnFormHidden("prices[]",$unitPrice);
+		$formHiddenPicture = $this->zvnFormHidden("pictures[]",$book->picture);
+		$formHiddenName    = $this->zvnFormHidden("names[]",$name);
+		$xhtml .= ' <tr>
+						<td class="image">
+							<a href="#"> <img src="'.$picture.'"></a>
+						</td>
+						<td class="name">'.$name .'</td>
+						<td class="quantity"><input type="text" name="qty[]"
+							value="'.$qty .'" size="1">
+							<div class="wrapper mt5">
+								<a class="input-update"
+									onclick="document.getElementById("form-cart").submit()"> <i
+									class=" fa fa-refresh"></i>
+								</a> &nbsp; <a href="#" class="input-update"
+									onclick="document.getElementById("form-cart").submit()"> <i
+									class="fa fa-trash-o"></i>
+								</a>
+							</div>
+						</td>
+						<td class="hidden">'.$formHiddenBookId.$formHiddenPrice.$formHiddenPicture.$formHiddenName.'</td>
+						<td class="price">'.number_format($unitPrice,0,"",".").'</td>
+						<td class="total">'.number_format($totalPrice,0,"",".").'</td>
+					</tr>';
+	}
+
+?>
+<!-- CATEGORY NAME -->
+<h1>SHOPPING CART</h1>
+
+<!-- CATEGORY INFO -->
+<form id="form-cart" action="<?php echo $linkCheckOut ?>" method="post">
+	<div class="cart-info">
+		<div class="shop-cart">
+			<table class="table table-bordered ">
+				<thead>
+					<tr>
+						<td class="image">Image</td>
+						<td class="name">Product Name</td>
+						<td class="quantity">Quantity</td>
+						<td class="price-td">Unit Price</td>
+						<td class="total-td" style="border-right: none;">Total</td>
+					</tr>
+				</thead>
+
+				<tbody>
+					<?php echo $xhtml ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</form>
+
+<div class="cart-bottom">
+	<div class="cart-total">
+		<table id="total" class="table table-bordered">
+			<tbody>
+				<tr class="row-table-1">
+					<td class="right cart-total-name "><b>Sub-Total:</b></td>
+					<td class="right cart-total1 "><?php echo $superTotalPrice ?></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="buttons">
+		<div class="right">
+			<a onclick="$('#form-cart').submit()" class="button-cont-right">Checkout
+				<i class="fa fa-check"></i>
+			</a>
+		</div>
+		<div class="center">
+			<a href="<?php echo $linkHome ?>" class="button-cont-right">Continue Shopping
+				<i class="fa fa-arrow-circle-right"></i>
+			</a>
+		</div>
+	</div>
+</div>
+<?php 
+	}else{
+		echo "Không có sản phẩm nào trong giỏ hàng của bạn.";
+	}
+?>

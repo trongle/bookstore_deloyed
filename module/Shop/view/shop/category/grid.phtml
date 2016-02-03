@@ -11,6 +11,9 @@ if($totalItem > 0){
 		$realPrice   = $realPrice = $this->createPrice($book->price,$book->sale_off,array("task"=>"book-special"));
 		$description = $book->description;
 		$linkDetail  = $this->createLinkDetail($book->id);
+		
+		$realPriceForOrder = $this->createPriceForOrder($book->price,$book->sale_off);
+		$linkOrder         = $this->url("shopRoute/cart",array("id" => $book->id, "price" => $realPriceForOrder,"qty" => 1));
 		if(!empty($description)){
 			$config = array(
 				"HTML.AllowedAttributes" =>array("style"),
@@ -45,7 +48,7 @@ if($totalItem > 0){
 									</div>
 									<div class="cart-button">
 										<div class="cart">
-											<a onclick="addToCart();" class="button" title="Add to Cart"><span>Add
+											<a href="'.$linkOrder.'" class="button" title="Add to Cart"><span>Add
 													to Cart</span></a>
 										</div>
 										<div class="clear"></div>

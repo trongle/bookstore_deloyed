@@ -1,0 +1,63 @@
+<?php 
+
+use Zend\Json\Json;
+$xhtml = "Bạn chưa có lịch sử mua hàng nào";
+if(!empty($this->histories)){
+	$xhtml = "";
+	foreach($this->histories as $history){
+		$status   = ($history->status == 0) ? "Chưa duyệt" : "Đang giao hàng";
+		$date     = $history->date;
+		$id       = $history->id;
+		$names    = Json::decode($history->names);
+		$books    = Json::decode($history->books);
+		$pictures = Json::decode($history->pictures);
+		$qty      = Json::decode($history->qty);
+		$prices   = Json::decode($history->prices);
+		$xhtmlHeader = sprintf('<h3>Mã hóa đơn : %sk &nbsp;&nbsp;&nbsp;ngày : %s &nbsp;&nbsp;&nbsp;<b style="color:red"> Status : %s</b></h3>'
+					,$id,$date,$status);
+		$i = 1;
+		$superTotalPrice = "";
+		foreach($names as $key => $name){
+			$unitPrice  = number_format($prices[$key],0,",",".");
+			$totalPrice = number_format($prices[$key] * $qty[$key],0,",",".");
+			$superTotalPrice  += $prices[$key] * $qty[$key]; 
+			$xhtmlBody .= sprintf('	<tbody>
+										<tr>
+											<td class="left">%s</td>
+											<td class="left">%s</td>
+											<td class="left"><img src="%s"></td>
+											<td class="right">%s</td>
+											<td class="right">%s</td>
+											<td class="right">%s</td>
+										</tr>
+									</tbody>',
+						$i,$name,URL_FILES."books/thumb/80x120/".$pictures[$key],$qty[$key],$unitPrice,$totalPrice);
+			$i++;
+		}
+		$xhtml .= $xhtmlHeader.
+				'<table class="list table table-bordered">
+					<thead>
+						<tr>
+							<td class="left">No</td>
+							<td class="left">Name</td>
+							<td class="left">Picture</td>
+							<td class="right">Quantity</td>
+							<td class="right">Price</td>
+							<td class="right">Total</td>
+						</tr>
+					</thead>
+					'.$xhtmlBody.'
+					<tfoot>
+						<tr>
+							<td colspan="4"></td>
+							<td class="right"><b>Total:</b></td>
+							<td class="right">'.number_format($superTotalPrice,0,",",".").'</td>
+						</tr>
+					</tfoot>
+				</table>';
+	}
+}
+?>
+<!-- CATEGORY NAME -->
+<h1>History</h1>
+<?php echo $xhtml ?>

@@ -90,13 +90,26 @@ class Module {
                 },
                 "MyAuth" => function($sm){
                     return new \ZendVN\System\Authenticate($sm->get("AuthenticateService"));
-                } 
+                },
+                "OrderTableGateway" => function($sm){
+                    $adapter = $sm->get("dbConfig");
+                    //hydratingResultSet()---->lấy field từ các bảng khác không cần đưa vào entities
+                    $resultSetPrototype  = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new \ZendVN\Model\Entity\Order());
+
+                    return $tableGateway = new TableGateway("order",$adapter,null,$resultSetPrototype);
+                },
+                "Shop\Model\Order" => function($sm){
+                   $tableGateway = $sm->get("OrderTableGateway");
+                   return  new \Shop\Model\OrderTable($tableGateway);
+                },
             ),
             "aliases" => array(
                 "shopBookTable"       => "Shop\Model\Book" ,
                 "shopUserTable"       => "Shop\Model\User" ,
                 "shopGroupTable"      => "Shop\Model\Group" ,
                 "shopPermissionTable" => "Shop\Model\Permission" ,
+                "shopOrderTable"      => "Shop\Model\Order" ,
             ),
             "invokables" => array(
                 'Zend\Authentication\AuthenticationService' => 'Zend\Authentication\AuthenticationService'
@@ -129,12 +142,13 @@ class Module {
                 }
     		),
             "invokables" => array(
-                "blockFacebook"    => "Block\BlockFacebook",
-                "createBreadcrumb" => "ZendVN\View\Helper\CreateBreadcrumb",
-                "createLinkDetail" => "ZendVN\View\Helper\CreateLinkDetail",
-                "createFormError"  => "ZendVN\View\Helper\ElementErrors",
-                "loginNotRegister" => "Block\BlockLoginNotRegister",
-                "loginRegistered"  => "Block\BlockLoginRegistered",
+                "blockFacebook"       => "Block\BlockFacebook",
+                "createBreadcrumb"    => "ZendVN\View\Helper\CreateBreadcrumb",
+                "createLinkDetail"    => "ZendVN\View\Helper\CreateLinkDetail",
+                "createFormError"     => "ZendVN\View\Helper\ElementErrors",
+                "loginNotRegister"    => "Block\BlockLoginNotRegister",
+                "loginRegistered"     => "Block\BlockLoginRegistered",
+                "createPriceForOrder" => "ZendVN\View\Helper\CreatePriceForOrder",
             )
     	);
     }

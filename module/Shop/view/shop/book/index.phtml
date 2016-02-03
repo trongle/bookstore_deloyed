@@ -7,6 +7,9 @@ $realPrice   = $realPrice = $this->createPrice($bookInfo->price,$bookInfo->sale_
 $description = $bookInfo->description;
 $this->headTitle($name);
 $urlRelated  = $this->url("shopRoute/default",array("controller"=>"book","action"=>"related"));
+
+$realPriceForOrder = $this->createPriceForOrder($bookInfo->price,$bookInfo->sale_off);
+$linkOrder         = $this->url("shopRoute/cart",array("id" => $bookInfo->id, "price" => $realPriceForOrder));
 ?>
 
 <div class="product-info">
@@ -32,20 +35,21 @@ $urlRelated  = $this->url("shopRoute/default",array("controller"=>"book","action
 				<div class="price">
 					<?php echo $realPrice ?>
 				</div>
-				<div class="cart">
-					<div class="prod-row">
-						<div class="cart-top">
-							<div class="cart-top-padd form-inline">
-								<label>Qty: 
-									<input class="q-mini" type="text" name="quantity" value="1"> 
-									<input class="q-mini" type="hidden" name="product_id" value="33">
-								</label> 
-								<a id="button-cart" class="button-prod"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
+				<form method="post" id="orderForm" action="<?php echo $linkOrder ?>">
+					<div class="cart">
+						<div class="prod-row">
+							<div class="cart-top">
+								<div class="cart-top-padd form-inline">
+									<label>Qty: 
+										<input class="q-mini" type="text" name="qty" value="1"> 
+									</label> 
+									<a onclick="$('#orderForm').submit()" id="button-cart" class="button-prod"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
+								</div>
+								<div class="clear"></div>
 							</div>
-							<div class="clear"></div>
 						</div>
 					</div>
-				</div>
+				</form>
 				<div class="clear"></div>
 				<div class="clear"></div>
 			</div>

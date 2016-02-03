@@ -8,6 +8,9 @@ if($bookRelated->count() > 0){
 		$realPrice   = $realPrice = $this->createPrice($book->price,$book->sale_off,array("task"=>"book-special"));
 		$description = $book->description;
 		$linkDetail  = $this->createLinkDetail($book->id);
+		
+		$realPriceForOrder = $this->createPriceForOrder($book->price,$book->sale_off);
+		$linkOrder         = $this->url("shopRoute/cart",array("id" => $book->id, "price" => $realPriceForOrder,"qty" => 1));
 		$xhtml .= '<li class="col-sm-4">
 						<div class="padding">
 							<div class="image2">
@@ -27,7 +30,7 @@ if($bookRelated->count() > 0){
 								
 								<div class="cart-button">
 									<div class="cart">
-										<a title="Add to cart" class="button addToCart">
+										<a href="'.$linkOrder.'" title="Add to cart" class="button addToCart">
 											<span>Add to cart</span>
 										</a>
 									</div>

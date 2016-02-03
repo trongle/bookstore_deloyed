@@ -1,10 +1,12 @@
 <?php 
 	if(!empty($this->_data)){
-		$img        =  URL_FILES."books/thumb/140x210/" . $this->_data->picture;
-		$name       = $this->_data->name;
-		$realPrice  = $this->view->createPrice($this->_data->price,$this->_data->sale_off,array("task"=>"book-special"));
-		$link       = $this->view->url("shopRoute/default",array("controller" => "book","action" => "popup"));
-		$linkDetail = $this->view->createLinkDetail($this->_data->id);
+		$img               =  URL_FILES."books/thumb/140x210/" . $this->_data->picture;
+		$name              = $this->_data->name;
+		$realPrice         = $this->view->createPrice($this->_data->price,$this->_data->sale_off,array("task"=>"book-special"));
+		$link              = $this->view->url("shopRoute/default",array("controller" => "book","action" => "popup"));
+		$linkDetail        = $this->view->createLinkDetail($this->_data->id);
+		$realPriceForOrder = $this->view->createPriceForOrder($this->_data->price,$this->_data->sale_off);
+		$linkOrder         = $this->view->url("shopRoute/cart",array("id" => $this->_data->id, "price" => $realPriceForOrder,"qty" => 1));
 	}
  ?>
 
@@ -36,7 +38,7 @@
 							
 							<div class="cart-button">
 								<div class="cart">
-									<a title="Add to cart" data-id="43;" class="button addToCart">
+									<a href="<?php echo $linkOrder ?>" title="Add to cart" data-id="43;" class="button addToCart">
 										<span>Add to cart</span>
 									</a>
 								</div>

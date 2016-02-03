@@ -98,6 +98,15 @@ class BookTable extends AbstractTableGateway{
 						   ->where->equalTo("status",1);					
 			});
 		}
+
+		if($options["task"] == "book-view-cart"){
+			if(!empty($arrParam)){
+				return 	$this->_tableGateway->select(function(select $select) use($arrParam){
+						$select->columns(array("id","name","picture","price","sale_off"))
+						   		->where->in("book.id",array_keys($arrParam));
+				});
+			}		
+		}
 	}
 
 

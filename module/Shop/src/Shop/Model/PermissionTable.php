@@ -21,8 +21,8 @@ class PermissionTable extends AbstractTableGateway{
 		if($options == null){
 			$arrParam = explode(",",$arrParam);
 			return 	$this->_tableGateway->select(function(select $select) use($arrParam){
-				$select->columns(array("id","name","controller","module","action"))
-					   ->where->in("id",$arrParam);
+					$select->columns(array("id","name","controller","module","action"))
+						   ->where->in("id",$arrParam);
 			});
 		}	
 	}
