@@ -31,7 +31,7 @@ class UserController extends MyAbstractController{
 	}
 
 	public function adminAction(){
-		return $this->redirect()->toRoute('adminRoute/default');
+		return $this->redirect()->toRoute('homeShop');
 	}
 
 	public function orderAction(){
@@ -55,7 +55,8 @@ class UserController extends MyAbstractController{
 			}
 			
 		}
-		return $this->redirect()->toRoute('shopRoute/default',array('controller'=>'user','action'=>'viewCart'));
+		$linkViewCart = $this->getServiceLocator()->get('ViewHelperManager')->get('linkViewCart');
+		return $this->redirect()->toUrl($linkViewCart());
 	}
 
 	public function viewCartAction(){

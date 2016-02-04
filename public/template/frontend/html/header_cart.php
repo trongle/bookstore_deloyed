@@ -3,7 +3,7 @@
 use Zend\Session\Container;
 	$ssOrder      = new Container(BOOKONLINE_KEY."_order");
 	$total        = empty($ssOrder->qty)? 0:array_sum($ssOrder->qty); 
-	$linkViewCart = $this->url('shopRoute/default',array('controller'=>'user','action'=>'viewCart'));
+	$linkViewCart = $this->linkViewCart();
 ?>
 <div class="cart-position">
 	<div class="cart-inner">

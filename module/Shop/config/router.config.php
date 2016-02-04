@@ -12,6 +12,71 @@ $home = array(
 	)
 );
 
+//login Route
+$login = array(
+    "type"=> "Zend\Mvc\Router\Http\Segment",
+    "options" => array(
+        "route" => "/login.html",
+        "defaults" => array(
+            "__NAMESPACE__" => "Shop\Controller",
+            "controller"    => "Shop\Controller\Index",
+            "action"        => "login"
+        )
+    )
+);
+
+//register Route
+$register = array(
+    "type"=> "Zend\Mvc\Router\Http\Segment",
+    "options" => array(
+        "route" => "/register.html",
+        "defaults" => array(
+            "__NAMESPACE__" => "Shop\Controller",
+            "controller"    => "Shop\Controller\Index",
+            "action"        => "register"
+        )
+    )
+);
+
+//logout Route
+$logout = array(
+    "type"=> "Zend\Mvc\Router\Http\Segment",
+    "options" => array(
+        "route" => "/logout.html",
+        "defaults" => array(
+            "__NAMESPACE__" => "Shop\Controller",
+            "controller"    => "Shop\Controller\Index",
+            "action"        => "logout"
+        )
+    )
+);
+
+//viewcart Route
+$viewCart = array(
+    "type"=> "Zend\Mvc\Router\Http\Segment",
+    "options" => array(
+        "route" => "/user/cart.html",
+        "defaults" => array(
+            "__NAMESPACE__" => "Shop\Controller",
+            "controller"    => "Shop\Controller\User",
+            "action"        => "viewCart"
+        )
+    )
+);
+
+//history Route
+$history = array(
+    "type"=> "Zend\Mvc\Router\Http\Segment",
+    "options" => array(
+        "route" => "/user/history.html",
+        "defaults" => array(
+            "__NAMESPACE__" => "Shop\Controller",
+            "controller"    => "Shop\Controller\User",
+            "action"        => "history"
+        )
+    )
+);
+
 //Module Shop route
 $shopRoute = array(
 	"type" => "Literal",
@@ -111,8 +176,13 @@ $shopRoute = array(
 return array(
 	"router"       => array(
 		"routes" => array(
-			"homeShop" => $home,
-			"shopRoute" => $shopRoute
+            "homeShop"     => $home,
+            "loginShop"    => $login,
+            "registerShop" => $register,
+            "logoutShop"   => $logout,
+            "viewCartShop" => $viewCart,
+            "historyShop"  => $history,
+            "shopRoute"    => $shopRoute
 		)
 	)
 );

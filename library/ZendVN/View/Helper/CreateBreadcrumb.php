@@ -5,7 +5,8 @@ use Zend\View\Helper\AbstractHelper;
 
 class CreateBreadcrumb extends AbstractHelper{
 	function __invoke($listBreadcumb){
-		$xhtml = '<a href="/shop/index/index">Home</a>&nbsp&nbsp&raquo&nbsp&nbsp';
+		$linkHome = $this->view->url('homeShop');
+		$xhtml = '<a href="'.$linkHome.'">Home</a>&nbsp&nbsp&raquo&nbsp&nbsp';
 		$total = count($listBreadcumb);
 		$i     = 1;
 	   	if(!empty($listBreadcumb)){

@@ -1,23 +1,19 @@
 <?php 
 if(!$this->identity()){
-	$linkHome     = $this->url("shopRoute/default");
-	$linkLogin    = $this->url("shopRoute/default",array("controller"=>"index","action"=>"login"));
-	$linkRegister = $this->url("shopRoute/default",array("controller"=>"index","action"=>"register"));
+	$linkHome     = $this->url("homeShop");
 	$arrContent = array(
 		array("link" => $linkHome,    "name" => "Home" ,    "icon" => "fa-home" ,"action" => "index"),
-		array("link" => $linkLogin,   "name" => "Login" ,   "icon" => "fa-lock" ,"action" => "login"),
-		array("link" => $linkRegister,"name" => "Register" ,"icon" => "fa-user" ,"action" => "register"),
+		array("link" => $this->linkLogin(),   "name" => "Login" ,   "icon" => "fa-lock" ,"action" => "login"),
+		array("link" => $this->linkRegister(),"name" => "Register" ,"icon" => "fa-user" ,"action" => "register"),
 	);
 }else{
 
-	$linkHome      = $this->url("shopRoute/default");
+	$linkHome      = $this->url("homeShop");
 	$linkMyAccount = $this->url("shopRoute/default",array("controller"=>"user","action"=>"index"));
-	$linkLogout    = $this->url("shopRoute/default",array("controller"=>"index","action"=>"logout"));
-	$linkHistory   = $this->url("shopRoute/default",array("controller"=>"user","action"=>"history"));
 	$arrContent = array(
 		array("link" => $linkHome       ,"name" => "Home"      ,"icon" => "fa-home" ,"action" => "index"),
 		array("link" => $linkMyAccount  ,"name" => "MyAccount" ,"icon" => "fa-lock" ,"action" => "login"),
-		array("link" => $linkHistory    ,"name" => "MyHistory" ,"icon" => "fa-user" ,"action" => "register"),
+		array("link" => $this->linkHistory()    ,"name" => "MyHistory" ,"icon" => "fa-user" ,"action" => "register"),
 	);
 	//them shortcut cpanel
 	$infoObj   = new \ZendVN\System\Info();
@@ -26,7 +22,7 @@ if(!$this->identity()){
 		$linkAdmin    = $this->url("shopRoute/default",array("controller"=>"user","action"=>"admin"));
 		$arrContent[] = array("link" => $linkAdmin     ,"name" => "ControlPanel"    ,"icon" => "fa-user" ,"action" => "");
 	} 
-	$arrContent[] = array("link" => $linkLogout     ,"name" => "Logout"    ,"icon" => "fa-user" ,"action" => "register");
+	$arrContent[] = array("link" => $this->linkLogout()     ,"name" => "Logout"    ,"icon" => "fa-user" ,"action" => "register");
 }
 	$xhtml = "";
 	foreach($arrContent as $content){

@@ -149,6 +149,11 @@ class Module {
                 "loginNotRegister"    => "Block\BlockLoginNotRegister",
                 "loginRegistered"     => "Block\BlockLoginRegistered",
                 "createPriceForOrder" => "ZendVN\View\Helper\CreatePriceForOrder",
+                "Linklogin"           => "ZendVN\View\Url\Login",
+                "LinkRegister"        => "ZendVN\View\Url\Register",
+                "LinkLogout"          => "ZendVN\View\Url\Logout",
+                "LinkViewCart"        => "ZendVN\View\Url\ViewCart",
+                "LinkHistory"         => "ZendVN\View\Url\History",
             )
     	);
     }
