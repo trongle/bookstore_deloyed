@@ -20,22 +20,32 @@ class BookTable extends AbstractTableGateway{
 	public function listItem($arrParam = null,$options = null){
 		if($options['task'] == 'book-new'){
 			$result = $this->_tableGateway->select(function(select $select){
-				$select->columns(array("id","name","description","picture","price","sale_off"))
-					   ->order(array("id DESC"))
+				$select->columns(array("id","name","description","picture","price","sale_off","category_id"))
 					   ->limit(6)
-					   ->where->equalTo("status",1);
-			});	
+					   ->join(array("c"=>"category"),
+					   		  "c.id = book.category_id",
+					   		  array("cat_name"=>"name"),
+					   		  "left"
+					   	)
+					   ->order(array("book.id DESC"))
+					   ->where->equalTo("book.status",1);
+			});
 		}
 
 		if($options['task'] == 'list-book-by-category'){
 			$result = $this->_tableGateway->select(function(select $select) use($arrParam){
 				$filter = $arrParam['filter'] ;
 				$select->columns(array("id","name","description","picture","price","sale_off"))
+				 	   ->join(array("c"=>"category"),
+					   		  "c.id = book.category_id",
+					   		  array("cat_name"=>"name"),
+					   		  "left"
+					   	)
 					   ->order(array($filter['order'] ." ". $filter['dir']))
 					   ->limit((int)$arrParam['pagination']['itemPerPage'])
 					   ->offset(($arrParam['pagination']['curentPage']-1) * $arrParam['pagination']['itemPerPage'])
-					   ->where->in("category_id",$arrParam['catIDs'])
-					   ->where->equalTo("status",1);
+					   ->where->in("book.category_id",$arrParam['catIDs'])
+					   ->where->equalTo("book.status",1);
 			});	
 		}
 		
@@ -58,9 +68,14 @@ class BookTable extends AbstractTableGateway{
 		if($options["task"] == "book-special"){
 			return 	$this->_tableGateway->select(function(select $select){
 				$select->columns(array("id","name","description","picture","price","sale_off"))
+					   ->join(array("c"=>"category"),
+					   		  "c.id = book.category_id",
+					   		  array("cat_name"=>"name"),
+					   		  "left"
+					   	)
 					   ->order(new Expression("RAND()"))
-					   ->where->equalTo("special",1)
-					   ->where->equalTo("status",1);
+					   ->where->equalTo("book.special",1)
+					   ->where->equalTo("book.status",1);
 			})->current();
 		}
 
@@ -79,6 +94,11 @@ class BookTable extends AbstractTableGateway{
 		if($options["task"] == "book-popup"){
 			return 	$this->_tableGateway->select(function(select $select) use($arrParam){
 				$select->columns(array("id","name","description","picture","price","sale_off"))
+						->join(array("c"=>"category"),
+					   		  "c.id = book.category_id",
+					   		  array("cat_name"=>"name"),
+					   		  "left"
+					   		)
 					   ->where->equalTo("id",$arrParam['o_id']);
 			})->current();
 		}	
@@ -86,16 +106,22 @@ class BookTable extends AbstractTableGateway{
 		if($options["task"] == "book-slider"){
 			return 	$this->_tableGateway->select(function(select $select) use($arrParam){
 					$select->columns(array("id","name"))
-						   ->where->like("name","%".$arrParam['keyword']."%");					
+						   
+						   ->where->like("book.name","%".$arrParam['keyword']."%");					
 			});
 		}	
 
 		if($options["task"] == "book-related"){
 			return 	$this->_tableGateway->select(function(select $select) use($arrParam){
 					$select->columns(array("id","name","price","sale_off","picture","description"))
-						   ->where->notEqualTo("id",$arrParam['book_id'])					
+					 	   ->join(array("c"=>"category"),
+					   		  "c.id = book.category_id",
+					   		  array("cat_name"=>"name"),
+					   		  "left"
+					   		)
+						   ->where->notEqualTo("book.id",$arrParam['book_id'])					
 						   ->where->in("category_id",$arrParam['catIDs'])					
-						   ->where->equalTo("status",1);					
+						   ->where->equalTo("book.status",1);					
 			});
 		}
 

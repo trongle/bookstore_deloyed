@@ -154,6 +154,8 @@ class Module {
                 "LinkLogout"          => "ZendVN\View\Url\Logout",
                 "LinkViewCart"        => "ZendVN\View\Url\ViewCart",
                 "LinkHistory"         => "ZendVN\View\Url\History",
+                "LinkBook"            => "ZendVN\View\Url\Book",
+                "LinkListBook"        => "ZendVN\View\Url\ListBook",
             )
     	);
     }

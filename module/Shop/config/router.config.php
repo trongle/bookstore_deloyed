@@ -77,6 +77,59 @@ $history = array(
     )
 );
 
+//Register
+//bookstore.dev/category/laptrinhphp-12.html
+$category = array(
+    'type' => 'Regex',
+    'options' => array(
+        'regex' => '/category/(?<name>[a-zA-Z0-9_-]*)-(?<id>[0-9]*).(?<extension>(html|php))',
+        'defaults' => array(
+            '__NAMESPACE__' => 'Shop\Controller',
+            'controller'    => 'Shop\Controller\Category',
+            'action'        => 'index',
+            'extension'     => 'html'
+        ),
+        'spec' => '/category/%name%-%id%.%extension%',
+    ),
+    'may_terminate' => true,
+    'child_routes' => array(
+         'filter' => array(
+            'type'    => 'Segment',
+            'options' => array(
+                'route'    => '[/display/:display][/order/:order][/dir/:dir][/limit/:limit][/page/:page][/]',
+                'constraints' => array(
+                    'page'    => '[0-9]*',
+                    'limit'   => '3|6|9|12',
+                    'order'   => 'name|id|price',
+                    'dir'     => 'asc|desc',
+                    'display' => 'list|grid'
+                ),
+                'defaults' => array(
+                    '__NAMESPACE__' => 'Shop\Controller',
+                    'controller'    => 'category',
+                    'action'        => 'index',
+                ),
+            ),
+        ),
+    )
+);
+
+//book
+//bookstore.dev/webdesign/laptrinhphp-12.html
+$book = array(
+    'type' => 'Regex',
+    'options' => array(
+        'regex' => '/(?<category>[a-zA-Z0-9_-]*)/(?<name>[a-zA-Z0-9_-]*)/(?<id>[0-9]*).(?<extension>(html|php))',
+        'defaults' => array(
+            '__NAMESPACE__' => 'Shop\Controller',
+            'controller'    => 'Shop\Controller\Book',
+            'action'        => 'index',
+            'extension'     => 'html'
+        ),
+        'spec' => '/%category%/%name%/%id%.%extension%',
+    ),
+);
+
 //Module Shop route
 $shopRoute = array(
 	"type" => "Literal",
@@ -182,6 +235,8 @@ return array(
             "logoutShop"   => $logout,
             "viewCartShop" => $viewCart,
             "historyShop"  => $history,
+            "bookShop"     => $book,
+            "categoryShop" => $category,
             "shopRoute"    => $shopRoute
 		)
 	)

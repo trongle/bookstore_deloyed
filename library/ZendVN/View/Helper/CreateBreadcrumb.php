@@ -1,6 +1,7 @@
 <?php
 namespace ZendVN\View\Helper;
 
+use ZendVN\Filter\CreateLinkFriendly;
 use Zend\View\Helper\AbstractHelper;
 
 class CreateBreadcrumb extends AbstractHelper{
@@ -9,13 +10,13 @@ class CreateBreadcrumb extends AbstractHelper{
 		$xhtml = '<a href="'.$linkHome.'">Home</a>&nbsp&nbsp&raquo&nbsp&nbsp';
 		$total = count($listBreadcumb);
 		$i     = 1;
+		$filter = new CreateLinkFriendly();
 	   	if(!empty($listBreadcumb)){
 	   		foreach($listBreadcumb as $breadcrumb){
-	   			$linkCategory = $this->view->url("shopRoute/default",array(
-					"controller" => "category",
-					"action"     => "index",
-					"id"         => $breadcrumb->id)
-	   			);
+	   			$linkCategory = $this->view->url("categoryShop",array(
+					"name" => $filter->filter($breadcrumb->name),
+					"id"   => $breadcrumb->id
+	   			));
 	   			if( $i == $total ){
 	   				$xhtml .= sprintf('<a href="#" class="last">%s</a>',$breadcrumb->name); 
 	   			}else{

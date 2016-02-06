@@ -7,7 +7,7 @@ if(!empty($this->_data)){
 		$name        = $data->name;
 		$price       = number_format($data->price,0,",",".");
 		$description = $data->description;
-		$linkDetail  = $this->view->createLinkDetail($id);
+		$linkDetail  = $this->view->LinkBook("slider",$data->name,$data->id);
 		$xhtml .= '<div title="slide-'.$id.'"
 						data-thumb="opencart_49309/image/cache/data/slide-2-870x370.jpg"
 						data-link="'.$linkDetail.'"

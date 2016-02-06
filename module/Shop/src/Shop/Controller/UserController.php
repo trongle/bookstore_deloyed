@@ -31,7 +31,7 @@ class UserController extends MyAbstractController{
 	}
 
 	public function adminAction(){
-		return $this->redirect()->toRoute('homeShop');
+		return $this->redirect()->toRoute('adminRoute/default');
 	}
 
 	public function orderAction(){

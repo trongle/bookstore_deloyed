@@ -9,7 +9,7 @@ foreach($this->_data as $item){
 	$realPrice         = $realPrice = $this->view->createPrice($item->price,$item->sale_off,array("task"=>"book-special"));
 	$linkPopup         = $this->view->url("shopRoute/default",array("controller" => "book","action" => "popup"));
 	$description       = $item->description;
-	$linkDetail        = $this->view->createLinkDetail($id);
+	$linkDetail        = $this->view->LinkBook($item->cat_name,$name,$id);
 
 
 	$realPriceForOrder = $this->view->createPriceForOrder($item->price,$item->sale_off);

@@ -21,7 +21,7 @@ class SliderTable extends AbstractTableGateway{
 		if($options['task'] == "list-item"){
 			$result =   $this->_tableGateway->select(function(Select $select) use($arrParam){
 				$select->columns(array("id","name","picture","price","description"))
-				 	   ->where->equalTo("status",1);
+				 	   ->where->equalTo("slider.status",1);
 			});
 		}
 		return $result;

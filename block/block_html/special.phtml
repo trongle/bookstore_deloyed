@@ -4,7 +4,7 @@
 		$name              = $this->_data->name;
 		$realPrice         = $this->view->createPrice($this->_data->price,$this->_data->sale_off,array("task"=>"book-special"));
 		$link              = $this->view->url("shopRoute/default",array("controller" => "book","action" => "popup"));
-		$linkDetail        = $this->view->createLinkDetail($this->_data->id);
+		$linkDetail        = $this->view->LinkBook($this->_data->cat_name,$name,$this->_data->id);
 		$realPriceForOrder = $this->view->createPriceForOrder($this->_data->price,$this->_data->sale_off);
 		$linkOrder         = $this->view->url("shopRoute/cart",array("id" => $this->_data->id, "price" => $realPriceForOrder,"qty" => 1));
 	}
