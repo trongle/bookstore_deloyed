@@ -10,7 +10,7 @@
 	define("HTMLPURIFIER_PREFIX",PATH_APPLICATION."/vendor/");
 	define("PATH_SCRIPT",PATH_PUBLIC."script/");
 	
-	define("URL_APPLICATION","/");
+	define("URL_APPLICATION","/bookstore/");
 	define("URL_PUBLIC",URL_APPLICATION."public/");
 	define("URL_TEMPLATE",URL_PUBLIC."template/");
 	define("URL_CSS_LAYOUT",URL_PUBLIC."template/backend/css/");

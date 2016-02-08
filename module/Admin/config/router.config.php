@@ -3,7 +3,7 @@
 $home = array(
 	"type"=> "Zend\Mvc\Router\Http\Literal",
 	"options" => array(
-		"route" => "/",
+		"route" => "/bookstore/",
 		"defaults" => array(
 			"__NAMESPACE__" => "Admin\Controller",
 			"controller"    => "Admin\Controller\Index",
@@ -16,7 +16,7 @@ $home = array(
 $adminRoute = array(
 	"type" => "Literal",
 	"options" => array(
-		"route" => "/admin",
+		"route" => "/bookstore/admin",
 		"defaults" => array(
 			"__NAMESPACE__" => "Admin\Controller",
 			"controller"    => "Admin\Controller\index",

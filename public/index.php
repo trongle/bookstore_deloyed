@@ -1,8 +1,9 @@
-<?php 
+<?php
 include_once "define.php";
 include_once PATH_LIBRARY."Zend/Loader/AutoloaderFactory.php";
 
 chdir(dirname(__DIR__));
+
 if(!class_exists("Zend\Loader\AutoloaderFactory")){
 	die(" server is busy now !");
 }

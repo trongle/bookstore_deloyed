@@ -2,19 +2,19 @@
  //<small class="pull-right  badge bg-red" >3</small>
   $xhtmlSidebar   = "";
   $contentSidebarParent = array(
-    array("class" => "index",   "link" => $this->basePath("admin/index/index"),    "icon" => "dashboard","text" => "Control Panel" , "child" => false),
-    array("class" => "group",   "link" => $this->basePath("admin/group/index"),    "icon" => "users",    "text" => "Group",          "child" => false ),
-    array("class" => "user",    "link" => $this->basePath("admin/user/index"),     "icon" => "user",     "text" => "User" ,          "child" => false),
-    array("class" => "category","link" => $this->basePath("admin/category/index"), "icon" => "suitcase", "text" => "Category" ,      "child" => false),
-    array("class" => "book",    "link" => $this->basePath("admin/book/index"),     "icon" => "book",     "text" => "Book" ,          "child" => false),
-    array("class" => "order",   "link" => $this->basePath("admin/order/index"),    "icon" => "cart-plus","text" => "Order" ,         "child" => false),
-    array("class" => "slider",  "link" => $this->basePath("admin/slider/index"),    "icon" => "cart-plus","text" => "Slider" ,         "child" => false),
+    array("class" => "index",   "link" => $this->basePath("/bookstore/admin/index/index"),    "icon" => "dashboard","text" => "Control Panel" , "child" => false),
+    array("class" => "group",   "link" => $this->basePath("/bookstore/admin/group/index"),    "icon" => "users",    "text" => "Group",          "child" => false ),
+    array("class" => "user",    "link" => $this->basePath("/bookstore/admin/user/index"),     "icon" => "user",     "text" => "User" ,          "child" => false),
+    array("class" => "category","link" => $this->basePath("/bookstore/admin/category/index"), "icon" => "suitcase", "text" => "Category" ,      "child" => false),
+    array("class" => "book",    "link" => $this->basePath("/bookstore/admin/book/index"),     "icon" => "book",     "text" => "Book" ,          "child" => false),
+    array("class" => "order",   "link" => $this->basePath("/bookstore/admin/order/index"),    "icon" => "cart-plus","text" => "Order" ,         "child" => false),
+    array("class" => "slider",  "link" => $this->basePath("/bookstore/admin/slider/index"),    "icon" => "cart-plus","text" => "Slider" ,         "child" => false),
     array("class" => "config",  "link" => $this->basePath("#"),                    "icon" => "cog",      "text" => "Config" ,        "child" => true),
   );
   $contentSidebarChild = array(
     "config" => array(
-      array("class" => "config-email" ,"link" => $this->basePath("admin/config/email"),"icon" => "circle-o","text" => "Email"),
-      array("class" => "config-image" ,"link" => $this->basePath("admin/config/image"),"icon" => "circle-o","text" => "Image"),
+      array("class" => "config-email" ,"link" => $this->basePath("/bookstore/admin/config/email"),"icon" => "circle-o","text" => "Email"),
+      array("class" => "config-image" ,"link" => $this->basePath("/bookstore/admin/config/image"),"icon" => "circle-o","text" => "Image"),
   ));
 
   foreach($contentSidebarParent as $content){
